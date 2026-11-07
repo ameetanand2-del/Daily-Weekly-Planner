@@ -1078,6 +1078,9 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
     R('Snack: coffee, fruit and a dessert. No more than 400 kcal.'),
     R('Dinner: around 1,000 kcal, carrying most of the day’s carbs. Eaten before you sleep, it helps you sleep.')]});
   persist();})();
+(function(){const C=S.config;if(C.mig.includes('order13'))return;C.mig.push('order13');
+  const g=C.reminders.find(g=>g.kind==='plan');if(g&&!g.items.some(x=>/shorter burst/i.test(x.text)))g.items.push(R('For a shorter burst of work, like 2, 3 or 5 hours, block out that time and sip your coffee slowly through it. Without that, you tend to lose focus. The downside: once you’re done, you won’t have the energy for much else. The upside: with the work done, you’re free to do anything else afterwards. It’s a blessing in disguise.'));
+  persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
