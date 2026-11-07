@@ -312,7 +312,10 @@ div.d-lever{cursor:default}
 .d-hbars .bar{grid-template-columns:minmax(0,1.5fr) minmax(60px,1fr) auto}
 .d-hbars .name{white-space:normal;line-height:1.25;font-size:.86rem}
 .d-comphead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.d-swipe{font-size:.75rem;color:var(--muted);font-weight:700}
+.d-swipe{font:inherit;font-size:.78rem;color:var(--accent);font-weight:800;background:var(--accent-soft);border:none;border-radius:999px;padding:5px 11px;cursor:pointer}
+.d-cvl{font-weight:800;font-size:.9rem}
+.d-pcts b.full{color:var(--done)}
+.d-wkb i.full{background:var(--done)}
 #d-comp{touch-action:pan-y}
 .d-wk.month{gap:2px}
 .d-wk.month .d-wkb{height:80px;border-radius:4px}
@@ -1053,6 +1056,16 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
     if(/daily planner/i.test(g.text)){g.metric='usage';if(!g.outcome)g.outcome='A daily planner with your daily goals, a journal section, a weekly checklist and a dashboard to review them. Used on at least 20 days this month.'}
     if(/recipe planner/i.test(g.text)&&!g.outcome)g.outcome='Recipes and snacks with ingredients and exact amounts, so you can plan the next 1–3 weeks of meals in under 10 minutes, then meal prep and order the groceries in under 20 minutes.'});
   persist();})();
+(function(){const C=S.config;if(C.mig.includes('order9'))return;C.mig.push('order9');
+  const nl=C.levers.find(l=>l.kind==='note');if(nl&&/^read your note to yourself$/i.test(nl.text.trim()))nl.text='Read your note to yourself: quit Break';
+  let t=C.selfNote||'';if(t.trim()==="You may feel like going through with it, but I guarantee it won’t help you at all. It will ruin close to 2–3 days of your life, and afterwards the urges get so strong that you won’t be able to follow through.\n\nYou just need to push through at least 30 days without it. Once you do, the next 30 days get easy. There are strategies that make it easier for you, not harder.\n\nAlways know this: nothing has affected the last 10–15 years of your life more than this. If you want to relive those years, by all means do it. If not, change this one habit and you’ll have a very different life.\n\nWhat it does to you:\n- You feel like a loser.\n- Anxiety.\n- Sleep problems.\n- You can’t control your cravings.\n- Your energy and your focus are very low.\n- You crash a lot.\n- Your communication and your voice suffer.\n- It’s harder to remember things and harder to focus.\n- Social anxiety is a real thing.\nAll of this comes back the moment you start.\n\nWhat you get without it:\n- Real confidence.\n- More energy for your goals.\n- Much more focus and drive.\n- The mental capacity to solve problems faster, understand them more easily, and focus on the right ones.\nIt’s not about having 2 more hours. With brain fog, you can put in 4 hours and still not genuinely focus on the right thing. Your abilities drop significantly.\n\nThis isn’t the only solution. It’s one of them. But once you apply it, everything else becomes easier.")t="You may feel like going through with it, but I guarantee it won’t help you at all. It will ruin close to 2–3 days of your life, and afterwards the urges get so strong that you won’t be able to follow through.\n\nYou just need to push through at least 30 days without it. Once you do, the next 30 days get easy. There are strategies that make it easier for you, not harder.\n\nAlways know this: nothing has affected the last 10–15 years of your life more than this. If you want to relive those years, by all means do it. If not, change this one habit and you’ll have a very different life.\n\nWhat it does to you:\n- Your ability to speak up drops. You’re afraid of other people and their opinions, and you can’t speak up in front of anyone.\n- You feel like a loser.\n- You feel dumber, because your focus drops and the brain fog gets heavier. Whenever you try to focus on something, it becomes very hard to do.\n- Anxiety.\n- Sleep problems.\n- You can’t control your cravings.\n- Your energy and your focus are very low.\n- Your communication and your voice suffer.\n- It’s harder to remember things and harder to focus.\n- Social anxiety is real. It physically affects your ability to interact with people and be yourself.\nAll of this comes back the moment you start.\n\nWhat you get without it:\n- Real confidence.\n- More energy for your goals.\n- Much more focus and drive.\n- The mental capacity to solve problems faster, understand them more easily, and focus on the right ones.\nIt’s not about having 2 more hours. With brain fog, you can put in 4 hours and still not genuinely focus on the right thing. Your abilities drop significantly.\n\nThis isn’t the only solution. It’s one of them. But once you apply it, everything else becomes easier.";
+  else{t=t.replace(/^- You crash a lot\.\s*\n/m,'').replace(/^- Social anxiety is a real thing\.$/m,'- Social anxiety is real. It physically affects your ability to interact with people and be yourself.');
+    if(!/speak up/i.test(t))t=t.replace(/(What it does to you:\s*\n)/,'$1- Your ability to speak up drops. You’re afraid of other people and their opinions, and you can’t speak up in front of anyone.\n');
+    if(!/feel dumber/i.test(t))t=t.replace(/(^- You feel like a loser\.\s*\n)/m,'$1- You feel dumber, because your focus drops and the brain fog gets heavier. Whenever you try to focus on something, it becomes very hard to do.\n')}
+  C.selfNote=t;persist();})();
+(function(){const C=S.config;if(C.mig.includes('order10'))return;C.mig.push('order10');
+  C.selfNote=(C.selfNote||'').replace('You may feel like going through with it, but I guarantee it won’t help you at all.','You may feel like going through with it, full or half. It doesn’t matter: both have the same impact, and I guarantee neither will help you at all.');
+  persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1067,7 +1080,7 @@ const ymOf=k=>k.slice(0,7);
 const monthName=ym=>parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long',year:'numeric'});
 function logChange(text){S.config.changes.unshift({d:todayKey(),text});S.config.changes=S.config.changes.slice(0,100)}
 
-function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two'){const a=(L.two||[]).filter(x=>x&&x.text);return a.length>0&&a.every(x=>x.done)}if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='note')return !!L.nr;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
+function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='note')return !!L.nr;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
 const leversHit=L=>S.config.levers.filter(l=>leverHit(L,l)).length;
 const fullDay=L=>!!L&&S.config.levers.length>0&&leversHit(L)===S.config.levers.length;
 function lastMealPrep(before){return S.meta.mealPrep.filter(d=>d<=before).sort().pop()||null}
@@ -1119,7 +1132,7 @@ function seedSample(){
     L.min=Math.round((L.type==='weekday'?40+rnd()*70:120+rnd()*120)/5)*5;
     if(rnd()<0.85)L.wt=Math.round((89.4-0.055*(42-i)+(rnd()-0.5)*0.6)*10)/10;
     C.tasks.forEach(tk=>{if(tk.kind==='simple'&&rnd()<form)L.t[tk.id]=true;if(tk.kind==='journal'&&journaledOn(k))L.t[tk.id]=true});
-    L.readAM=rnd()<0.85;L.readPM=rnd()<0.7;L.two=[{text:'Finish one full mock test',done:rnd()<form}];
+    L.readAM=rnd()<0.85;L.readPM=rnd()<0.7;L.planRead=rnd()<form;
     if(rnd()<0.7){L.reviewed=true;const p=leversHit(L)/C.levers.length;L.rating=Math.max(0,Math.min(5,Math.round(p*5+(rnd()-0.5)*1.4)));L.right=pick(SR);if(p<0.9){L.wrong=pick(SW);L.why=pick(SY)}}
   }
   S.meta.mealPrep=[addDays(t,-16),addDays(t,-2)];
@@ -1146,11 +1159,7 @@ function leverRow(l,i,L){
       <span class="d-wrow"><input type="number" inputmode="decimal" step="0.1" min="30" max="250" id="d-wt" value="${has?L.wt:''}" placeholder="${lw?lw.v:'kg'}" aria-label="Weight in kg"><span class="d-nt">kg${lw&&!has?`, last ${lw.v}`:''}</span></span></span></div></div>`}
   if(l.kind==='reminders'){const n=remCount(L),nt=n===2?'Read twice today':n===1?(L.readAM?'Morning read done. Read again after 12 pm':'Afternoon read done'):'Read before 12 pm, and again after';
     return `<button class="d-lever ${on?'on':''} ${n===1?'half':''}" data-act="open-rem" aria-haspopup="dialog"><span class="d-num">${on?CHECK:n===1?'½':i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)} <span class="d-mnum">${n}/2</span></span><span class="d-nt">${nt}</span></span><span class="d-chev">›</span></button>`}
-  if(l.kind==='two'){const n=planCount(cur),tw=(L.two||[]).filter(x=>x&&x.text),title=planTitle(cur);
-    if(!tw.length)return `<button class="d-lever" data-act="open-plan" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${title}</span><span class="d-nt">Tap to plan. Maximum ${n}.</span></span><span class="d-chev">›</span></button>`;
-    return `<div class="d-lever ${on?'on':''}"><div class="d-lh">${num}<span class="d-tt"><span class="d-tx">${title} <span class="d-mnum">${tw.filter(x=>x.done).length}/${tw.length}</span></span></span></div>
-      <div class="d-two">${(L.two||[]).map((it,j)=>it&&it.text?`<button class="d-twr d-twb" data-act="two-done" data-j="${j}" role="checkbox" aria-checked="${!!it.done}"><span class="d-tbox ${it.done?'on':''}">${it.done?CHECK:''}</span><span class="d-twt ${it.done?'done':''}">${esc(it.text)}</span></button>`:'').join('')}
-      <button class="d-add" data-act="open-plan" style="align-self:flex-start">Edit plan</button></div></div>`}
+  if(l.kind==='two')return `<button class="d-lever ${on?'on':''}" data-act="open-plan" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${planTitle(cur)}</span><span class="d-nt">${on?'Read today':'Tap to read your planning principles'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='simple')return `<button class="d-lever ${on?'on':''}" data-act="lever" data-id="${l.id}" role="checkbox" aria-checked="${on}">${head}</button>`;
   if(l.kind==='note')return `<button class="d-lever ${on?'on':''}" data-act="open-note" aria-haspopup="dialog"><span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read tonight':'Tap to read it'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='nb'||l.kind==='ns')return `<button class="d-lever ${on?'on':''}" data-act="zero" data-v="${l.kind==='nb'?'zb':'zs'}" role="checkbox" aria-checked="${on}">${head}</button>`;
@@ -1317,7 +1326,7 @@ let compView='week';
 (function(){let sx=null,sy=null;
   document.addEventListener('touchstart',e=>{if(e.target.closest&&e.target.closest('#d-comp')){sx=e.touches[0].clientX;sy=e.touches[0].clientY}else sx=null},{passive:true});
   document.addEventListener('touchend',e=>{if(sx==null)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;sx=null;
-    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3){const v=dx>0?'month':'week';if(v!==compView){compView=v;render()}}},{passive:true});
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3){compView=compView==='week'?'month':'week';render()}},{passive:true});
 })();
 let reviewsOpen=false;
 document.addEventListener('toggle',e=>{if(e.target&&e.target.id==='d-revs')reviewsOpen=e.target.open},true);
@@ -1328,14 +1337,13 @@ function dashHTML(){
   for(let k=ym+'-01';k<=tk&&k.startsWith(ym);k=addDays(k,1))month.push(k);
   const ts=dayScore(tk),tot=ts.t;
   let h=`<div class="card"><div class="head"><h2>Completion</h2><span class="hint" style="margin:0">${nL} habits + journal + review</span></div>
-    <div class="d-pcts"><div><b>${Math.round(ts.d/ts.t*100)}%</b><span>Today</span></div><div><b>${pctOver(week)}%</b><span>This week</span></div><div><b>${pctOver(month)}%</b><span>${esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}))}</span></div></div>
-    <div class="d-comphead"><div class="seg" role="group" aria-label="Completion view"><button type="button" data-act="cview" data-v="week" aria-pressed="${compView==='week'}">Week</button><button type="button" data-act="cview" data-v="month" aria-pressed="${compView==='month'}">Month</button></div>
-    <span class="d-swipe">${compView==='week'?'Swipe right for the month →':'← Swipe left for the week'}</span></div>
+    <div class="d-pcts">${[[Math.round(ts.d/ts.t*100),'Today'],[pctOver(week),'This week']].map(([v,l])=>`<div><b class="${v>=100?'full':''}">${v}%</b><span>${l}</span></div>`).join('')}<div><b class="${pctOver(month)>=100?'full':''}">${pctOver(month)}%</b><span>${esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}))}</span></div></div>
+    <div class="d-comphead"><span class="d-cvl">${compView==='week'?'This week':'This month'}</span><button class="d-swipe" data-act="cview-toggle">⇄ Swipe for ${compView==='week'?'the month':'the week'}</button></div>
     <div id="d-comp">${compView==='week'?`<div class="d-wk">${Array.from({length:7},(_,d)=>{const k=addDays(m0,d),fut=k>tk,s=dayScore(k),p=fut?0:Math.round(s.d/s.t*100);
-      return `<button class="d-wkd ${k===tk?'now':''}" ${fut?'disabled':`data-act="open" data-k="${k}"`} aria-label="${fmt(k,{weekday:'long'})}: ${fut?'upcoming':p+'%'}"><span class="d-wkp">${fut?'':p+'%'}</span><span class="d-wkb"><i style="height:${p}%"></i></span><span class="d-dl">${'MTWTFSS'[d]}</span></button>`}).join('')}</div>`
+      return `<button class="d-wkd ${k===tk?'now':''}" ${fut?'disabled':`data-act="open" data-k="${k}"`} aria-label="${fmt(k,{weekday:'long'})}: ${fut?'upcoming':p+'%'}"><span class="d-wkp">${fut?'':p+'%'}</span><span class="d-wkb"><i class="${p>=100?'full':''}" style="height:${p}%"></i></span><span class="d-dl">${'MTWTFSS'[d]}</span></button>`}).join('')}</div>`
     :(()=>{const first=ym+'-01',n=new Date(+ym.slice(0,4),+ym.slice(5,7),0).getDate();
       return `<div class="d-wk month" style="grid-template-columns:repeat(${n},1fr)">${Array.from({length:n},(_,d)=>{const k=addDays(first,d),fut=k>tk,s=dayScore(k),p=fut?0:Math.round(s.d/s.t*100),dn=d+1;
-        return `<button class="d-wkd ${k===tk?'now':''}" ${fut?'disabled':`data-act="open" data-k="${k}"`} aria-label="${fmt(k,{day:'numeric',month:'long'})}: ${fut?'upcoming':p+'%'}"><span class="d-wkb"><i style="height:${p}%"></i></span><span class="d-dl">${dn===1||dn%5===0?dn:''}</span></button>`}).join('')}</div>`})()}</div></div>`;
+        return `<button class="d-wkd ${k===tk?'now':''}" ${fut?'disabled':`data-act="open" data-k="${k}"`} aria-label="${fmt(k,{day:'numeric',month:'long'})}: ${fut?'upcoming':p+'%'}"><span class="d-wkb"><i class="${p>=100?'full':''}" style="height:${p}%"></i></span><span class="d-dl">${dn===1||dn%5===0?dn:''}</span></button>`}).join('')}</div>`})()}</div></div>`;
 
   const mdays=month.map(getLog).filter(Boolean);
   const rates=S.config.levers.map(l=>({l,r:mdays.length?mdays.filter(L=>leverHit(L,l)).length/mdays.length:0})).sort((a,b)=>a.r-b.r);
@@ -1413,11 +1421,10 @@ function modalHTML(){
       if(!sl)return `<span class="d-nt" style="margin-right:auto">Morning read done. Read again after 12 pm.</span><button class="btn" data-act="close">Close</button>`;
       return `<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="read-done">Done, ${sl==='am'?'morning':'afternoon'} read</button>`})()}</div>`;
   }else if(modal==='plan'){
-    const n=planCount(cur),rules=(S.config.reminders.find(g=>g.kind==='plan')||{items:[]}).items;
+    const rules=(S.config.reminders.find(g=>g.kind==='plan')||{items:[]}).items;
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${planTitle(cur)}</h2>
-    ${rules.length?`<div class="d-rg" style="background:var(--c3-soft)"><span class="lab" style="margin:0">Before you plan</span><ul>${rules.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`:''}
-    ${Array.from({length:n},(_,j)=>`<label class="lab mt" for="d-p${j}">${n===1?'Main task':'Task '+(j+1)}</label><input type="text" id="d-p${j}" data-pd="${j}" value="${esc(draft.tasks[j]||'')}" placeholder="What exactly will be done by the end?">`).join('')}
-    <div class="d-mf"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="save-plan">Save plan</button></div>`;
+    <div class="d-rg" style="background:var(--c3-soft)"><ul>${rules.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>
+    <div class="d-mf">${L.planRead?`<button class="d-link" data-act="plan-undo">Mark as not read</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="plan-done">Done, I’ve read them</button>`}</div>`;
   }else if(modal==='rstep'){
     const i=RQ.findIndex(([f])=>f===draft.step),[f,q]=RQ[i];
     inner=`<div class="d-fhead"><span>Question ${i+1} of ${RQ.length}</span><button class="btn small" data-act="rstep-done">Done</button></div>
@@ -1507,7 +1514,9 @@ document.addEventListener('click',e=>{
     case 'close':modal=null;break;
     case 'noop':return;
     case 'read-done':{const L=ensureLog(cur),sl=remSlot(L);if(sl==='am')L.readAM=true;else if(sl==='pm')L.readPM=true;touch(cur);modal=null;toast(remCount(L)===2?'Reminders ticked off for today':'Half done. Read them again after 12 pm');break}
-    case 'open-plan':{const L=getLog(cur)||{};draft={tasks:(L.two||[]).map(x=>x&&x.text||'')};modal='plan';break}
+    case 'open-plan':modal='plan';break;
+    case 'plan-done':{const L=ensureLog(cur);L.planRead=true;touch(cur);modal=null;toast('Planning principles read');break}
+    case 'plan-undo':{const L=ensureLog(cur);L.planRead=false;touch(cur);modal=null;break}
     case 'save-plan':{const L=ensureLog(cur),old=L.two||[];L.two=draft.tasks.slice(0,planCount(cur)).map(t=>(t||'').trim()).filter(Boolean).map(t=>({text:t,done:!!(old.find(o=>o&&o.text===t)||{}).done}));touch(cur);modal=null;toast('Plan saved. Now get them done');break}
     case 'two-done':{const L=ensureLog(cur);L.two=L.two||[];const j=+b.dataset.j;if(L.two[j]&&L.two[j].text){L.two[j].done=!L.two[j].done;touch(cur)}break}
     case 'unread':{const L=ensureLog(cur);L.read=false;L.readAM=false;L.readPM=false;touch(cur);modal=null;break}
@@ -1537,6 +1546,7 @@ document.addEventListener('click',e=>{
     case 'del-rg':{const g=findIn(b,'g',C.reminders);C.reminders=C.reminders.filter(x=>x!==g);save();break}
     case 'sort':reviewSort=b.dataset.v;break;
     case 'cview':compView=b.dataset.v;break;
+    case 'cview-toggle':compView=compView==='week'?'month':'week';break;
     case 'wprev':wcur=addDays(wcur||mondayOf(todayKey()),-7);break;
     case 'wnext':{const m0=mondayOf(todayKey()),n=addDays(wcur||m0,7);wcur=n>=m0?null:n;break}
     case 'wthis':wcur=null;break;
