@@ -1066,6 +1066,18 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
 (function(){const C=S.config;if(C.mig.includes('order10'))return;C.mig.push('order10');
   C.selfNote=(C.selfNote||'').replace('You may feel like going through with it, but I guarantee it won’t help you at all.','You may feel like going through with it, full or half. It doesn’t matter: both have the same impact, and I guarantee neither will help you at all.');
   persist();})();
+(function(){const C=S.config;if(C.mig.includes('order11'))return;C.mig.push('order11');
+  const g=C.reminders.find(g=>g.kind==='plan');if(g&&!g.items.some(x=>/move slow/i.test(x.text)))g.items.push(R('Move slow if you can’t move fast. Instead of giving yourself half an hour, give yourself 1 hour, and do only that one thing for the whole hour. Move forward slowly and take your breaks instead of going too intense. Going too hard never works for you in the long run, and you end up frustrated and irritated with yourself. Then try to beat the timer.'));
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order12'))return;C.mig.push('order12');
+  const l=C.levers.find(l=>/plan the day/i.test(l.text));if(l){l.kind='meals';l.note=''}
+  if(!C.reminders.some(g=>g.kind==='meals'))C.reminders.push({id:uid(),kind:'meals',title:'Planning your meals',items:[
+    R('Plan everything ahead: 3 meals and 1 snack.'),
+    R('Every day, hit 150 g protein, 30 g fibre and 300 g carbs, within 2,600 kcal.'),
+    R('Meals 1 and 2: high protein, with protein the same as or higher than carbs. Each one no more than 750 kcal. Less is fine, more isn’t.'),
+    R('Snack: coffee, fruit and a dessert. No more than 400 kcal.'),
+    R('Dinner: around 1,000 kcal, carrying most of the day’s carbs. Eaten before you sleep, it helps you sleep.')]});
+  persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1126,7 +1138,7 @@ function seedSample(){
   for(let i=42;i>=1;i--){
     const k=addDays(t,-i);if(i%13===6)continue;
     const L=ensureLog(k),dow=(parseKey(k).getDay()+6)%7,form=0.6+0.35*rnd()+(i<14?0.08:0);
-    C.levers.forEach(l=>{if(l.kind==='simple'&&rnd()<form)L.lv[l.id]=true});
+    C.levers.forEach(l=>{if((l.kind==='simple'||l.kind==='meals')&&rnd()<form)L.lv[l.id]=true});
     L.move=[0,2,4].includes(dow)?(rnd()<0.82?'gym':(rnd()<0.6?'walk':null)):(rnd()<0.8?'walk':null);
     L.zb=i!==19;L.nr=rnd()<0.8;L.zs=!(i===27||i===33);
     L.min=Math.round((L.type==='weekday'?40+rnd()*70:120+rnd()*120)/5)*5;
@@ -1159,6 +1171,7 @@ function leverRow(l,i,L){
       <span class="d-wrow"><input type="number" inputmode="decimal" step="0.1" min="30" max="250" id="d-wt" value="${has?L.wt:''}" placeholder="${lw?lw.v:'kg'}" aria-label="Weight in kg"><span class="d-nt">kg${lw&&!has?`, last ${lw.v}`:''}</span></span></span></div></div>`}
   if(l.kind==='reminders'){const n=remCount(L),nt=n===2?'Read twice today':n===1?(L.readAM?'Morning read done. Read again after 12 pm':'Afternoon read done'):'Read before 12 pm, and again after';
     return `<button class="d-lever ${on?'on':''} ${n===1?'half':''}" data-act="open-rem" aria-haspopup="dialog"><span class="d-num">${on?CHECK:n===1?'½':i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)} <span class="d-mnum">${n}/2</span></span><span class="d-nt">${nt}</span></span><span class="d-chev">›</span></button>`}
+  if(l.kind==='meals')return `<button class="d-lever ${on?'on':''}" data-act="open-meals" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Planned today':'With calories. Tap to read your meal rules'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='two')return `<button class="d-lever ${on?'on':''}" data-act="open-plan" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${planTitle(cur)}</span><span class="d-nt">${on?'Read today':'Tap to read your planning principles'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='simple')return `<button class="d-lever ${on?'on':''}" data-act="lever" data-id="${l.id}" role="checkbox" aria-checked="${on}">${head}</button>`;
   if(l.kind==='note')return `<button class="d-lever ${on?'on':''}" data-act="open-note" aria-haspopup="dialog"><span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read tonight':'Tap to read it'}</span></span><span class="d-chev">›</span></button>`;
@@ -1415,11 +1428,16 @@ function modalHTML(){
   const L=getLog(cur)||{};let inner='';
   if(modal==='rem'){
     const soft=['--c1-soft','--c3-soft','--c2-soft','--accent-soft'];
-    inner=`<h2 style="font-size:1.25rem">Reminders</h2>${S.config.reminders.filter(g=>g.kind!=='plan').map((g,i)=>`<div class="d-rg" style="background:var(${soft[i%4]})"><span class="lab" style="margin:0">${esc(g.title)}</span><ul>${g.items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`).join('')}
+    inner=`<h2 style="font-size:1.25rem">Reminders</h2>${S.config.reminders.filter(g=>!g.kind).map((g,i)=>`<div class="d-rg" style="background:var(${soft[i%4]})"><span class="lab" style="margin:0">${esc(g.title)}</span><ul>${g.items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`).join('')}
     <div class="d-mf">${(()=>{const n=remCount(L),sl=remSlot(L);
       if(n===2)return `<button class="d-link" data-act="unread">Mark as not read</button><button class="btn" data-act="close">Close</button>`;
       if(!sl)return `<span class="d-nt" style="margin-right:auto">Morning read done. Read again after 12 pm.</span><button class="btn" data-act="close">Close</button>`;
       return `<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="read-done">Done, ${sl==='am'?'morning':'afternoon'} read</button>`})()}</div>`;
+  }else if(modal==='meals'){
+    const ml=S.config.levers.find(l=>l.kind==='meals'),done=ml&&L.lv&&L.lv[ml.id],rules=(S.config.reminders.find(g=>g.kind==='meals')||{items:[]}).items;
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">Plan the day’s meals</h2>
+    <div class="d-rg" style="background:var(--c2-soft)"><ul>${rules.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>
+    <div class="d-mf">${done?`<button class="d-link" data-act="meals-undo">Mark as not planned</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="meals-done">Done, meals planned</button>`}</div>`;
   }else if(modal==='plan'){
     const rules=(S.config.reminders.find(g=>g.kind==='plan')||{items:[]}).items;
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${planTitle(cur)}</h2>
@@ -1515,6 +1533,8 @@ document.addEventListener('click',e=>{
     case 'noop':return;
     case 'read-done':{const L=ensureLog(cur),sl=remSlot(L);if(sl==='am')L.readAM=true;else if(sl==='pm')L.readPM=true;touch(cur);modal=null;toast(remCount(L)===2?'Reminders ticked off for today':'Half done. Read them again after 12 pm');break}
     case 'open-plan':modal='plan';break;
+    case 'open-meals':modal='meals';break;
+    case 'meals-done':case 'meals-undo':{const ml=C.levers.find(l=>l.kind==='meals');if(ml){const L=ensureLog(cur);L.lv[ml.id]=a==='meals-done';touch(cur)}modal=null;if(a==='meals-done')toast('Meals planned');break}
     case 'plan-done':{const L=ensureLog(cur);L.planRead=true;touch(cur);modal=null;toast('Planning principles read');break}
     case 'plan-undo':{const L=ensureLog(cur);L.planRead=false;touch(cur);modal=null;break}
     case 'save-plan':{const L=ensureLog(cur),old=L.two||[];L.two=draft.tasks.slice(0,planCount(cur)).map(t=>(t||'').trim()).filter(Boolean).map(t=>({text:t,done:!!(old.find(o=>o&&o.text===t)||{}).done}));touch(cur);modal=null;toast('Plan saved. Now get them done');break}
