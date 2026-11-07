@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Journal">
+<meta name="theme-color" content="#DDEBF5">
+<title>Journal</title>
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAElklEQVR4nO3duW5TQRjF8bnIFS2RaJDoUAqWLg8QSghLCRRIILEE3oUaQeigBQEteQAqFgkCHRINW0sbikFWFPuE2Nw7c77x/6dURIrGnsP5PNc3Tnf06ocETDNK27WXAFcHai8AvkZd7RXAFs0BiXBAYqxAojkgEQ5Io47rHBBoDkiEAxKnFUg0ByTCAYmxAonmgEQ4IHERDBLNAYlwQOK0AonmgEQ4IDFWINEckAgHJC6CQaI5IBEOSJxWINEckAgHJMYKJJoDEuGANOq2GSyYjuaARDggcVqBNKq9gBm8f7xcewn9OHFlq/YS9qU7fvlj7TX8QzOZmGSekgNdSs5fDScjpfT+8XL1Z3ivrxOuzfGu6VjsctKyQkxPKwuVjOT6eLuTl+ya4+0Tx2eqgFOXvfrDtDngwC4cC1sbye+xe51W3J6d8t4+MTq/2DUHfBAOSEZj5c3Cz5Tsjc1koTkgEQ5I/DqkI5NNoTkgEQ5I3AnmyGRTaA5IhAMSY8WRyabQHJAIByQugjky2RSaAxLhgMRpxZHJptAckCL9rqzyeut37SVMt7J8sPYS/kvssWIbiywvb46ImGwKYwVS4HCY18ZYlHVO4jPBHJlsSuDmwNAChyPKWSDKOifFPq20ymRTYl/nyP8pbV/xxe2MLHY4suh7YIux4shkUwK/IMXQCAck7gRzZLIpNAckwgGJ04ojk02hOSARDkiMFUcmm9LC5XPeWxlI7HDYxiKb+x5SE1wEc2SyKYFfkJrXxliUdU4KHA4MjdOKI5NNCdwcUV7oRVnnpMDhwNBij5VW7yE12ZTY1zmyuL1tjrECiYtgjkw2heaARDggxT6ttMpkU2gOSC0cZSP6cvPI5D8evf+1/Er2wFgpamomJr/bpVdFlvMPNEche8dil0eHTqeUrv2qHBFec5QwUzLGckQqauEzwZzfW5kvFmM5H9d/bva0otnEbo7XW79tk5HmLYxJG0urvfycWcUOBwZl9LfsZ+XcGSmlw/eO9fjTNpZW+Vv2jeg3GdnD4sOFcEAKPFZs7/EZojayh2WHC80BKXY4VpYP2vZHA1q4E8wqH31d21AeLK3e+FHomljs5sCgCAck3rKPp9iW0RyQCAckxko8jJWohr4P9Fapc2wiHNhDCxfBFkrJ/aI5+jfcZLn9vej9goQDUuC37J0NUR7r3zcL74hRc5y5+Ln2EvrUbz7Wyw6UzCgccGM0VhqbLKm/8rhTfKD8/Tpz4VMvD6AvL58OdY9dRXPf5HGnxjQZsxsrZ9t65ZHNVyF1k5G4CFZMzsc+K+Tut81kMGe7s+e9xkr24lmDw2WnqSnJmfBhGo60APnYae2C4zDt1lzDkT1vPSLnLGOR2b0g3cX5uft/5o/OvTl2aqZFzDMx1p2LEw4U5j5WUBHhgNTCZ4JhIDQHJMIBid9bgURzQCIckBgrkGgOSIQDEneCQaI5IBEOSJxWINEckAgHJMYKJJoDEuGAxEUwSDQHJMIBidMKJJoDEuGAxFiBRHNAIhyQuAgGieaARDggcVqBRHNAIhyQGCuQaA5Io67+R2zD1B/bFsuyL4ILoAAAAABJRU5ErkJggg==">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAElklEQVR4nO3duW5TQRjF8bnIFS2RaJDoUAqWLg8QSghLCRRIILEE3oUaQeigBQEteQAqFgkCHRINW0sbikFWFPuE2Nw7c77x/6dURIrGnsP5PNc3Tnf06ocETDNK27WXAFcHai8AvkZd7RXAFs0BiXBAYqxAojkgEQ5Io47rHBBoDkiEAxKnFUg0ByTCAYmxAonmgEQ4IHERDBLNAYlwQOK0AonmgEQ4IDFWINEckAgHJC6CQaI5IBEOSJxWINEckAgHJMYKJJoDEuGANOq2GSyYjuaARDggcVqBNKq9gBm8f7xcewn9OHFlq/YS9qU7fvlj7TX8QzOZmGSekgNdSs5fDScjpfT+8XL1Z3ivrxOuzfGu6VjsctKyQkxPKwuVjOT6eLuTl+ya4+0Tx2eqgFOXvfrDtDngwC4cC1sbye+xe51W3J6d8t4+MTq/2DUHfBAOSEZj5c3Cz5Tsjc1koTkgEQ5I/DqkI5NNoTkgEQ5I3AnmyGRTaA5IhAMSY8WRyabQHJAIByQugjky2RSaAxLhgMRpxZHJptAckCL9rqzyeut37SVMt7J8sPYS/kvssWIbiywvb46ImGwKYwVS4HCY18ZYlHVO4jPBHJlsSuDmwNAChyPKWSDKOifFPq20ymRTYl/nyP8pbV/xxe2MLHY4suh7YIux4shkUwK/IMXQCAck7gRzZLIpNAckwgGJ04ojk02hOSARDkiMFUcmm9LC5XPeWxlI7HDYxiKb+x5SE1wEc2SyKYFfkJrXxliUdU4KHA4MjdOKI5NNCdwcUV7oRVnnpMDhwNBij5VW7yE12ZTY1zmyuL1tjrECiYtgjkw2heaARDggxT6ttMpkU2gOSC0cZSP6cvPI5D8evf+1/Er2wFgpamomJr/bpVdFlvMPNEche8dil0eHTqeUrv2qHBFec5QwUzLGckQqauEzwZzfW5kvFmM5H9d/bva0otnEbo7XW79tk5HmLYxJG0urvfycWcUOBwZl9LfsZ+XcGSmlw/eO9fjTNpZW+Vv2jeg3GdnD4sOFcEAKPFZs7/EZojayh2WHC80BKXY4VpYP2vZHA1q4E8wqH31d21AeLK3e+FHomljs5sCgCAck3rKPp9iW0RyQCAckxko8jJWohr4P9Fapc2wiHNhDCxfBFkrJ/aI5+jfcZLn9vej9goQDUuC37J0NUR7r3zcL74hRc5y5+Ln2EvrUbz7Wyw6UzCgccGM0VhqbLKm/8rhTfKD8/Tpz4VMvD6AvL58OdY9dRXPf5HGnxjQZsxsrZ9t65ZHNVyF1k5G4CFZMzsc+K+Tut81kMGe7s+e9xkr24lmDw2WnqSnJmfBhGo60APnYae2C4zDt1lzDkT1vPSLnLGOR2b0g3cX5uft/5o/OvTl2aqZFzDMx1p2LEw4U5j5WUBHhgNTCZ4JhIDQHJMIBid9bgURzQCIckBgrkGgOSIQDEneCQaI5IBEOSJxWINEckAgHJMYKJJoDEuGAxEUwSDQHJMIBidMKJJoDEuGAxFiBRHNAIhyQuAgGieaARDggcVqBRHNAIhyQGCuQaA5Io67+R2zD1B/bFsuyL4ILoAAAAABJRU5ErkJggg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#DDEBF5; --bg2:#E3E6F7; --surface:#FFFFFF; --ink:#14213D; --muted:#5B6B82; --line:#D5DEEA;
+  --accent:#1F5FD6; --accent-ink:#fff; --accent-soft:#E2EBFB;
+  --c1:#5B4BDB; --c2:#0F9488; --c3:#E0661B;
+  --c1-soft:#E8E5FB; --c2-soft:#DCF3EF; --c3-soft:#FCEADD;
+  --open:#E0661B; --done:#0F9488;
+  --shadow:0 6px 18px rgba(20,33,61,.08);
+  --danger:#C23B3B;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg1:#13233A; --bg2:#1A1F3F; --surface:#1F2D47; --ink:#EAF1FB; --muted:#A3B3C9; --line:#33456A;
+    --accent:#6FA3FF; --accent-ink:#0B1730; --accent-soft:#25395E;
+    --c1:#9C90FF; --c2:#3FD0C1; --c3:#FF9A55; --c1-soft:#2D2A5C; --c2-soft:#173F3D; --c3-soft:#43301F;
+    --open:#FF9A55; --done:#3FD0C1; --shadow:none; --danger:#FF8A8A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg1:#13233A; --bg2:#1A1F3F; --surface:#1F2D47; --ink:#EAF1FB; --muted:#A3B3C9; --line:#33456A;
+  --accent:#6FA3FF; --accent-ink:#0B1730; --accent-soft:#25395E;
+  --c1:#9C90FF; --c2:#3FD0C1; --c3:#FF9A55; --c1-soft:#2D2A5C; --c2-soft:#173F3D; --c3-soft:#43301F;
+  --open:#FF9A55; --done:#3FD0C1; --shadow:none; --danger:#FF8A8A; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg1)}
+body{margin:0;min-height:100vh;background:linear-gradient(165deg,var(--bg1) 0%,var(--bg2) 100%) fixed;color:var(--ink);font-family:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.5;font-weight:500}
+main{max-width:620px;margin:0 auto;padding:16px 16px 110px}
+h1{font-size:1.65rem;line-height:1.2;margin:6px 0 14px;font-weight:800;letter-spacing:-.01em}
+h2{font-size:1rem;margin:0 0 10px;font-weight:800}
+.card{background:var(--surface);border-radius:16px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px}
+.lab{display:block;font-size:.8rem;font-weight:800;color:var(--muted);margin:0 0 6px}
+select,input[type=text]{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 17px) 52%,calc(100% - 12px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:30px}
+select:focus,input:focus,button:focus-visible{outline:3px solid var(--accent-soft);border-color:var(--accent);outline-offset:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt{margin-top:12px}
+.pad{all:unset;box-sizing:border-box;display:block;width:100%;cursor:text;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;min-height:76px}
+.pad:focus-visible{outline:3px solid var(--accent-soft);border-color:var(--accent)}
+.pad .pl{display:block;font-size:.8rem;font-weight:800;color:var(--muted);margin-bottom:4px}
+.pad .tx{display:block;white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+.pad .tx.empty{color:var(--muted);opacity:.75}
+.pad.main{min-height:150px;border-color:var(--accent);background:var(--surface)}
+.pad.main .tx{font-size:1.1rem}
+.pad.reframe{background:var(--c2-soft);border-color:transparent}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scale button{font:inherit;font-weight:800;padding:8px 0;border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.scale button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.scale-ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.75rem;margin-top:3px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:inherit;font-size:.82rem;font-weight:700;padding:4px 10px;border-radius:999px;border:none;background:var(--c1-soft);color:var(--ink);cursor:pointer}
+.chip::after{content:" ✕";color:var(--muted);font-size:.75rem}
+.btn{font:inherit;font-weight:800;border:none;border-radius:12px;padding:11px 18px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn.small{padding:8px 14px;font-size:.88rem}
+.btn.ghost{background:var(--accent-soft);color:var(--accent)}
+.save{width:100%;padding:15px;font-size:1.05rem;box-shadow:0 8px 20px rgba(31,95,214,.25)}
+.hint{color:var(--muted);font-size:.82rem;margin:6px 0 0}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:999px;font-weight:800;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+.toast.show{opacity:1}
+nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:460px;margin:0 auto;background:var(--surface);border-radius:999px;box-shadow:0 8px 28px rgba(20,33,61,.18);display:flex;gap:4px;padding:6px;z-index:5}
+nav button{flex:1;font:inherit;font-weight:800;font-size:.9rem;padding:11px 6px;border-radius:999px;border:none;background:transparent;color:var(--muted);cursor:pointer}
+nav button[aria-current=page]{background:var(--ink);color:var(--surface)}
+.page[hidden]{display:none}
+
+/* focus writing overlay */
+.focus{position:fixed;inset:0;z-index:20;background:var(--surface);display:flex;flex-direction:column;padding:calc(12px + env(safe-area-inset-top,0px)) 18px calc(12px + env(safe-area-inset-bottom,0px))}
+.focus[hidden]{display:none}
+.focus-head{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:640px;width:100%;margin:0 auto 8px}
+.focus-head span{font-weight:800;color:var(--muted)}
+.focus textarea{flex:1;width:100%;max-width:640px;margin:0 auto;font:inherit;font-size:1.2rem;line-height:1.6;border:none;background:transparent;color:var(--ink);resize:none;padding:6px 0}
+.focus textarea:focus{outline:none}
+.focus .ctx{max-width:640px;width:100%;margin:0 auto 8px;color:var(--muted);font-size:.9rem;background:var(--bg1);border-radius:10px;padding:8px 10px}
+.focus .ctx:empty{display:none}
+
+/* dashboard */
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.filters select{padding:8px 11px;font-size:.88rem}
+.banner{background:var(--accent-soft);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:.88rem;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.banner button{font:inherit;font-size:.82rem;font-weight:800;background:none;border:none;color:var(--accent);cursor:pointer;white-space:nowrap}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.stat{background:var(--surface);border-radius:14px;padding:10px 12px;box-shadow:var(--shadow)}
+.stat b{font-size:1.45rem;font-weight:800;line-height:1.1;display:block}
+.stat span{color:var(--muted);font-size:.8rem}
+.stat.open b{color:var(--open)}
+.catstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.catstat{border-radius:14px;padding:10px 12px}
+.catstat b{font-size:1.3rem;font-weight:800;display:block;line-height:1.1}
+.catstat span{font-size:.75rem;line-height:1.25;display:block;color:var(--ink);opacity:.8}
+.seg{display:inline-flex;background:var(--accent-soft);border-radius:999px;padding:3px}
+.seg button{font:inherit;font-size:.8rem;font-weight:800;border:none;background:transparent;color:var(--accent);padding:5px 11px;border-radius:999px;cursor:pointer}
+.seg.wide{display:flex}
+.seg.wide button{flex:1;padding:8px;font-size:.9rem}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.head h2{margin:0}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.78rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.bars{display:flex;flex-direction:column;gap:9px}
+.bar{display:grid;grid-template-columns:minmax(80px,34%) 1fr auto;gap:10px;align-items:center;font-size:.9rem}
+.bar .track{height:12px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar .fill{height:100%;border-radius:6px}
+.bar .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .n{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:.82rem}
+.callout{background:var(--c3-soft);border-radius:14px;padding:11px 13px;margin-bottom:12px;font-size:.92rem}
+.callout p{margin:0}
+.two{display:grid;gap:12px;margin-bottom:12px}
+.two .card{margin-bottom:0}
+@media (min-width:600px){.two{grid-template-columns:1fr 1fr}}
+.entry{border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--surface);border:2px solid var(--line);border-left:6px solid var(--line)}
+.entry .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.78rem}
+.entry p{margin:6px 0 0}
+.entry .lbl{color:var(--muted);font-size:.78rem;display:block;margin-top:8px;font-weight:800}
+.entry .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.entry .tags span{font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--c1-soft)}
+.badge{font-size:.7rem;font-weight:800;padding:2px 9px;border-radius:999px}
+.badge.open{background:var(--c3-soft);color:var(--open)}
+.badge.done{background:var(--c2-soft);color:var(--done)}
+.reframe-text{background:var(--c2-soft);border-radius:10px;padding:8px 10px;margin-top:4px}
+.entry .acts{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.del{font:inherit;font-size:.78rem;font-weight:700;background:none;border:none;color:var(--danger);cursor:pointer;padding:0}
+.empty{color:var(--muted);font-size:.9rem}
+details>summary{cursor:pointer;font-weight:800;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details>summary::-webkit-details-marker{display:none}
+details>summary::after{content:"Show";color:var(--accent);font-size:.85rem}
+details[open]>summary::after{content:"Hide"}
+details[open]>summary{margin-bottom:12px}
+.rename label{display:block;font-size:.82rem;color:var(--muted);margin:10px 0 4px}
+.loading{text-align:center;color:var(--muted);padding:60px 0}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+/* ---------- productivity (structured day) ---------- */
+:root{--d1:#E0661B;--d2:#C98A0E;--d3:#0F9488;--d4:#1F7FD6;--d5:#5B4BDB;--d6:#9A3FC2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--d1:#FF9A55;--d2:#F2C14E;--d3:#3FD0C1;--d4:#6FB3FF;--d5:#9C90FF;--d6:#D296F2}}
+:root[data-theme="dark"]{--d1:#FF9A55;--d2:#F2C14E;--d3:#3FD0C1;--d4:#6FB3FF;--d5:#9C90FF;--d6:#D296F2}
+.d-top{display:flex;align-items:center;gap:10px;margin:2px 0 12px}
+.d-title{flex:1;min-width:0;text-align:center}
+.d-title h1{margin:0}
+.d-sub{color:var(--muted);font-size:.85rem;font-weight:700}
+.d-sub button{font:inherit;color:var(--accent);background:none;border:0;padding:0;cursor:pointer}
+.d-nav{flex:none;width:42px;height:42px;border-radius:50%;border:none;background:var(--surface);box-shadow:var(--shadow);font:inherit;font-size:1.5rem;line-height:1;color:var(--ink);cursor:pointer}
+.d-nav:disabled{opacity:.35;cursor:default}
+.d-prog{display:flex;align-items:center;gap:14px}
+.d-pct{font-size:2.3rem;font-weight:800;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.d-pct small{font-size:1rem}
+.d-prog.full .d-pct{color:var(--done)}
+.d-pr{flex:1;min-width:0}
+.d-prrow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:9px}
+.d-prt{font-weight:800;font-size:.95rem}
+select.d-type{width:auto;padding:6px 28px 6px 12px;font-size:.85rem;font-weight:800;border-radius:999px;background-color:var(--accent-soft);border-color:transparent;color:var(--accent)}
+.d-track{height:10px;background:var(--line);border-radius:6px;overflow:hidden}
+.d-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--d1),var(--d3) 60%,var(--d5));transition:width .35s ease}
+.d-prog.full .d-fill{background:var(--done)}
+.d-row{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;cursor:pointer;border-radius:16px;padding:14px;margin-bottom:12px}
+.d-row:focus-visible,.d-task:focus-visible{outline:3px solid var(--accent-soft)}
+.d-rem{background:var(--c1-soft);--c:var(--c1)}
+.d-review{background:var(--c2-soft);--c:var(--c2);margin-top:4px}
+.d-chores{background:var(--c3-soft);--c:var(--c3)}
+.d-ico{flex:none;width:24px;text-align:center;font-size:1.15rem}
+.d-chev{margin-left:auto;color:var(--muted);font-size:1.5rem;line-height:1;align-self:center}
+.d-sec{padding:12px 14px}
+.d-sh{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.d-st{font-weight:800;display:flex;align-items:center;gap:8px}
+.d-st::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--c)}
+.d-sm{font-size:.8rem;color:var(--muted);font-weight:700}
+.d-sc{margin-left:auto;font-size:.78rem;font-weight:800;padding:2px 10px;border-radius:999px;background:color-mix(in srgb,var(--c) 16%,var(--surface));font-variant-numeric:tabular-nums}
+.d-sec.full .d-sc{background:var(--c);color:var(--surface)}
+.d-task{all:unset;box-sizing:border-box;display:flex;align-items:flex-start;gap:12px;width:100%;padding:9px 0;cursor:pointer}
+.d-task+.d-task{border-top:1px solid var(--line)}
+.d-box{flex:none;width:24px;height:24px;border-radius:8px;border:2px solid color-mix(in srgb,var(--c,var(--accent)) 45%,var(--line));display:grid;place-items:center;background:var(--surface);color:var(--surface);transition:background .15s,border-color .15s}
+.d-task.on .d-box,.d-row.on .d-box{background:var(--c,var(--accent));border-color:var(--c,var(--accent))}
+.d-box svg{width:14px;height:14px}
+.d-tt{display:flex;flex-direction:column;min-width:0;flex:1}
+.d-tx{font-weight:700;line-height:1.35}
+.d-task.on .d-tx{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px}
+.d-nt{font-size:.82rem;color:var(--muted);font-weight:500;line-height:1.35;margin-top:1px}
+.d-task .d-chev{font-size:1.3rem}
+.d-foot{display:flex;justify-content:center;margin:16px 0 4px}
+.d-note{background:var(--c1-soft);border-radius:12px;padding:10px 12px;font-size:.88rem;margin-bottom:12px}
+.d-erow{display:flex;gap:8px;align-items:flex-start;margin:8px 0}
+.d-stack{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.d-erow input.small{font-size:.85rem;padding:7px 11px}
+.d-x{flex:none;width:36px;height:44px;border:none;background:none;color:var(--danger);font-size:1rem;cursor:pointer}
+.d-add{font:inherit;font-weight:800;font-size:.88rem;color:var(--accent);background:none;border:none;padding:6px 0;cursor:pointer}
+.d-ta{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 12px;resize:vertical;min-height:52px}
+.d-ta:focus{outline:3px solid var(--accent-soft);border-color:var(--accent)}
+.d-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.d-heat{display:flex;gap:6px}
+.d-hl{display:grid;grid-template-rows:repeat(7,1fr);gap:4px;font-size:.7rem;color:var(--muted);font-weight:800}
+.d-hl span{display:flex;align-items:center}
+.d-hg{flex:1;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(7,auto);grid-auto-flow:column;gap:4px}
+.d-cell{display:block;aspect-ratio:1;border-radius:5px;border:none;padding:0;background:var(--line);cursor:pointer}
+.d-cell.l1{background:color-mix(in srgb,var(--c2) 22%,var(--line))}
+.d-cell.l2{background:color-mix(in srgb,var(--c2) 42%,var(--line))}
+.d-cell.l3{background:color-mix(in srgb,var(--c2) 62%,var(--line))}
+.d-cell.l4{background:color-mix(in srgb,var(--c2) 82%,var(--line))}
+.d-cell.l5{background:var(--c2)}
+.d-cell.off{opacity:.22}
+.d-cell.fut{background:transparent;border:1.5px dashed var(--line);cursor:default}
+.d-cell.now{outline:2px solid var(--ink);outline-offset:1px}
+.d-legend{display:flex;gap:4px;align-items:center;justify-content:flex-end;font-size:.72rem;color:var(--muted);margin-top:8px}
+.d-legend .d-cell{width:12px;cursor:default}
+.d-rv{display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.d-rv .meta{display:flex}
+.d-p{display:block;margin-top:2px}
+.d-dots{display:inline-flex;gap:3px}
+.d-dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.d-dots i.f{background:var(--c3)}
+.d-chg{list-style:none;margin:0;padding:0;font-size:.9rem}
+.d-chg li{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+.d-chg li span{flex:none;width:52px;color:var(--muted);font-weight:700}
+.d-overlay{position:fixed;inset:0;z-index:25;background:rgba(10,18,35,.45);display:flex;align-items:flex-end;justify-content:center;animation:d-fade .15s ease}
+.d-sheet{background:var(--surface);width:100%;max-width:620px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px 18px calc(16px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(20,33,61,.2)}
+@media (min-width:640px){.d-overlay{align-items:center;padding:20px}.d-sheet{border-radius:22px}}
+.d-rg{border-radius:14px;padding:10px 12px;margin-bottom:10px}
+.d-rg ul{margin:4px 0 0;padding-left:20px}
+.d-rg li{margin:6px 0}
+.d-mf{display:flex;gap:10px;justify-content:flex-end;align-items:center;margin-top:16px;position:sticky;bottom:-16px;background:var(--surface);padding:10px 0 4px}
+.d-mf .d-link{margin-right:auto}
+.d-link{font:inherit;font-weight:800;font-size:.85rem;color:var(--muted);background:none;border:0;cursor:pointer;padding:0}
+.d-scale{grid-template-columns:repeat(6,1fr)}
+@keyframes d-fade{from{opacity:0}}
+.d-levers{padding:12px 14px}
+.d-levers .d-sh{margin-bottom:6px}
+.d-levers .d-st::before{background:var(--accent)}
+.d-phase{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:12px 0 2px}
+.d-phase+.d-lever{border-top:none}
+.d-lever.half .d-num{background:color-mix(in srgb,var(--done) 35%,var(--surface));color:var(--ink)}
+.d-two{margin:8px 0 2px 40px;display:flex;flex-direction:column;gap:6px}
+.d-twr{display:flex;gap:8px;align-items:center}
+.d-twr input{flex:1;padding:8px 10px;font-size:.92rem}
+.d-twb{all:unset;box-sizing:border-box;display:flex;gap:10px;align-items:center;cursor:pointer;padding:2px 0}
+.d-twt{font-weight:700}
+.d-twt.done{color:var(--muted);text-decoration:line-through}
+.d-sheet input[type=text]{margin-bottom:2px}
+.d-tbox{flex:none;width:26px;height:26px;border-radius:8px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;color:var(--surface);cursor:pointer;padding:0}
+.d-tbox.on{background:var(--done);border-color:var(--done)}
+.d-tbox:disabled{opacity:.4;cursor:default}
+.d-tbox svg{width:14px;height:14px}
+.d-topbar{display:flex;justify-content:flex-end;margin-bottom:2px}
+.d-goalsbtn,.d-back{font:inherit;font-weight:800;font-size:.88rem;border:none;border-radius:999px;padding:7px 14px;cursor:pointer;background:var(--surface);color:var(--accent);box-shadow:var(--shadow)}
+.d-back{margin:2px 0 6px}
+.d-lever{all:unset;box-sizing:border-box;display:block;width:100%;padding:10px 0;cursor:pointer}
+.d-lever+.d-lever{border-top:1px solid var(--line)}
+div.d-lever{cursor:default}
+.d-lever>.d-lh,button.d-lever{display:flex;align-items:flex-start;gap:12px}
+.d-num{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.85rem;background:var(--accent-soft);color:var(--accent);transition:background .15s}
+.d-lever.on .d-num{background:var(--done);color:var(--surface)}
+.d-num svg{width:14px;height:14px}
+.d-lever.on .d-tx{color:var(--muted)}
+.d-pills{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0 40px}
+.d-pill{font:inherit;font-size:.85rem;font-weight:800;padding:7px 13px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.d-pill.on{background:var(--done);border-color:var(--done);color:var(--surface)}
+.d-pill.miss.on{background:var(--c3);border-color:var(--c3)}
+.d-min{cursor:default}
+.d-mnum{font-size:.82rem;color:var(--muted);font-weight:800;margin-left:4px}
+.d-mbar{display:block;height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0}
+.d-mbar i{display:block;height:100%;background:var(--c,var(--accent));border-radius:6px}
+.d-steps{display:flex;gap:6px}
+.d-steps button{font:inherit;font-size:.82rem;font-weight:800;border:none;border-radius:999px;padding:5px 11px;background:color-mix(in srgb,var(--c) 16%,var(--surface));color:var(--ink);cursor:pointer}
+.d-wrow{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.d-wrow input{width:96px;font:inherit;font-size:.95rem;padding:7px 10px;border:2px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.d-due{font-size:.7rem;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--c3-soft);color:var(--open);margin-left:4px;vertical-align:middle}
+.d-ord{display:flex;flex-direction:column;gap:2px}
+.d-ord button{font:inherit;border:none;background:var(--accent-soft);color:var(--accent);border-radius:6px;width:30px;height:20px;cursor:pointer;font-size:.75rem;font-weight:800}
+.d-ord button:disabled{opacity:.3;cursor:default}
+.d-later{flex:none;font:inherit;font-size:.75rem;font-weight:800;border:none;background:var(--accent-soft);color:var(--accent);border-radius:8px;padding:6px 8px;margin-top:6px;cursor:pointer}
+.d-month .lab{margin-top:4px}
+.d-mg{padding:7px 0;border-top:1px solid var(--line);display:flex;flex-direction:column}
+.d-mgt{font-weight:800}
+.d-goal{padding:12px 14px;border-left:6px solid var(--c)}
+.d-gh{display:flex;align-items:flex-start;gap:10px;margin-bottom:4px}
+.d-gn{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.85rem;background:color-mix(in srgb,var(--c) 18%,var(--surface))}
+.d-gt{flex:1;font-weight:800;line-height:1.3;display:flex;flex-direction:column}
+.d-chip{flex:none;margin-top:2px}
+.badge.later{background:var(--line);color:var(--muted)}
+.d-goal .d-nt{display:block}
+.d-li{display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid var(--line)}
+.d-li .d-tx{font-weight:700}
+.d-li.locked .d-tx{color:var(--muted)}
+.d-li .d-tx svg{vertical-align:-1px}
+.d-li .d-tt::before{content:"";}
+.d-pcts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.d-pcts div{background:var(--bg1);border-radius:12px;padding:10px;text-align:center}
+.d-pcts b{display:block;font-size:1.5rem;font-weight:800;line-height:1.1;color:var(--accent)}
+.d-pcts span{font-size:.78rem;color:var(--muted);font-weight:700}
+.d-wk{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.d-wkd{font:inherit;border:none;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:var(--ink)}
+.d-wkd:disabled{cursor:default;opacity:.45}
+.d-wkp{font-size:.72rem;font-weight:800;min-height:1em}
+.d-wkb{width:100%;height:70px;background:var(--line);border-radius:8px;display:flex;align-items:flex-end;overflow:hidden}
+.d-wkb i{display:block;width:100%;background:var(--accent);border-radius:8px 8px 0 0}
+.d-wkd.now .d-wkb{outline:2px solid var(--accent);outline-offset:1px}
+.d-hbars .bar{grid-template-columns:minmax(0,1.5fr) minmax(60px,1fr) auto}
+.d-hbars .name{white-space:normal;line-height:1.25;font-size:.86rem}
+.d-comphead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.d-swipe{font-size:.75rem;color:var(--muted);font-weight:700}
+#d-comp{touch-action:pan-y}
+.d-wk.month{gap:2px}
+.d-wk.month .d-wkb{height:80px;border-radius:4px}
+.d-wk.month .d-wkb i{border-radius:4px 4px 0 0}
+.d-wk.month .d-dl{font-size:.62rem;min-height:1em}
+.d-qpad{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:10px}
+.d-qpad:focus-visible{outline:3px solid var(--accent-soft);border-color:var(--accent)}
+.d-qtx{display:block;white-space:pre-wrap;word-break:break-word}
+.d-qtx.empty{color:var(--muted);opacity:.75}
+.d-overlay.full{align-items:stretch;padding:0}
+.d-sheet.d-focus{max-width:none;max-height:none;height:100%;border-radius:0;display:flex;flex-direction:column;padding:calc(14px + env(safe-area-inset-top,0px)) 18px calc(14px + env(safe-area-inset-bottom,0px))}
+.d-sheet.d-focus>*{width:100%;max-width:640px;margin-left:auto;margin-right:auto}
+.d-fhead{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-weight:800;font-size:.9rem}
+.d-fta{flex:1;font:inherit;font-size:1.15rem;line-height:1.6;border:none;background:transparent;color:var(--ink);resize:none;padding:4px 0}
+.d-fta:focus{outline:none}
+.d-focus .d-mf{position:static;margin-top:8px}
+.d-note-body p{margin:0 0 6px;line-height:1.6}
+.d-note-body .d-nb{margin-bottom:14px}
+.d-note-body .d-nh{font-weight:800;margin-bottom:4px}
+.d-note-body ul{margin:0 0 8px;padding-left:22px}
+.d-note-body li{margin:4px 0;line-height:1.5}
+.d-mg{flex-direction:row;gap:10px;align-items:flex-start}
+.d-mgb{display:flex;flex-direction:column;flex:1;min-width:0}
+.d-gbox{flex:none;width:26px;height:26px;margin-top:1px;border-radius:8px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;color:var(--surface);cursor:pointer;padding:0}
+.d-gbox.on{background:var(--done);border-color:var(--done)}
+.d-gbox:disabled{opacity:.35;cursor:default;border-style:dashed}
+.d-gbox svg{width:14px;height:14px}
+.d-mg.done .d-mgt{color:var(--muted);text-decoration:line-through}
+.d-out{font-size:.85rem;margin-top:2px}
+.d-undef{font-size:.82rem;color:var(--open);font-weight:700;margin-top:2px}
+.d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
+.d-day.now{outline:2px solid var(--accent)}
+.d-day.fut{opacity:.45;cursor:default}
+.d-dl{font-size:.75rem;font-weight:800;color:var(--muted)}
+.d-day .d-dots{display:grid;grid-template-columns:repeat(2,8px);gap:3px}
+.d-day .d-dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.d-day .d-dots i.f{background:var(--done)}
+.d-dn{font-size:.78rem;font-weight:800}
+.d-rdots{display:inline-flex;gap:3px}
+.d-rdots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.d-rdots i.f{background:var(--c3)}
+.d-mr{padding:10px 0;border-top:1px solid var(--line);display:flex;flex-direction:column}
+.d-mr .d-pills{margin-left:0}
+.d-sheet select.small{font-size:.85rem;padding:7px 30px 7px 11px}
+.chart svg,.card svg{max-width:100%}
+
+@media (prefers-reduced-motion:reduce){.d-fill,.d-box{transition:none}.d-overlay{animation:none}}
+</style>
+</head>
+<body>
+<main>
+  <div id="pv"></div>
+  <div id="loading" class="loading">Opening your journal…</div>
+
+  <section id="page-write" class="page" hidden>
+    <h1 id="write-title">What’s on your mind?</h1>
+
+    <select id="cat" aria-label="Category" style="margin-bottom:12px"></select>
+
+    <button type="button" class="pad main" data-field="thought" id="pad-thought"></button>
+
+    <div class="card mt">
+      <div class="grid2">
+        <div>
+          <label class="lab" for="feel-sel">Feeling</label>
+          <select id="feel-sel"></select>
+          <input type="text" id="feel-new" placeholder="Name the feeling" hidden class="mt" style="margin-top:8px" autocomplete="off">
+        </div>
+        <div>
+          <label class="lab" for="tag-sel">Tags</label>
+          <select id="tag-sel"></select>
+          <input type="text" id="tag-new" placeholder="New tag, then Enter" hidden style="margin-top:8px" autocomplete="off">
+        </div>
+      </div>
+      <div class="chips" id="tag-chips"></div>
+      <div class="mt">
+        <span class="lab" id="diff-label">How hard was it to control?</span>
+        <div class="scale" id="scale" role="group" aria-labelledby="diff-label"></div>
+        <div class="scale-ends"><span>Easy</span><span>Very hard</span></div>
+      </div>
+    </div>
+
+    <button type="button" class="pad" data-field="response" id="pad-response"></button>
+    <button type="button" class="pad reframe mt" data-field="reframe" id="pad-reframe"></button>
+    <p class="hint">Leave the rewrite blank and the thought stays open until you rewrite it.</p>
+
+    <button class="btn save mt" id="save" type="button">Save entry</button>
+    <p class="hint" id="save-hint"></p>
+  </section>
+
+  <section id="page-prod" class="page" hidden><div id="day-today"></div></section>
+  <section id="page-goals" class="page" hidden><div id="day-goals"></div></section>
+  <section id="page-week" class="page" hidden><div id="day-week"></div></section>
+
+  <section id="page-dash" class="page" hidden>
+    <h1>Dashboard</h1>
+    <div class="seg wide" role="group" aria-label="Dashboard view" style="margin-bottom:12px">
+      <button type="button" id="d-prod" aria-pressed="true">Habits</button>
+      <button type="button" id="d-emo" aria-pressed="false">Journal</button>
+    </div>
+
+    <div id="emo-dash" hidden>
+    <div class="filters">
+      <select id="f-cat" aria-label="Filter by category"></select>
+      <select id="f-tag" aria-label="Filter by tag"></select>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div class="catstats" id="catstats"></div>
+    <div id="hardest"></div>
+
+    <div class="card">
+      <div class="head">
+        <h2>Open thoughts by</h2>
+        <div class="seg" role="group" aria-label="Group open thoughts by">
+          <button type="button" id="o-cat" aria-pressed="true">Category</button>
+          <button type="button" id="o-tag" aria-pressed="false">Tag</button>
+        </div>
+      </div>
+      <div id="open-bars" class="bars"></div>
+    </div>
+
+    <div class="card chart">
+      <div class="head">
+        <h2>Over time</h2>
+        <div class="seg" role="group" aria-label="Chart range">
+          <button type="button" id="r-week" aria-pressed="true">12 weeks</button>
+          <button type="button" id="r-month" aria-pressed="false">6 months</button>
+        </div>
+      </div>
+      <div id="chart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+
+    <div class="card">
+      <details id="open-wrap">
+        <summary><span>Open thoughts <span id="open-count" class="badge open"></span></span></summary>
+        <div id="open-list"></div>
+      </details>
+    </div>
+
+    <div class="two">
+      <div class="card"><h2>Tags</h2><div id="tag-bars" class="bars"></div></div>
+      <div class="card"><h2>Feelings</h2><div id="feeling-bars" class="bars"></div></div>
+    </div>
+
+    <div class="card">
+      <details>
+        <summary><span>All entries</span></summary>
+        <div id="entries"></div>
+      </details>
+    </div>
+
+    <div class="card rename">
+      <details>
+        <summary><span>Rename categories</span></summary>
+        <div id="rename-fields"></div>
+        <button class="btn small" id="save-names" type="button" style="margin-top:14px">Save names</button>
+      </details>
+    </div>
+
+    </div>
+    <div id="prod-dash"></div>
+
+    <div class="card">
+      <details>
+        <summary><span>Backup</span></summary>
+        <p class="hint" style="margin:0 0 10px">Your journal, habits and goals live only on this device. Export a backup now and then so you never lose them.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn small" id="export" type="button">Export backup</button>
+          <button class="btn small ghost" id="import-btn" type="button">Restore from backup</button>
+          <input type="file" id="import" accept="application/json,.json" hidden>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
+
+<div class="focus" id="focus" hidden role="dialog" aria-modal="true" aria-labelledby="focus-title">
+  <div class="focus-head"><span id="focus-title"></span><button class="btn small" id="focus-done" type="button">Done</button></div>
+  <div class="ctx" id="focus-ctx"></div>
+  <textarea id="focus-ta"></textarea>
+</div>
+
+<div id="day-modal"></div>
+
+<nav>
+  <button id="nav-prod" type="button">Today</button>
+  <button id="nav-week" type="button">Weekly</button>
+  <button id="nav-emo" type="button">Journal</button>
+  <button id="nav-dash" type="button">Dashboard</button>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const PREVIEW = false;
+const CATS_BY = {
+  emo: [
+    {id:"daydream", def:"Excessive daydreaming", color:"--c1", soft:"--c1-soft"},
+    {id:"ruminate", def:"Ruminating & engaging", color:"--c2", soft:"--c2-soft"},
+    {id:"urge",     def:"Urges",                 color:"--c3", soft:"--c3-soft"}
+  ],
+  prod: [
+    {id:"health",      def:"Health",               color:"--c1", soft:"--c1-soft"},
+    {id:"eating",      def:"Eating right",         color:"--c2", soft:"--c2-soft"},
+    {id:"distraction", def:"Avoiding distraction", color:"--c3", soft:"--c3-soft"}
+  ]
+};
+const ALL_CATS = [...CATS_BY.emo, ...CATS_BY.prod];
+const MODE_TEXT = {
+  emo:  {title:"What’s on your mind?", thought:"What was running through your head?"},
+  prod: {title:"How’s your productivity?", thought:"What happened? e.g. skipped the gym, ate junk, lost an hour to my phone"}
+};
+let mode = "emo", dashMode = "prod";
+const entryMode = e => e.mode || "emo";
+const tagKey = m => m==="prod" ? "ptags" : "tags";
+const tagsFor = m => state[tagKey(m)] || [];
+const PRESET_FEELINGS = ["anxious","restless","lonely","bored","frustrated","overwhelmed","guilty","insecure","tempted","angry","sad","jealous","tired","unmotivated","sluggish"];
+const FIELDS = {
+  thought: {title:"The thought", ph:"What was running through your head?"},
+  response:{title:"How I want to respond", ph:"What do you want to do with this thought or feeling?"},
+  reframe: {title:"Rewrite the perspective", ph:"A truer, more useful way to see this…"}
+};
+const state = {entries:[], tags:[], ptags:[], names:{}};
+const blank = () => ({cat:"", diff:null, tags:new Set(), feeling:"", thought:"", response:"", reframe:""});
+const forms = {emo:blank(), prod:blank()};
+let form = forms.emo;
+let store = null;
+const $ = id => document.getElementById(id);
+const catName = id => (state.names[id] || ALL_CATS.find(c=>c.id===id)?.def || id);
+const norm = s => s.trim().toLowerCase();
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const isOpen = e => !(e.reframe && e.reframe.trim());
+function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1900); }
+
+const usingSample = () => false;
+const allEntries = () => state.entries.filter(e => entryMode(e)===dashMode);
+const allTags = () => [...tagsFor(dashMode)];
+
+/* ---------- storage ---------- */
+function makeSamples(){
+  let seed = 11; const r = () => (seed = (seed*16807) % 2147483647) / 2147483647;
+  const pick = a => a[Math.floor(r()*a.length)];
+  const D = {
+    daydream:{t:["Imagined a whole conversation where I finally win the argument","Spent 40 minutes picturing life in another city","Replayed a fantasy about being successful instead of working","Zoned out planning a trip I’m not taking"],f:["bored","restless","lonely"]},
+    ruminate:{t:["Kept going over what my manager meant in the meeting","Replaying the text I sent and how it came across","Wondering if my friends are drifting away","Comparing my progress to people my age again"],f:["anxious","insecure","frustrated","guilty"]},
+    urge:{t:["Late-night scrolling pulled me toward old habits","Strong urge after a stressful day","Bored and alone in my room, urge hit hard","Urge came up right after waking up"],f:["tempted","restless","lonely","bored"]},
+    health:{t:["Skipped the gym again, told myself I’d go tomorrow","Slept at 2am, felt wrecked all day","Didn’t drink water until the afternoon","Went for a run even though I didn’t feel like it"],f:["tired","sluggish","unmotivated","guilty"]},
+    eating:{t:["Ordered fast food instead of cooking","Snacked on chips while working","Skipped breakfast and overate at night","Had a sugar crash after lunch"],f:["sluggish","guilty","tired","frustrated"]},
+    distraction:{t:["Lost an hour to YouTube before starting work","Checked my phone 30 times during deep work","Opened social media ‘for a minute’, gone for 45","Kept switching tabs instead of finishing the task"],f:["restless","bored","overwhelmed","unmotivated"]}
+  };
+  const TAGS = {emo:["work","night","phone","social media","family","alone"], prod:["gym","sleep","phone","junk food","youtube","morning","work"]};
+  const RESP = ["Get up and take a short walk","Write it down and come back to it tomorrow","Put the phone in another room","Set a 25-minute timer and just start"];
+  const REF = ["One bad day doesn’t undo my progress.","This is a feeling, not a fact. It will pass.","I’ve handled harder days than this one.","Small reset now beats a perfect plan later."];
+  const out = [], now = Date.now();
+  const mk = (m, cats, n) => { for(let i=0;i<n;i++){
+    const daysAgo = Math.floor(Math.pow(r(),1.3)*175), c = pick(cats);
+    const tags = [pick(TAGS[m])]; if(r()<.4){ const t=pick(TAGS[m]); if(!tags.includes(t)) tags.push(t); }
+    const open = r() < (daysAgo<21 ? .6 : .25);
+    out.push({id:"s"+m+i, mode:m, createdAt: now - daysAgo*864e5 - Math.floor(r()*6e7), category:c,
+      thought:pick(D[c].t), feeling:pick(D[c].f), difficulty:1+Math.floor(r()*5),
+      response: r()<.8 ? pick(RESP) : "", reframe: open ? "" : pick(REF), tags});
+  }};
+  mk("emo", ["daydream","ruminate","ruminate","urge","urge"], 46);
+  out.sort((a,b)=>b.createdAt-a.createdAt);
+  return {entries:out, tags:TAGS.emo, ptags:TAGS.prod};
+}
+async function initStore(){
+  if(PREVIEW){
+    Object.assign(state, makeSamples());
+    $("pv").innerHTML = `<div class="banner"><span>Preview with sample data. Nothing you do here is saved.</span></div>`;
+    const persist = () => refresh();
+    showApp();
+    return {
+      addEntry: async e => { state.entries.unshift(e); persist(); },
+      updateEntry: async (id, patch) => { const e = state.entries.find(x=>x.id===id); if(e) Object.assign(e, patch); persist(); },
+      deleteEntry: async id => { state.entries = state.entries.filter(x=>x.id!==id); persist(); },
+      saveMeta: async () => persist()
+    };
+  }
+  try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+  const KEY="thought-journal-v1";
+  try{ const d = JSON.parse(localStorage.getItem(KEY)||"{}"); Object.assign(state, {entries:d.entries||[], tags:d.tags||[], ptags:d.ptags||[], names:d.names||{}}); }catch(e){}
+  const persist = () => { try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} refresh(); };
+  showApp();
+  return {
+    addEntry: async e => { state.entries.unshift(e); persist(); },
+    updateEntry: async (id, patch) => { const e = state.entries.find(x=>x.id===id); if(e) Object.assign(e, patch); persist(); },
+    deleteEntry: async id => { state.entries = state.entries.filter(x=>x.id!==id); persist(); },
+    saveMeta: async () => persist()
+  };
+}
+const updateEntry = (id, patch) => store.updateEntry(id, patch);
+const deleteEntry = id => store.deleteEntry(id);
+
+/* ---------- navigation ---------- */
+function go(page){
+  if(page==="emo"){ mode = "emo"; form = forms.emo; $("write-title").textContent = MODE_TEXT[mode].title; $("save-hint").textContent=""; $("feel-new").hidden=true; $("tag-new").hidden=true; if(shown){ renderWrite(); } }
+  $("page-write").hidden = page!=="emo";
+  $("page-prod").hidden = page!=="prod";
+  $("page-goals").hidden = page!=="goals";
+  $("page-week").hidden = page!=="week";
+  $("page-dash").hidden = page!=="dash";
+  ["emo","prod","week","dash"].forEach(p => $("nav-"+p).setAttribute("aria-current", (page===p||(p==="prod"&&page==="goals"))?"page":"false"));
+  if(page!=="emo" && shown) Day.render();
+  window.scrollTo(0,0);
+}
+let shown=false;
+function showApp(){ if(shown) return; shown=true; $("loading").hidden=true; go("prod"); refresh(); }
+$("nav-emo").onclick = () => go("emo");
+$("nav-week").onclick = () => go("week");
+$("nav-prod").onclick = () => go("prod");
+$("nav-dash").onclick = () => go("dash");
+
+/* ---------- focus writing ---------- */
+let focusDone = null;
+function openFocus(title, value, ph, ctx, onDone){
+  $("focus-title").textContent = title;
+  $("focus-ctx").textContent = ctx || "";
+  const ta = $("focus-ta"); ta.value = value || ""; ta.placeholder = ph;
+  focusDone = onDone; $("focus").hidden = false; document.body.style.overflow="hidden";
+  setTimeout(()=>{ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, 30);
+}
+function closeFocus(){ const v = $("focus-ta").value; $("focus").hidden = true; document.body.style.overflow=""; const f = focusDone; focusDone=null; if(f) f(v.trim()); }
+$("focus-done").onclick = closeFocus;
+document.addEventListener("keydown", e => { if(e.key==="Escape" && !$("focus").hidden) closeFocus(); });
+
+function renderPads(){
+  Object.keys(FIELDS).forEach(k => {
+    const v = form[k];
+    $("pad-"+k).innerHTML = `<span class="pl">${FIELDS[k].title}</span><span class="tx ${v?"":"empty"}">${esc(v || (k==="thought" ? MODE_TEXT[mode].thought : FIELDS[k].ph))}</span>`;
+  });
+}
+document.querySelectorAll(".pad[data-field]").forEach(p => p.onclick = () => {
+  const k = p.dataset.field;
+  const ctx = k==="thought" ? "" : (form.thought ? "Thought: " + form.thought : "");
+  openFocus(FIELDS[k].title, form[k], k==="thought" ? MODE_TEXT[mode].thought : FIELDS[k].ph, ctx, v => { form[k] = v; renderPads(); });
+});
+
+/* ---------- write page controls ---------- */
+function renderCatSelect(){
+  $("cat").innerHTML = `<option value="">Choose a category</option>` + CATS_BY[mode].map(c => `<option value="${c.id}" ${form.cat===c.id?"selected":""}>${esc(catName(c.id))}</option>`).join("");
+}
+$("cat").onchange = e => form.cat = e.target.value;
+
+function renderFeelSelect(){
+  const used = state.entries.map(e => norm(e.feeling||"")).filter(Boolean);
+  const list = [...new Set([...PRESET_FEELINGS, ...used, ...(form.feeling?[form.feeling]:[])])];
+  $("feel-sel").innerHTML = `<option value="">Choose…</option>` + list.map(f => `<option value="${esc(f)}" ${form.feeling===f?"selected":""}>${esc(f)}</option>`).join("") + `<option value="__new">＋ Other feeling</option>`;
+}
+$("feel-sel").onchange = e => {
+  if(e.target.value==="__new"){ $("feel-new").hidden=false; $("feel-new").focus(); e.target.value = form.feeling; return; }
+  form.feeling = e.target.value; $("feel-new").hidden = true;
+};
+function commitFeeling(){ const v = norm($("feel-new").value); if(v){ form.feeling=v; renderFeelSelect(); } $("feel-new").value=""; $("feel-new").hidden=true; }
+$("feel-new").addEventListener("keydown", e => { if(e.key==="Enter"){ e.preventDefault(); commitFeeling(); } });
+$("feel-new").addEventListener("blur", commitFeeling);
+
+function renderTagSelect(){
+  const avail = [...tagsFor(mode)].filter(t => !form.tags.has(t)).sort((a,b)=>a.localeCompare(b));
+  $("tag-sel").innerHTML = `<option value="">${form.tags.size?"Add another…":"Choose…"}</option>` + avail.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("") + `<option value="__new">＋ New tag</option>`;
+  $("tag-chips").innerHTML = [...form.tags].map(t => `<button type="button" class="chip" data-t="${esc(t)}" aria-label="Remove ${esc(t)}">${esc(t)}</button>`).join("");
+  $("tag-chips").querySelectorAll(".chip").forEach(b => b.onclick = () => { form.tags.delete(b.dataset.t); renderTagSelect(); });
+}
+$("tag-sel").onchange = e => {
+  const v = e.target.value;
+  if(v==="__new"){ $("tag-new").hidden=false; $("tag-new").focus(); }
+  else if(v){ form.tags.add(v); }
+  renderTagSelect();
+};
+function commitTag(){ const v = norm($("tag-new").value); if(v) form.tags.add(v); $("tag-new").value=""; $("tag-new").hidden=true; renderTagSelect(); }
+$("tag-new").addEventListener("keydown", e => { if(e.key==="Enter"){ e.preventDefault(); commitTag(); } });
+$("tag-new").addEventListener("blur", () => { if($("tag-new").value.trim()) commitTag(); else $("tag-new").hidden=true; });
+
+function renderWrite(){ renderCatSelect(); renderPads(); renderFeelSelect(); renderTagSelect(); renderScale(); }
+function renderScale(){
+  $("scale").innerHTML = [1,2,3,4,5].map(n => `<button type="button" data-n="${n}" aria-pressed="${form.diff===n}">${n}</button>`).join("");
+  $("scale").querySelectorAll("button").forEach(b => b.onclick = () => { const n=+b.dataset.n; form.diff = form.diff===n?null:n; renderScale(); });
+}
+
+$("save").onclick = async () => {
+  if(!form.cat){ $("save-hint").textContent = "Choose a category to save this entry."; $("cat").focus(); return; }
+  if(!form.thought){ $("save-hint").textContent = "Write down the thought to save this entry."; return; }
+  $("save-hint").textContent = "";
+  const now = Date.now();
+  const entry = {
+    id: "e"+now+Math.random().toString(36).slice(2,6), createdAt: now, mode,
+    category: form.cat, thought: form.thought, feeling: form.feeling, difficulty: form.diff,
+    response: form.response, reframe: form.reframe, closedAt: form.reframe ? now : null, tags: [...form.tags]
+  };
+  const newTags = entry.tags.filter(t => !tagsFor(mode).includes(t));
+  const wasDone = Day.journalDone(now);
+  try{
+    await store.addEntry(entry);
+    if(newTags.length){ state[tagKey(mode)] = [...tagsFor(mode), ...newTags]; await store.saveMeta(); }
+    Object.assign(form, blank());
+    refresh(); renderScale();
+    Day.markJournal(now); const ticked = !wasDone && Day.journalDone(now);
+    toast(ticked ? "Saved. Journaling ticked off ✓" : (entry.reframe ? "Saved and closed" : "Saved as an open thought"));
+  }catch(e){ $("save-hint").textContent = "This entry didn’t save. Check your connection and tap Save entry again."; }
+};
+
+/* ---------- dashboard ---------- */
+const filt = {cat:"", tag:""};
+let range = "week", openBy = "cat";
+function setDash(m){ dashMode = m; filt.cat = ""; filt.tag = ""; $("d-emo").setAttribute("aria-pressed", m==="emo"); $("d-prod").setAttribute("aria-pressed", m==="prod");
+  $("emo-dash").hidden = m!=="emo"; $("prod-dash").hidden = m!=="prod";
+  if(m==="emo"){ renderDash(); renderRename(true); } else Day.render(); }
+$("d-emo").onclick = () => setDash("emo");
+$("d-prod").onclick = () => setDash("prod");
+$("f-cat").onchange = e => { filt.cat = e.target.value; renderDash(); };
+$("f-tag").onchange = e => { filt.tag = e.target.value; renderDash(); };
+$("r-week").onclick = () => { range="week"; renderDash(); };
+$("r-month").onclick = () => { range="month"; renderDash(); };
+$("o-cat").onclick = () => { openBy="cat"; renderDash(); };
+$("o-tag").onclick = () => { openBy="tag"; renderDash(); };
+
+function renderFilters(){
+  $("f-cat").innerHTML = `<option value="">All categories</option>` + CATS_BY[dashMode].map(c => `<option value="${c.id}" ${filt.cat===c.id?"selected":""}>${esc(catName(c.id))}</option>`).join("");
+  const tags = allTags().sort((a,b)=>a.localeCompare(b));
+  if(filt.tag && !tags.includes(filt.tag)) filt.tag="";
+  $("f-tag").innerHTML = `<option value="">All tags</option>` + tags.map(t => `<option value="${esc(t)}" ${filt.tag===t?"selected":""}>${esc(t)}</option>`).join("");
+}
+function bars(rows, colorVar){
+  if(!rows.length) return `<div class="empty">Nothing here yet.</div>`;
+  const max = Math.max(...rows.map(r=>r.n));
+  return rows.map(r => `<div class="bar"><span class="name" title="${esc(r.label)}">${esc(r.label)}</span><div class="track"><div class="fill" style="width:${(r.n/max*100).toFixed(1)}%;background:var(${r.color||colorVar})"></div></div><span class="n">${r.n}${r.extra?` · ${r.extra}`:""}</span></div>`).join("");
+}
+function buckets(){
+  const out = [], now = new Date();
+  if(range==="week"){
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    d.setDate(d.getDate() - ((d.getDay()+6)%7));
+    for(let i=11;i>=0;i--){ const s=new Date(d); s.setDate(d.getDate()-7*i); const e=new Date(s); e.setDate(s.getDate()+7); out.push({s:+s,e:+e,label:`${s.getMonth()+1}/${s.getDate()}`}); }
+  } else {
+    for(let i=5;i>=0;i--){ const s=new Date(now.getFullYear(), now.getMonth()-i, 1); const e=new Date(s.getFullYear(), s.getMonth()+1, 1); out.push({s:+s,e:+e,label:s.toLocaleString([], {month:"short"})}); }
+  }
+  return out;
+}
+function renderChart(list){
+  $("r-week").setAttribute("aria-pressed", range==="week");
+  $("r-month").setAttribute("aria-pressed", range==="month");
+  const B = buckets();
+  const cats = CATS_BY[dashMode].filter(c => !filt.cat || c.id===filt.cat);
+  const series = cats.map(c => ({c, vals: B.map(b => list.filter(e => e.category===c.id && e.createdAt>=b.s && e.createdAt<b.e).length)}));
+  const top = Math.ceil(Math.max(2, ...series.flatMap(s=>s.vals))/2)*2;
+  const W=360, H=200, L=26, R=18, T=12, Bt=26;
+  const x = i => L + (W-L-R) * (B.length===1?0.5:i/(B.length-1));
+  const y = v => T + (H-T-Bt) * (1 - v/top);
+  let g = "";
+  [0, top/2, top].forEach(v => { g += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${v}</text>`; });
+  B.forEach((b,i) => { if(range==="month" || i%2===1) g += `<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--muted)">${b.label}</text>`; });
+  series.forEach(s => {
+    g += `<polyline points="${s.vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}" fill="none" stroke="var(${s.c.color})" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    s.vals.forEach((v,i) => { g += `<circle cx="${x(i)}" cy="${y(v)}" r="3.2" fill="var(--surface)" stroke="var(${s.c.color})" stroke-width="2"><title>${esc(catName(s.c.id))}: ${v} (${B[i].label})</title></circle>`; });
+  });
+  $("chart").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Entries per ${range} by category">${g}</svg>`;
+  $("legend").innerHTML = cats.map(c => `<span><i style="background:var(${c.color})"></i>${esc(catName(c.id))}</span>`).join("");
+}
+function entryCard(e){
+  const c = ALL_CATS.find(x=>x.id===e.category) || ALL_CATS[0];
+  const d = new Date(e.createdAt).toLocaleString([], {month:"short", day:"numeric", hour:"numeric", minute:"2-digit"});
+  const open = isOpen(e);
+  return `<div class="entry" style="border-left-color:var(${c.color})">
+    <div class="meta"><span>${esc(catName(e.category))} · ${d}</span><span class="badge ${open?"open":"done"}">${open?"Open":"Closed"}</span></div>
+    <p>${esc(e.thought)}</p>
+    ${e.feeling ? `<span class="lbl">Feeling: ${esc(e.feeling)}${e.difficulty?` · hard to control ${e.difficulty}/5`:""}</span>` : ""}
+    ${e.response ? `<span class="lbl">How I want to respond</span><p style="margin-top:2px">${esc(e.response)}</p>` : ""}
+    ${!open ? `<span class="lbl">Rewritten perspective</span><div class="reframe-text">${esc(e.reframe)}</div>` : ""}
+    ${(e.tags||[]).length ? `<div class="tags">${e.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>` : ""}
+    <div class="acts">${open ? `<button class="btn small rw" data-id="${esc(e.id)}" type="button">Rewrite perspective</button>` : "<span></span>"}<button class="del" data-id="${esc(e.id)}" type="button">Delete</button></div>
+  </div>`;
+}
+function wireCards(box){
+  box.querySelectorAll(".rw").forEach(b => b.onclick = () => {
+    const e = allEntries().find(x=>x.id===b.dataset.id); if(!e) return;
+    openFocus("Rewrite the perspective", "", FIELDS.reframe.ph, "Thought: " + e.thought, async v => {
+      if(!v) return;
+      try{ await updateEntry(e.id, {reframe:v, closedAt:Date.now()}); toast("Thought closed"); }catch(err){ toast("Couldn’t save. Try again."); }
+    });
+  });
+  box.querySelectorAll(".del").forEach(b => b.onclick = async () => {
+    if(!confirm("Delete this entry? This can’t be undone.")) return;
+    try{ await deleteEntry(b.dataset.id); toast("Entry deleted"); }catch(e){ toast("Couldn’t delete. Try again."); }
+  });
+}
+function renderDash(){
+  renderFilters();
+  const list = allEntries().filter(e => (!filt.cat || e.category===filt.cat) && (!filt.tag || (e.tags||[]).includes(filt.tag)));
+  const openList = list.filter(isOpen);
+
+  $("stats").innerHTML = `<div class="stat"><b>${list.length}</b><span>Total entries</span></div><div class="stat open"><b>${openList.length}</b><span>Still open</span></div>`;
+  $("catstats").innerHTML = CATS_BY[dashMode].map(c => `<div class="catstat" style="background:var(${c.soft})"><b style="color:var(${c.color})">${list.filter(e=>e.category===c.id).length}</b><span>${esc(catName(c.id))}</span></div>`).join("");
+
+  $("o-cat").setAttribute("aria-pressed", openBy==="cat");
+  $("o-tag").setAttribute("aria-pressed", openBy==="tag");
+  let orows;
+  if(openBy==="cat"){
+    orows = CATS_BY[dashMode].map(c => ({label:catName(c.id), n:openList.filter(e=>e.category===c.id).length, color:c.color})).filter(r=>r.n);
+  } else {
+    const tc = {}; openList.forEach(e => (e.tags||[]).forEach(t => tc[t]=(tc[t]||0)+1));
+    orows = Object.entries(tc).map(([label,n])=>({label,n,color:"--open"}));
+  }
+  $("open-bars").innerHTML = openList.length ? bars(orows.sort((a,b)=>b.n-a.n)) : `<div class="empty">No open thoughts. Everything has been rewritten.</div>`;
+
+  renderChart(list);
+
+  const tc = {}; list.forEach(e => (e.tags||[]).forEach(t => tc[t]=(tc[t]||0)+1));
+  $("tag-bars").innerHTML = bars(Object.entries(tc).map(([label,n])=>({label,n})).sort((a,b)=>b.n-a.n), "--c1");
+
+  const fc = {};
+  list.forEach(e => { const f = e.feeling; if(!f) return; fc[f] ||= {n:0, sum:0, rated:0}; fc[f].n++; if(e.difficulty){ fc[f].sum+=e.difficulty; fc[f].rated++; } });
+  const frows = Object.entries(fc).map(([label,v]) => ({label, n:v.n, avg: v.rated ? v.sum/v.rated : null}))
+    .map(r => ({...r, extra: r.avg!=null ? `${r.avg.toFixed(1)}/5` : ""})).sort((a,b)=>b.n-a.n);
+  $("feeling-bars").innerHTML = bars(frows, "--c2");
+
+  const hard = frows.filter(r => r.avg!=null && r.n>=2).sort((a,b)=> b.avg-a.avg || b.n-a.n)[0];
+  $("hardest").innerHTML = hard ? `<div class="callout"><p>Hardest to control lately: <b>${esc(hard.label)}</b>, ${hard.n} times, ${hard.avg.toFixed(1)}/5 on average.</p></div>` : "";
+
+  $("open-count").textContent = openList.length;
+  $("open-list").innerHTML = openList.length ? openList.map(entryCard).join("") : `<div class="empty">Nothing open right now.</div>`;
+  wireCards($("open-list"));
+  $("entries").innerHTML = list.length ? list.slice(0,150).map(entryCard).join("") : `<div class="empty">${allEntries().length ? "No entries match these filters." : "No entries yet. Write your first one to see it here."}</div>`;
+  wireCards($("entries"));
+}
+function renderRename(force){
+  if(!force && $("rename-fields").contains(document.activeElement)) return;
+  $("rename-fields").innerHTML = CATS_BY[dashMode].map(c => `<label for="rn-${c.id}">${esc(c.def)}</label><input type="text" id="rn-${c.id}" value="${esc(catName(c.id))}">`).join("");
+}
+$("save-names").onclick = async () => {
+  const names = {...state.names};
+  CATS_BY[dashMode].forEach(c => { delete names[c.id]; });
+  CATS_BY[dashMode].forEach(c => { const v = $("rn-"+c.id).value.trim(); if(v && v!==c.def) names[c.id]=v; });
+  state.names = names;
+  try{ await store.saveMeta(); toast("Names saved"); refresh(); }catch(e){ toast("Couldn’t save names. Try again."); }
+};
+
+$("export").onclick = async () => {
+  const data = JSON.stringify({...state, day: Day.exportData()}, null, 2);
+  const name = "journal-backup-" + new Date().toISOString().slice(0,10) + ".json";
+  const file = new File([data], name, {type:"application/json"});
+  try{
+    if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], title:name}); return; }
+  }catch(e){ if(e.name==="AbortError") return; }
+  const a = document.createElement("a"); a.href = URL.createObjectURL(file); a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+};
+$("import-btn").onclick = () => $("import").click();
+$("import").onchange = async e => {
+  const f = e.target.files[0]; if(!f) return;
+  try{
+    const d = JSON.parse(await f.text());
+    if(!Array.isArray(d.entries)) throw 0;
+    if(!confirm("Replace your current journal with this backup?")) return;
+    state.entries = d.entries; state.tags = d.tags || []; state.ptags = d.ptags || []; state.names = d.names || {};
+    if(d.day) Day.importData(d.day);
+    await store.saveMeta(); toast("Backup restored");
+  }catch(err){ toast("That file isn’t a journal backup"); }
+  e.target.value = "";
+};
+
+function refresh(){
+  if(!shown) return;
+  renderCatSelect(); renderPads(); renderFeelSelect(); renderTagSelect();
+  if(dashMode==="emo"){ renderDash(); renderRename(); }
+  Day.render();
+}
+/* ================= Habits: levers, goals, tracking ================= */
+const Day=(()=>{
+const LS='structured-day.v2';
+const pad=n=>String(n).padStart(2,'0');
+const keyOf=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parseKey=k=>{const[y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)};
+const addDays=(k,n)=>{const d=parseKey(k);d.setDate(d.getDate()+n);return keyOf(d)};
+const diffDays=(a,b)=>Math.round((parseKey(b)-parseKey(a))/864e5);
+const todayKey=()=>keyOf(new Date());
+const mondayOf=k=>{const d=parseKey(k);d.setDate(d.getDate()-((d.getDay()+6)%7));return keyOf(d)};
+const uid=()=>Math.random().toString(36).slice(2,9);
+const CHECK='<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg>';
+const LOCK='<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg>';
+const R=t=>({id:uid(),text:t});
+
+const GOALS=[
+  {id:'pte',title:'PR through PTE 90/90',color:'--c3',status:'active'},
+  {id:'health',title:'15% body fat',sub:'By June 2027',color:'--c2',status:'active'},
+  {id:'mind',title:'Calm, composed, confident, charismatic',color:'--c1',status:'active'},
+  {id:'company',title:'$100M AI-first company',color:'--accent',status:'afterpte'},
+  {id:'podcast',title:'Australia’s fastest-growing podcast',color:'--muted',status:'later'},
+  {id:'married',title:'Get married',color:'--d6',status:'afterpte'}];
+const goalOf=id=>GOALS.find(g=>g.id===id)||{id,title:id,color:'--muted'};
+const GROUP_TITLE={pte:'PTE',health:'Health',mind:'Mind',company:'Company',podcast:'Podcast',married:'Relationships'};
+
+function defaults(){
+  return {
+    levers:[
+      {id:uid(),kind:'simple',text:'Positive mindset',note:'Songs or a motivational video. Have fun with it: happiness, calm, gratitude'},
+      {id:uid(),kind:'simple',text:'Creatine drink',note:'10 g in your hydration drink, sipped over 1–2 hours'},
+      {id:uid(),kind:'move',text:'Move',note:'A full gym session, or a 30 min walk outside'},
+      {id:uid(),kind:'simple',text:'Eat right',note:'3 meals and a snack, 2,600 kcal'},
+      {id:uid(),kind:'simple',text:'Coffee max 2',note:'Sipped slowly, with water alongside'},
+      {id:uid(),kind:'zero',text:'Zero Break, zero social media',note:''},
+      {id:uid(),kind:'simple',text:'Shut down by 9 pm',note:'Everything off and put away'},
+      {id:uid(),kind:'simple',text:'Sleep',note:'Phone out of the room. Visualise this month’s goal in detail, 15 min'}],
+    tasks:[
+      {id:uid(),goal:'pte',kind:'minutes',text:'PTE study',note:''},
+      {id:uid(),goal:'pte',kind:'simple',text:'Speaking practice, 30 min',note:'Naturally and fluently, in your mind or reading aloud'},
+      {id:uid(),goal:'health',kind:'weight',text:'Weigh in',note:''},
+      {id:uid(),goal:'health',kind:'simple',text:'Plan the day’s meals',note:'With calories'},
+      {id:uid(),goal:'health',kind:'simple',text:'Supplements with dinner',note:'Omega-3, zinc, magnesium, B12'},
+      {id:uid(),goal:'health',kind:'mealprep',text:'Meal prep',note:'Every 2 weeks'},
+      {id:uid(),goal:'mind',kind:'journal',text:'Night journal',note:''}],
+    reminders:[
+      {id:uid(),title:'Charisma',items:[
+        R('Don’t try to make people your friend. Imagine they already are. Don’t act, just be yourself.'),
+        R('If they’re not talking, you’re not talking. No insecurity, no fear of winning people over.'),
+        R('Talk to one person at a time. Have a good time with them, then move on to the next.'),
+        R('Don’t move hastily. Be slow in responding to people, and don’t get overexcited.'),
+        R('Imagine everyone is smiling and laughing with you.'),
+        R('When negative thoughts about someone else or yourself overflow, use 5-5-5: 5 happy scenarios, 5 things you’re grateful for, 5 things you’re proud of.')]},
+      {id:uid(),title:'No Break',items:[
+        R('Don’t look, don’t think, don’t touch.'),
+        R('It’s your energy and motivation goal. Every day you skip it, your energy builds.'),
+        R('Reframe any thought that pops up into its positive side, and shift your mind to your goal.'),
+        R('Before sleep: a lentil and high-carb meal, sleep on your left side, imagine your best life without it.')]},
+      {id:uid(),title:'Social media',items:[
+        R('No Instagram, Netflix, LinkedIn or YouTube. Podcasts, audiobooks, talking to someone or a nap instead.'),
+        R('Remove the apps from your phone. That’s the only way to remove them from your life.'),
+        R('Keep blocking sites whenever you reintroduce them.'),
+        R('Phone in black-and-white mode at all times.')]},
+      {id:uid(),title:'PTE',items:[
+        R('Speak as naturally and fluently as you can. In the exam you get nervous and stutter – this practice is how you stop that.'),
+        R('Think only in English. When you catch yourself in another language, switch straight back.')]},
+      {id:uid(),title:'Coffee and eating out',items:[
+        R('Max 2 coffees, each sipped over an hour or more, with water or your hydration drink alongside.'),
+        R('Eat out only once a week, with friends. Never order in.')]},
+      {id:uid(),title:'When stressed',items:[
+        R('Too many thoughts to control? Go for a walk or do something physical.'),
+        R('Take 5 deep breaths before reaching for your phone.')]}],
+    later:[
+      {id:uid(),goal:'health',text:'Cardio sessions',lock:'gym8'},
+      {id:uid(),goal:'health',text:'Ab routine',lock:'gym8'},
+      {id:uid(),goal:'health',text:'Quit coffee'},
+      {id:uid(),goal:'health',text:'Meal planner and recipe book'},
+      {id:uid(),goal:'mind',text:'Audiobook or reading, 30 min'},
+      {id:uid(),goal:'mind',text:'Free-time list'},
+      {id:uid(),goal:'mind',text:'Chores list'},
+      {id:uid(),goal:'company',text:'One big task toward the big goal, every day',lock:'pte'},
+      {id:uid(),goal:'company',text:'Rebuild ApeUni as a 100% AI app for PTE students (8 months)',lock:'pte'},
+      {id:uid(),goal:'married',text:'Talk to new people, friends weekly, a date each month',lock:'pte'},
+      {id:uid(),goal:'podcast',text:'Start the podcast'}],
+    monthGoals:{},changes:[]};
+}
+const NOV=()=>[
+  {id:uid(),kind:'main',text:'PTE 90/90',metric:'pte'},
+  {id:uid(),kind:'main',text:'Reach 85 kg, with 3 full gym sessions every week',metric:'weight'},
+  {id:uid(),kind:'support',text:'No Break all month',metric:'zb'},
+  {id:uid(),kind:'support',text:'No social media all month. Instead, Hinge, Claude and ChatGPT to entertain yourself',metric:'zs'}];
+
+let S={config:null,days:{},meta:{mealPrep:[],ptePassed:null,bodyFat:[],reviews:{}}};
+if(!PREVIEW){try{const r=localStorage.getItem(LS);if(r){const o=JSON.parse(r);if(o&&o.config&&o.config.levers)S=Object.assign(S,o)}}catch(e){}}
+if(!S.config)S.config=defaults();
+S.meta=Object.assign({mealPrep:[],ptePassed:null,bodyFat:[],reviews:{}},S.meta||{});
+S.weeks=S.weeks||{};
+function persist(){if(PREVIEW)return;try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+
+(function(){const C=S.config;C.mig=C.mig||[];if(C.mig.includes('order1'))return;C.mig.push('order1');
+  const take=re=>{const i=C.tasks.findIndex(t=>re.test(t.text));return i<0?null:C.tasks.splice(i,1)[0]};
+  const w=take(/^weigh/i),pm=take(/plan the day/i);
+  if(!C.levers.some(l=>l.kind==='weight'))C.levers.push({id:w?w.id:uid(),kind:'weight',text:'Weigh in',note:''});
+  if(pm&&!C.levers.some(l=>/plan the day/i.test(l.text))){C.levers.push({id:pm.id,kind:'simple',text:pm.text,note:pm.note});
+    for(const k in S.days){const L=S.days[k];if(L.t&&L.t[pm.id]){L.lv=L.lv||{};L.lv[pm.id]=true}}}
+  if(!C.levers.some(l=>l.kind==='reminders'))C.levers.push({id:uid(),kind:'reminders',text:'Read my reminders',note:''});
+  const ORDER=[l=>l.kind==='weight',l=>/positive/i.test(l.text),l=>/creatine/i.test(l.text),l=>l.kind==='move',l=>/plan the day/i.test(l.text),
+    l=>/coffee/i.test(l.text),l=>l.kind==='reminders',l=>/eat right/i.test(l.text),l=>/shut down/i.test(l.text),l=>l.kind==='zero',l=>/^sleep/i.test(l.text)];
+  const PH=['wake','wake','wake','wake','wake','pre','pre','day','day','day','day'],out=[];
+  ORDER.forEach((f,i)=>{const l=C.levers.find(x=>f(x)&&!out.includes(x));if(l){l.phase=PH[i];out.push(l)}});
+  C.levers.filter(l=>!out.includes(l)).forEach(l=>{l.phase=l.phase||'day';out.push(l)});C.levers=out;
+  C.reminders=C.reminders.filter(g=>!/^pte$/i.test(g.title.trim()));
+  persist();})();
+
+(function(){const C=S.config;if(C.mig.includes('order2'))return;C.mig.push('order2');
+  C.levers.forEach(l=>{if(l.phase==='pre')l.phase='day';if(/shut down/i.test(l.text)||l.kind==='zero'||/^sleep/i.test(l.text))l.phase='night'});
+  if(!C.levers.some(l=>l.kind==='two')){const i=C.levers.findIndex(l=>/plan the day/i.test(l.text));
+    C.levers.splice(i<0?C.levers.filter(l=>l.phase==='wake').length:i+1,0,{id:uid(),kind:'two',text:'Your 2 tasks',note:'Maximum two. Write them down, then get them done',phase:'wake'})}
+  const mv=C.tasks.filter(t=>t.goal==='pte'||t.goal==='health');C.tasks=C.tasks.filter(t=>!mv.includes(t));
+  mv.slice().reverse().forEach(t=>C.later.unshift({id:uid(),goal:t.goal,text:t.text,kind:t.kind,note:t.note}));
+  for(const k in S.days){const L=S.days[k];if(L.read){L.readAM=true;L.readPM=true}}
+  persist();})();
+const remCount=L=>L?(L.readAM?1:0)+(L.readPM?1:0):0;
+function remSlot(L){L=L||{};if(cur===todayKey()){return new Date().getHours()<12?(L.readAM?null:'am'):(L.readPM?null:'pm')}return !L.readAM?'am':!L.readPM?'pm':null}
+const planCount=k=>typeOf(k)==='weekday'?1:2;
+const planTitle=k=>planCount(k)===1?'Plan your main task':'Plan your 2 main tasks';
+(function(){const C=S.config;if(C.mig.includes('plan1'))return;C.mig.push('plan1');
+  if(!C.reminders.some(g=>g.kind==='plan'))C.reminders.push({id:uid(),kind:'plan',title:'Planning your tasks',items:[
+    R('Define each task specifically: exactly what you’re trying to achieve by the end of it.'),
+    R('Once they’re set, don’t change the tasks and don’t add more.'),
+    R('Finish what you start. Completing a task gives you a far bigger dopamine rush, and later in the day you’ll be tired, so get it done first.'),
+    R('Work on one or two very big tasks until they’re finished before you add anything else for work or study.')]});
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order3'))return;C.mig.push('order3');
+  const z=C.levers.find(l=>l.kind==='zero'),e=C.levers.find(l=>/eat right/i.test(l.text));
+  if(z&&e){C.levers=C.levers.filter(l=>l!==z);C.levers.splice(C.levers.indexOf(e)+1,0,z);z.phase=e.phase}
+  const j=C.tasks.find(t=>t.kind==='journal');if(j){if(/night journal/i.test(j.text))j.text='Journal';j.note='Whenever you’re stressed, overthinking or reflecting'}
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order4'))return;C.mig.push('order4');
+  const zi=C.levers.findIndex(l=>l.kind==='zero');
+  if(zi>=0)C.levers.splice(zi,1,{id:uid(),kind:'ns',text:'No social media',note:'In your free time, only Hinge, Claude and ChatGPT',phase:C.levers[zi].phase});
+  if(!C.levers.some(l=>l.kind==='nb')){const si=C.levers.findIndex(l=>/shut down/i.test(l.text));C.levers.splice(si<0?C.levers.length:si+1,0,{id:uid(),kind:'nb',text:'No Break',note:'No matter what',phase:'night'})}
+  const g=C.reminders.find(g=>g.kind==='plan');if(g)g.items=[
+    R('Define each task specifically: exactly what you’re trying to achieve, with the actual number of times you have to do it. Each time you feel distracted, bring yourself back to the task, no matter what, like meditation.'),
+    R('Once it’s set, don’t change the task and don’t add more.'),
+    R('Finish what you start. Completing a task gives you a bigger dopamine rush, and if you keep adding tasks when you’re almost done with one, you lose that rush.'),
+    R('Work on one task at a time, in sequence. Don’t move to the second until the first is done.')];
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order5'))return;C.mig.push('order5');
+  const i=C.levers.findIndex(l=>l.kind==='nb');const nl={id:uid(),kind:'note',text:'Read your note to yourself',note:'',phase:'night'};
+  if(i>=0)C.levers.splice(i,1,nl);else if(!C.levers.some(l=>l.kind==='note')){const si=C.levers.findIndex(l=>/shut down/i.test(l.text));C.levers.splice(si<0?C.levers.length:si+1,0,nl)}
+  if(C.selfNote==null)C.selfNote="You may feel like going through with it, but I guarantee it won’t help you at all. It will ruin close to 2–3 days of your life, and afterwards the urges get so strong that you won’t be able to follow through.\n\nYou just need to push through at least 30 days without it. Once you do, the next 30 days get easy. There are strategies that make it easier for you, not harder.\n\nAlways know this: nothing has affected the last 10–15 years of your life more than this. If you want to relive those years, by all means do it. If not, change this one habit and you’ll have a very different life.\n\nWhat it does to you: you feel like a loser. Anxiety. Sleep problems. Cravings. Low energy, and you crash a lot. Your communication and your voice suffer. It’s harder to remember things and harder to focus. Social anxiety. All of this comes back the moment you start.\n\nWhat you get without it: real confidence. More energy for your goals. Much more focus and drive. It’s not about having 2 more hours. It’s the mental capacity to solve problems faster, understand them more easily, and focus on the right ones. With brain fog, you can put in 4 hours and still not genuinely focus on the right thing. Your abilities drop significantly.\n\nThis isn’t the only solution. It’s one of them. But once you apply it, everything else becomes easier.";
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order6'))return;C.mig.push('order6');
+  if(C.selfNote==null||C.selfNote.trim()==="You may feel like going through with it, but I guarantee it won’t help you at all. It will ruin close to 2–3 days of your life, and afterwards the urges get so strong that you won’t be able to follow through.\n\nYou just need to push through at least 30 days without it. Once you do, the next 30 days get easy. There are strategies that make it easier for you, not harder.\n\nAlways know this: nothing has affected the last 10–15 years of your life more than this. If you want to relive those years, by all means do it. If not, change this one habit and you’ll have a very different life.\n\nWhat it does to you: you feel like a loser. Anxiety. Sleep problems. Cravings. Low energy, and you crash a lot. Your communication and your voice suffer. It’s harder to remember things and harder to focus. Social anxiety. All of this comes back the moment you start.\n\nWhat you get without it: real confidence. More energy for your goals. Much more focus and drive. It’s not about having 2 more hours. It’s the mental capacity to solve problems faster, understand them more easily, and focus on the right ones. With brain fog, you can put in 4 hours and still not genuinely focus on the right thing. Your abilities drop significantly.\n\nThis isn’t the only solution. It’s one of them. But once you apply it, everything else becomes easier.")C.selfNote="You may feel like going through with it, but I guarantee it won’t help you at all. It will ruin close to 2–3 days of your life, and afterwards the urges get so strong that you won’t be able to follow through.\n\nYou just need to push through at least 30 days without it. Once you do, the next 30 days get easy. There are strategies that make it easier for you, not harder.\n\nAlways know this: nothing has affected the last 10–15 years of your life more than this. If you want to relive those years, by all means do it. If not, change this one habit and you’ll have a very different life.\n\nWhat it does to you:\n- You feel like a loser.\n- Anxiety.\n- Sleep problems.\n- You can’t control your cravings.\n- Your energy and your focus are very low.\n- You crash a lot.\n- Your communication and your voice suffer.\n- It’s harder to remember things and harder to focus.\n- Social anxiety is a real thing.\nAll of this comes back the moment you start.\n\nWhat you get without it:\n- Real confidence.\n- More energy for your goals.\n- Much more focus and drive.\n- The mental capacity to solve problems faster, understand them more easily, and focus on the right ones.\nIt’s not about having 2 more hours. With brain fog, you can put in 4 hours and still not genuinely focus on the right thing. Your abilities drop significantly.\n\nThis isn’t the only solution. It’s one of them. But once you apply it, everything else becomes easier.";
+  persist();})();
+function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];const flush=()=>{if(ul.length){h+=`<ul>${ul.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;ul=[]}};
+  block.split('\n').forEach(line=>{const l=line.trim();if(!l)return;if(/^[-•]\s+/.test(l)){ul.push(l.replace(/^[-•]\s+/,''));return}flush();h+=/:$/.test(l)?`<p class="d-nh">${esc(l)}</p>`:`<p>${esc(l)}</p>`});flush();return `<div class="d-nb">${h}</div>`}).join('')}
+(function(){const C=S.config;if(C.mig.includes('order7'))return;C.mig.push('order7');
+  const ym=keyOf(new Date()).slice(0,7),mg=ensureMonth(ym);
+  Object.values(C.monthGoals).forEach(list=>list.forEach(g=>{if(g.metric==='zs'&&/^no social media all month\.?$/i.test(g.text.trim()))g.text='No social media all month. Instead, Hinge, Claude and ChatGPT to entertain yourself'}));
+  if(!mg.some(g=>/daily planner/i.test(g.text)))mg.push({id:uid(),kind:'main',text:'Build a daily planner, with a journal section and a dashboard to review'});
+  if(!mg.some(g=>/recipe planner/i.test(g.text)))mg.push({id:uid(),kind:'main',text:'Build a weekly or bi-weekly recipe planner'});
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order8'))return;C.mig.push('order8');
+  const ym=keyOf(new Date()).slice(0,7);let mg=ensureMonth(ym);
+  C.monthGoals[ym]=mg=mg.filter(g=>g.metric!=='zb'&&g.metric!=='zs');
+  mg.forEach(g=>{
+    if(g.metric==='pte'&&!g.outcome)g.outcome='Score 90 in PTE and update it on your EOI, for a higher chance of getting PR.';
+    if(g.metric==='weight'){g.text='Reach 85 kg';if(!g.outcome)g.outcome='Reach 85 kg and stay stable there at the end of November, into the start of December. How: 3 full gym sessions and 4 × 30 min walks every week, and 2,600 kcal every day.'}
+    if(/daily planner/i.test(g.text)){g.metric='usage';if(!g.outcome)g.outcome='A daily planner with your daily goals, a journal section, a weekly checklist and a dashboard to review them. Used on at least 20 days this month.'}
+    if(/recipe planner/i.test(g.text)&&!g.outcome)g.outcome='Recipes and snacks with ingredients and exact amounts, so you can plan the next 1–3 weeks of meals in under 10 minutes, then meal prep and order the groceries in under 20 minutes.'});
+  persist();})();
+const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
+
+let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
+const naturalType=k=>{const d=parseKey(k).getDay();return d===0||d===6?'weekend':'weekday'};
+const getLog=k=>S.days[k];
+const ensureLog=k=>S.days[k]=S.days[k]||{type:naturalType(k),lv:{},t:{},move:null,zb:false,zs:false,min:0,wt:null,read:false,reviewed:false,rating:null,right:'',wrong:'',why:''};
+const typeOf=k=>(getLog(k)||{}).type||naturalType(k);
+const pteTarget=k=>typeOf(k)==='weekday'?90:210;
+const touch=k=>{const L=getLog(k);if(L)L.u=Date.now();persist()};
+const fmt=(k,o)=>parseKey(k).toLocaleDateString(undefined,o);
+const ymOf=k=>k.slice(0,7);
+const monthName=ym=>parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long',year:'numeric'});
+function logChange(text){S.config.changes.unshift({d:todayKey(),text});S.config.changes=S.config.changes.slice(0,100)}
+
+function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two'){const a=(L.two||[]).filter(x=>x&&x.text);return a.length>0&&a.every(x=>x.done)}if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='note')return !!L.nr;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
+const leversHit=L=>S.config.levers.filter(l=>leverHit(L,l)).length;
+const fullDay=L=>!!L&&S.config.levers.length>0&&leversHit(L)===S.config.levers.length;
+function lastMealPrep(before){return S.meta.mealPrep.filter(d=>d<=before).sort().pop()||null}
+function mealPrepDue(k){const last=lastMealPrep(addDays(k,-1));return !last||diffDays(last,k)>=14}
+function visibleTasks(k){return S.config.tasks.filter(t=>t.kind!=='mealprep'||mealPrepDue(k)||S.meta.mealPrep.includes(k))}
+function taskDone(L,t,k){
+  if(t.kind==='mealprep')return S.meta.mealPrep.includes(k);
+  if(!L)return false;
+  if(t.kind==='minutes')return (L.min||0)>=pteTarget(k);
+  if(t.kind==='weight')return L.wt!=null;
+  return !!(L.t&&L.t[t.id])}
+function monthGoals(ym){
+  if(S.config.monthGoals[ym])return S.config.monthGoals[ym];
+  const prev=Object.keys(S.config.monthGoals).filter(m=>m<ym).sort().pop();
+  return prev?S.config.monthGoals[prev].map(g=>({...g,id:uid()})):NOV();
+}
+function ensureMonth(ym){if(!S.config.monthGoals[ym])S.config.monthGoals[ym]=monthGoals(ym);return S.config.monthGoals[ym]}
+
+/* journal link */
+function journaledOn(k){return state.entries.some(e=>entryMode(e)==='emo'&&keyOf(new Date(e.createdAt))===k)}
+function syncJournal(k){const t=S.config.tasks.find(t=>t.kind==='journal');
+  if(!t||!journaledOn(k))return false;const L=getLog(k);if(L&&L.t[t.id])return false;ensureLog(k).t[t.id]=true;touch(k);return true}
+
+/* stats helpers */
+function streak(fn){let n=0,k=todayKey();if(!fn(getLog(k)))k=addDays(k,-1);
+  while(fn(getLog(k))&&n<3650){n++;k=addDays(k,-1)}return n}
+function longest(fn){const ks=Object.keys(S.days).sort();let best=0,run=0,prev=null;
+  for(const k of ks){if(fn(S.days[k])){run=(prev&&run&&diffDays(prev,k)===1)?run+1:1;best=Math.max(best,run)}else run=0;prev=k}return best}
+const gymCount=m=>{let n=0;for(let d=0;d<7;d++){const L=getLog(addDays(m,d));if(L&&L.move==='gym')n++}return n};
+function gymWeeks(){const out=[],m0=mondayOf(todayKey());for(let i=7;i>=0;i--){const m=addDays(m0,-7*i);out.push({m,n:gymCount(m)})}return out}
+function gymStreak(){const m0=mondayOf(todayKey());let s=0,m=addDays(m0,-7);while(gymCount(m)>=3&&s<60){s++;m=addDays(m,-7)}if(gymCount(m0)>=3)s++;return s}
+function latestWeight(){const ks=Object.keys(S.days).filter(k=>S.days[k].wt!=null).sort();return ks.length?{k:ks[ks.length-1],v:S.days[ks[ks.length-1]].wt}:null}
+function pteMonth(ym){let m=0,hit=0,n=0;const t=todayKey();for(const k in S.days)if(k.startsWith(ym)&&k<=t){const L=S.days[k];m+=L.min||0;n++;if((L.min||0)>=pteTarget(k))hit++}return{m,hit,n}}
+
+/* sample data for the preview */
+function seedSample(){
+  if(seeded||!PREVIEW)return;seeded=true;
+  let x=11;const rnd=()=>(x=(x*16807)%2147483647)/2147483647,pick=a=>a[Math.floor(rnd()*a.length)];
+  const SR=['Gym done straight after waking','Sipped both coffees slowly','Hit 2,600 kcal exactly','Two good speaking sessions','Phone out of the room by 9','Stayed calm and slow with people'];
+  const SW=['Scrolled for 20 minutes','Skipped the walk','In bed at 9:40','Third coffee','Rushed my speaking practice'];
+  const SY=['Tired after work','Didn’t plan meals in the morning','Long day, low energy','Stayed late at work'];
+  const t=todayKey(),C=S.config;
+  for(let i=42;i>=1;i--){
+    const k=addDays(t,-i);if(i%13===6)continue;
+    const L=ensureLog(k),dow=(parseKey(k).getDay()+6)%7,form=0.6+0.35*rnd()+(i<14?0.08:0);
+    C.levers.forEach(l=>{if(l.kind==='simple'&&rnd()<form)L.lv[l.id]=true});
+    L.move=[0,2,4].includes(dow)?(rnd()<0.82?'gym':(rnd()<0.6?'walk':null)):(rnd()<0.8?'walk':null);
+    L.zb=i!==19;L.nr=rnd()<0.8;L.zs=!(i===27||i===33);
+    L.min=Math.round((L.type==='weekday'?40+rnd()*70:120+rnd()*120)/5)*5;
+    if(rnd()<0.85)L.wt=Math.round((89.4-0.055*(42-i)+(rnd()-0.5)*0.6)*10)/10;
+    C.tasks.forEach(tk=>{if(tk.kind==='simple'&&rnd()<form)L.t[tk.id]=true;if(tk.kind==='journal'&&journaledOn(k))L.t[tk.id]=true});
+    L.readAM=rnd()<0.85;L.readPM=rnd()<0.7;L.two=[{text:'Finish one full mock test',done:rnd()<form}];
+    if(rnd()<0.7){L.reviewed=true;const p=leversHit(L)/C.levers.length;L.rating=Math.max(0,Math.min(5,Math.round(p*5+(rnd()-0.5)*1.4)));L.right=pick(SR);if(p<0.9){L.wrong=pick(SW);L.why=pick(SY)}}
+  }
+  S.meta.mealPrep=[addDays(t,-16),addDays(t,-2)];
+  const m0=mondayOf(t),pm=addDays(m0,-7);
+  S.weeks[pm]={tasks:[{id:uid(),text:'Finish 2 full PTE mock tests and review every mistake'},{id:uid(),text:'Write 10 essay templates, timed at 20 min each'}],done:{},meals:true,reviewed:true,
+    review:{wrong:'Skipped the walk on two rest days and read my reminders only once a day',update:'Walk straight after work, before sitting down',forward:'Plan the walk time the night before'}};
+  S.weeks[pm].done[S.weeks[pm].tasks[0].id]=true;
+  S.weeks[m0]={tasks:[{id:uid(),text:'Do 3 full speaking sections, 2 times each, and record them'},{id:uid(),text:'Finish the daily planner’s weekly page and use it every day'}],done:{},meals:false,reviewed:false,review:{}};
+  S.weeks[m0].done[S.weeks[m0].tasks[0].id]=true;
+  S.meta.bodyFat=[{d:addDays(t,-30),v:21.5}];
+}
+
+/* ---------- Today ---------- */
+function pills(L,l){
+  if(l.kind==='move')return `<div class="d-pills"><button class="d-pill ${L.move==='gym'?'on':''}" data-act="move" data-v="gym">Full gym session</button><button class="d-pill ${L.move==='walk'?'on':''}" data-act="move" data-v="walk">30 min walk</button></div>`;
+  return `<div class="d-pills"><button class="d-pill ${L.zb?'on':''}" data-act="zero" data-v="zb">${L.zb?'✓ ':''}No Break</button><button class="d-pill ${L.zs?'on':''}" data-act="zero" data-v="zs">${L.zs?'✓ ':''}No social media</button></div>`;
+}
+function leverRow(l,i,L){
+  const on=leverHit(L,l);
+  const head=`<span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span>${l.note?`<span class="d-nt">${esc(l.note)}</span>`:''}</span>`;
+  const num=`<span class="d-num">${on?CHECK:i+1}</span>`;
+  if(l.kind==='weight'){const lw=latestWeight(),has=L.wt!=null;
+    return `<div class="d-lever ${on?'on':''}"><div class="d-lh">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span>
+      <span class="d-wrow"><input type="number" inputmode="decimal" step="0.1" min="30" max="250" id="d-wt" value="${has?L.wt:''}" placeholder="${lw?lw.v:'kg'}" aria-label="Weight in kg"><span class="d-nt">kg${lw&&!has?`, last ${lw.v}`:''}</span></span></span></div></div>`}
+  if(l.kind==='reminders'){const n=remCount(L),nt=n===2?'Read twice today':n===1?(L.readAM?'Morning read done. Read again after 12 pm':'Afternoon read done'):'Read before 12 pm, and again after';
+    return `<button class="d-lever ${on?'on':''} ${n===1?'half':''}" data-act="open-rem" aria-haspopup="dialog"><span class="d-num">${on?CHECK:n===1?'½':i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)} <span class="d-mnum">${n}/2</span></span><span class="d-nt">${nt}</span></span><span class="d-chev">›</span></button>`}
+  if(l.kind==='two'){const n=planCount(cur),tw=(L.two||[]).filter(x=>x&&x.text),title=planTitle(cur);
+    if(!tw.length)return `<button class="d-lever" data-act="open-plan" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${title}</span><span class="d-nt">Tap to plan. Maximum ${n}.</span></span><span class="d-chev">›</span></button>`;
+    return `<div class="d-lever ${on?'on':''}"><div class="d-lh">${num}<span class="d-tt"><span class="d-tx">${title} <span class="d-mnum">${tw.filter(x=>x.done).length}/${tw.length}</span></span></span></div>
+      <div class="d-two">${(L.two||[]).map((it,j)=>it&&it.text?`<button class="d-twr d-twb" data-act="two-done" data-j="${j}" role="checkbox" aria-checked="${!!it.done}"><span class="d-tbox ${it.done?'on':''}">${it.done?CHECK:''}</span><span class="d-twt ${it.done?'done':''}">${esc(it.text)}</span></button>`:'').join('')}
+      <button class="d-add" data-act="open-plan" style="align-self:flex-start">Edit plan</button></div></div>`}
+  if(l.kind==='simple')return `<button class="d-lever ${on?'on':''}" data-act="lever" data-id="${l.id}" role="checkbox" aria-checked="${on}">${head}</button>`;
+  if(l.kind==='note')return `<button class="d-lever ${on?'on':''}" data-act="open-note" aria-haspopup="dialog"><span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read tonight':'Tap to read it'}</span></span><span class="d-chev">›</span></button>`;
+  if(l.kind==='nb'||l.kind==='ns')return `<button class="d-lever ${on?'on':''}" data-act="zero" data-v="${l.kind==='nb'?'zb':'zs'}" role="checkbox" aria-checked="${on}">${head}</button>`;
+  return `<div class="d-lever ${on?'on':''}"><div class="d-lh">${head}</div>${pills(L,l)}</div>`;
+}
+function taskRow(t,L,k){
+  const on=taskDone(L,t,k),box=`<span class="d-box">${on?CHECK:''}</span>`;
+  if(t.kind==='minutes'){const m=(L&&L.min)||0,tg=pteTarget(k),p=Math.min(100,m/tg*100);
+    return `<div class="d-task d-min ${on?'on':''}">${box}<span class="d-tt"><span class="d-tx">${esc(t.text)} <span class="d-mnum">${m} / ${tg} min</span></span>
+      <span class="d-mbar"><i style="width:${p}%"></i></span>
+      <span class="d-steps"><button data-act="min" data-n="-15">−15</button><button data-act="min" data-n="15">+15</button><button data-act="min" data-n="30">+30</button><button data-act="min" data-n="60">+60</button></span></span></div>`}
+  if(t.kind==='weight'){const lw=latestWeight(),has=L&&L.wt!=null;
+    return `<div class="d-task d-min ${on?'on':''}">${box}<span class="d-tt"><span class="d-tx">${esc(t.text)}</span>
+      <span class="d-wrow"><input type="number" inputmode="decimal" step="0.1" min="30" max="250" id="d-wt" value="${has?L.wt:''}" placeholder="${lw?lw.v:'kg'}" aria-label="Weight in kg"><span class="d-nt">kg${lw&&!has?`, last ${lw.v}`:''}</span></span></span></div>`}
+  if(t.kind==='journal')return `<button class="d-task ${on?'on':''}" data-act="go-journal">${box}<span class="d-tt"><span class="d-tx">${esc(t.text)}</span><span class="d-nt">${on?'Journaled today':`${t.note?esc(t.note)+'. ':''}Ticks itself when you save a Journal entry`}</span></span><span class="d-chev">›</span></button>`;
+  if(t.kind==='mealprep')return `<button class="d-task ${on?'on':''}" data-act="mealprep" role="checkbox" aria-checked="${on}">${box}<span class="d-tt"><span class="d-tx">${esc(t.text)}${on?'':' <span class="d-due">Due</span>'}</span><span class="d-nt">${esc(t.note)}</span></span></button>`;
+  return `<button class="d-task ${on?'on':''}" data-act="task" data-id="${t.id}" role="checkbox" aria-checked="${on}">${box}<span class="d-tt"><span class="d-tx">${esc(t.text)}</span>${t.note?`<span class="d-nt">${esc(t.note)}</span>`:''}</span></button>`;
+}
+function todayHTML(){
+  const k=cur,L=getLog(k)||{lv:{},t:{}},type=typeOf(k),isToday=k===todayKey();
+  const nL=S.config.levers.length,hit=leversHit(L),full=nL>0&&hit===nL;
+  const vt=visibleTasks(k),td=vt.filter(t=>taskDone(L,t,k)).length;
+  let h=`<div class="d-topbar"><button class="d-goalsbtn" data-act="goals">🎯 Goals</button></div><div class="d-top"><button class="d-nav" data-act="prev" aria-label="Previous day">‹</button>
+    <div class="d-title"><h1>${isToday?'Today':esc(fmt(k,{weekday:'long'}))}</h1>
+    <div class="d-sub">${isToday?esc(fmt(k,{weekday:'long',day:'numeric',month:'long'})):`${esc(fmt(k,{day:'numeric',month:'long'}))}, <button data-act="today">back to today</button>`}</div></div>
+    <button class="d-nav" data-act="next" ${isToday?'disabled':''} aria-label="Next day">›</button></div>
+  <div class="card d-prog ${full?'full':''}"><div class="d-pct">${hit}<small>/${nL}</small></div>
+    <div class="d-pr"><div class="d-prrow"><span class="d-prt">${full?'Full day!':'done today'}</span>
+      <select id="d-type" class="d-type" aria-label="Day type">${[['weekday','Weekday'],['weekend','Weekend'],['holiday','Holiday']].map(([v,l])=>`<option value="${v}" ${type===v?'selected':''}>${l}</option>`).join('')}</select></div>
+    <div class="d-track"><div class="d-fill" style="width:${nL?hit/nL*100:0}%"></div></div>
+    <div class="d-nt" style="margin-top:6px">Goal tasks ${td} of ${vt.length}</div></div></div>`;
+
+  if(edit)return h+editHTML();
+
+  h+=`<section class="card d-levers"><div class="d-sh"><span class="d-st">Your day</span><span class="d-sc">${hit}/${nL}</span></div>
+    ${S.config.levers.map((l,i,a)=>(i===0||a[i-1].phase!==l.phase)&&PHASE[l.phase]?`<div class="d-phase">${PHASE[l.phase]}</div>${leverRow(l,i,L)}`:leverRow(l,i,L)).join('')}</section>`;
+  const groups=[...new Set(vt.map(t=>t.goal))];
+  h+=groups.map(gid=>{const g=goalOf(gid),ts=vt.filter(t=>t.goal===gid),d=ts.filter(t=>taskDone(L,t,k)).length;
+    return `<section class="card d-sec ${d===ts.length?'full':''}" style="--c:var(${g.color})"><div class="d-sh"><span class="d-st">${esc(GROUP_TITLE[gid]||gid)}</span><span class="d-sc">${d}/${ts.length}</span></div>
+      ${ts.map(t=>taskRow(t,L,k)).join('')}</section>`}).join('');
+  const rv=!!L.reviewed;
+  h+=`<button class="d-row d-review ${rv?'on':''}" data-act="open-review" aria-haspopup="dialog"><span class="d-box">${rv?CHECK:''}</span>
+    <span class="d-tt"><span class="d-tx">Review the day</span><span class="d-nt">${rv?(L.rating!=null?`Rated ${L.rating}/5. `:'')+'Tap to view or edit':'Productivity, health and mental state'}</span></span><span class="d-chev">›</span></button>
+    <div class="d-foot"><button class="btn small ghost" data-act="edit">Edit your day, tasks &amp; reminders</button></div>`;
+  return h;
+}
+function editHTML(){
+  let h=`<div class="d-note">Edit anything here. Tap Done when you’re finished. To bring something back, start it from Later on the Goals tab.</div>`;
+  h+=`<div class="card"><h2>Your day</h2>${S.config.levers.map((l,i)=>`<div class="d-erow" data-l="${l.id}"><div class="d-stack">
+      <input type="text" data-lf="text" value="${esc(l.text)}" aria-label="Lever">
+      <input type="text" class="small" data-lf="note" value="${esc(l.note)}" placeholder="Detail (optional)" aria-label="Lever detail"></div>
+      <div class="d-ord"><button data-act="lup" aria-label="Move up" ${i?'':'disabled'}>↑</button><button data-act="ldn" aria-label="Move down" ${i<S.config.levers.length-1?'':'disabled'}>↓</button></div>
+      <button class="d-x" data-act="del-lever" aria-label="Remove lever">✕</button></div>`).join('')}
+    <button class="d-add" data-act="add-lever">＋ Add to your day</button></div>`;
+  const gids=[...new Set(['pte','health','mind'].concat(S.config.tasks.map(t=>t.goal)))];
+  h+=`<div class="card"><h2>Goal tasks</h2>${gids.map(gid=>`<div style="margin-bottom:10px" data-gid="${gid}"><span class="lab">${esc(GROUP_TITLE[gid]||gid)}</span>
+    ${S.config.tasks.filter(t=>t.goal===gid).map(t=>`<div class="d-erow" data-t="${t.id}"><div class="d-stack">
+      <input type="text" data-tf="text" value="${esc(t.text)}" aria-label="Task">
+      <input type="text" class="small" data-tf="note" value="${esc(t.note)}" placeholder="Detail (optional)" aria-label="Task detail"></div>
+      <button class="d-later" data-act="to-later">Later</button>
+      <button class="d-x" data-act="del-task" aria-label="Remove task">✕</button></div>`).join('')}
+    <button class="d-add" data-act="add-task">＋ Add task</button></div>`).join('')}</div>`;
+  h+=`<div class="card"><h2>Reminders</h2>${S.config.reminders.map(g=>`<div data-g="${g.id}" style="margin-bottom:12px">
+      <div class="d-erow"><input type="text" data-gf="title" value="${esc(g.title)}" aria-label="Group name"><button class="d-x" data-act="del-rg" aria-label="Remove group">✕</button></div>
+      ${g.items.map(i=>`<div class="d-erow" data-i="${i.id}"><textarea class="d-ta" data-gf="text" rows="2" aria-label="Reminder">${esc(i.text)}</textarea><button class="d-x" data-act="del-ri" aria-label="Remove reminder">✕</button></div>`).join('')}
+      <button class="d-add" data-act="add-ri">＋ Add reminder</button></div>`).join('')}<button class="d-add" data-act="add-rg">＋ Add reminder group</button></div>
+    <div class="card"><h2>Your note to yourself</h2><textarea class="d-ta" id="d-selfnote" rows="12" aria-label="Your note to yourself">${esc(S.config.selfNote||'')}</textarea><p class="hint">Leave a blank line between paragraphs. Start a line with “- ” for a bullet point.</p></div>
+    <div class="d-foot"><button class="btn" data-act="edit">Done editing</button></div>`;
+  return h;
+}
+
+/* ---------- Goals ---------- */
+function metricText(m){
+  const ym=ymOf(todayKey());
+  if(m==='pte'){const p=pteMonth(ym);return `${(p.m/60).toFixed(1)} h studied this month, target met on ${p.hit} of ${p.n} days`}
+  if(m==='weight'){const w=latestWeight(),gs=gymStreak();return `${w?`Latest ${w.v} kg, ${Math.max(0,w.v-85).toFixed(1)} kg to go`:'No weigh-ins yet'}. Gym: ${Math.min(gs,8)} of 8 weeks with 3 sessions`}
+  if(m==='zb'){let n=0,d=0;for(const k in S.days)if(k.startsWith(ym)&&k<=todayKey()){d++;if(S.days[k].nr)n++}return `Note to yourself read on ${n} of ${d} days this month`}
+  if(m==='usage'){let n=0;for(const k in S.days)if(k.startsWith(ym)&&k<=todayKey())n++;return `Used on ${Math.min(n,20)} of 20 days this month`}
+  if(m==='zs')return `Streak ${streak(L=>L&&L.zs)} days, longest ${longest(L=>L&&L.zs)}`;
+  return '';
+}
+function goalsHTML(){
+  const ym=ymOf(todayKey()),mg=monthGoals(ym),rev=S.meta.reviews[ym]||{};
+  const autoDone=g=>{if(g.metric==='usage'){let n=0;for(const k in S.days)if(k.startsWith(ym))n++;return n>=20}
+    if(g.metric==='weight'){const ws=Object.keys(S.days).filter(k=>S.days[k].wt!=null).sort().slice(-7).map(k=>S.days[k].wt);return ws.length>=5&&ws.reduce((a,b)=>a+b,0)/ws.length<=85}return false};
+  mg.forEach(g=>{if(g.outcome&&autoDone(g))g.done=true});
+  const item=g=>`<div class="d-mg ${g.done?'done':''}" data-mg="${g.id}"><button class="d-gbox ${g.done?'on':''}" data-act="mg-done" ${g.outcome?'':'disabled'} aria-label="${g.done?'Mark not done':'Mark done'}">${g.done?CHECK:''}</button>
+    <div class="d-mgb"><span class="d-mgt">${esc(g.text)}${rev[g.id]?` <span class="badge ${rev[g.id]==='hit'?'done':'open'}">${rev[g.id]==='hit'?'Hit':'Missed'}</span>`:''}</span>
+    ${g.outcome?`<span class="d-out"><b>Done means:</b> ${esc(g.outcome)}</span>`:`<span class="d-undef">Not a goal yet. Write down what the end result looks like.</span><button class="d-add" data-act="edit-month" style="padding:2px 0;align-self:flex-start;text-align:left">Define the end result</button>`}
+    ${g.metric?`<span class="d-nt">${esc(metricText(g.metric))}</span>`:''}</div></div>`;
+  const ndone=mg.filter(g=>g.done).length;
+  let h=`<button class="d-back" data-act="back">‹ Today</button><h1>Goals</h1>
+  <div class="card d-month"><div class="head"><h2>${esc(monthName(ym))} <span class="badge ${ndone===mg.length&&mg.length?'done':'open'}">${ndone} of ${mg.length} done</span></h2><button class="btn small ghost" data-act="open-mreview">Monthly review</button></div>
+    <span class="lab">Main goals</span>${mg.filter(g=>g.kind==='main').map(item).join('')}
+    ${mg.some(g=>g.kind!=='main')?`<span class="lab" style="margin-top:12px">Supporting goals</span>${mg.filter(g=>g.kind!=='main').map(item).join('')}`:''}
+    <button class="d-add" data-act="edit-month">Edit this month’s goals</button></div>`;
+  const passed=S.meta.ptePassed;
+  h+=`<h2 style="margin-top:18px">Your goals, in priority order</h2>`;
+  h+=GOALS.map((g,i)=>{
+    let st=g.status,body='';
+    if(g.id==='pte'){if(passed){st='done';body=`<span class="d-nt">Passed on ${esc(fmt(passed,{day:'numeric',month:'long',year:'numeric'}))}.</span>`}
+      else body=`<span class="d-nt">${esc(metricText('pte'))}</span><button class="d-add" data-act="pte-pass">${ptConfirm?'Tap again to confirm you passed':'I passed PTE'}</button>`}
+    if(g.id==='health'){const bf=S.meta.bodyFat.slice(-1)[0];body=`<span class="d-nt">November: 85 kg. ${esc(metricText('weight'))}</span>
+      <span class="d-wrow"><span class="d-nt">Body fat ${bf?`${bf.v}% on ${esc(fmt(bf.d,{day:'numeric',month:'short'}))}`:'not logged yet'}. Monthly check-in:</span>
+      <input type="number" inputmode="decimal" step="0.1" min="3" max="60" id="d-bf" placeholder="%" aria-label="Body fat percent"></span>`}
+    if(g.id==='mind'){let r=0;for(let d=0;d<7;d++){const L=getLog(addDays(todayKey(),-d));if(L&&(L.readAM||L.readPM))r++}
+      const je=state.entries.filter(e=>entryMode(e)==='emo'&&keyOf(new Date(e.createdAt)).startsWith(ym)).length;
+      body=`<span class="d-nt">Built through your reminders and journal. Reminders read ${r} of the last 7 days, ${je} journal entr${je===1?'y':'ies'} this month.</span>`}
+    if(g.id==='company'){if(passed){const end=addDays(passed,243),done=Math.min(243,Math.max(0,diffDays(passed,todayKey())));st='active';
+        body=`<span class="d-nt">ApeUni rebuild: month ${Math.min(8,Math.floor(done/30.4)+1)} of 8, ${Math.max(0,diffDays(todayKey(),end))} days left.</span><span class="d-mbar" style="--c:var(--accent)"><i style="width:${done/243*100}%"></i></span>`}
+      else body=`<span class="d-nt">Starts once PTE is done: rebuild ApeUni as a 100% AI app that helps students pass PTE, with 8 months of focus.</span>`}
+    if(g.id==='podcast')body=`<span class="d-nt">Nothing to do yet.</span>`;
+    if(g.id==='married'){if(passed)st='later';body=`<span class="d-nt">${passed?'Unlocked. Start it from Later when you’re ready.':'Starts once you’ve passed PTE.'}</span>`}
+    const chip={active:['Active','done'],afterpte:['After PTE','open'],later:['Later','later'],done:['Done','done']}[st];
+    return `<div class="card d-goal" style="--c:var(${g.color})"><div class="d-gh"><span class="d-gn">${i+1}</span><span class="d-gt">${esc(g.title)}${g.sub?`<span class="d-nt">${esc(g.sub)}</span>`:''}</span>${chip?`<span class="badge ${chip[1]} d-chip">${chip[0]}</span>`:''}</div>${body}</div>`;
+  }).join('');
+  const gs=gymStreak();
+  h+=`<div class="card"><h2>Later</h2><p class="hint" style="margin:-4px 0 6px">Only add once you’re consistent. Only cut what isn’t useful.</p>
+    ${S.config.later.map(it=>{const locked=it.lock==='gym8'?gs<8:it.lock==='pte'?!passed:false;
+      const why=it.lock==='gym8'?`Unlocks after 8 straight weeks of 3 full gym sessions. Week ${Math.min(gs,8)} of 8`:it.lock==='pte'?'Unlocks once PTE is done':'';
+      return `<div class="d-li ${locked?'locked':''}" data-lt="${it.id}"><span class="d-tt"><span class="d-tx">${locked?LOCK+' ':''}${esc(it.text)}</span><span class="d-nt">${esc(GROUP_TITLE[it.goal]||'')}${why?'. '+esc(why):''}</span></span>
+        ${locked?'':`<button class="btn small ghost" data-act="activate">Start</button>`}<button class="d-x" data-act="del-later" aria-label="Remove">✕</button></div>`}).join('')}
+    <div class="d-erow" style="margin-top:10px"><input type="text" id="d-newlater" placeholder="Add something for later"><select id="d-newgoal" aria-label="Goal" style="width:auto">${GOALS.map(g=>`<option value="${g.id}">${esc(GROUP_TITLE[g.id])}</option>`).join('')}</select><button class="btn small" data-act="add-later">Add</button></div></div>`;
+  const ch=S.config.changes.slice(0,12);
+  h+=`<div class="card"><details><summary><span>Changes</span></summary>${ch.length?`<ul class="d-chg">${ch.map(c=>`<li><span>${esc(fmt(c.d,{day:'numeric',month:'short'}))}</span>${esc(c.text)}</li>`).join('')}</ul>`:`<div class="empty">No changes yet.</div>`}</details></div>`;
+  return h;
+}
+
+/* ---------- Dashboard ---------- */
+function svgLine(pts,{target,min,max,w=340,hgt=150,color='--c2'}){
+  if(pts.length<2)return `<div class="empty">Log a few weigh-ins to see your line.</div>`;
+  const L=30,Rr=10,T=12,B=10,xs=pts.map(p=>p.x),x0=Math.min(...xs),x1=Math.max(...xs);
+  const X=v=>L+(w-L-Rr)*((v-x0)/((x1-x0)||1)),Y=v=>T+(hgt-T-B)*(1-(v-min)/((max-min)||1));
+  let g='';[min,(min+max)/2,max].forEach(v=>{g+=`<line x1="${L}" x2="${w-Rr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-5}" y="${Y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${Math.round(v)}</text>`});
+  if(target!=null)g+=`<line x1="${L}" x2="${w-Rr}" y1="${Y(target)}" y2="${Y(target)}" stroke="var(--c3)" stroke-dasharray="4 4" stroke-width="1.5"/><text x="${w-Rr}" y="${Y(target)-5}" font-size="10" text-anchor="end" fill="var(--c3)" font-weight="800">${target} kg</text>`;
+  g+=`<polyline points="${pts.map(p=>`${X(p.x).toFixed(1)},${Y(p.y).toFixed(1)}`).join(' ')}" fill="none" stroke="var(${color})" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  const lp=pts[pts.length-1];g+=`<circle cx="${X(lp.x)}" cy="${Y(lp.y)}" r="4" fill="var(${color})"/>`;
+  return `<svg viewBox="0 0 ${w} ${hgt}" role="img" aria-label="Weight over time">${g}</svg>`;
+}
+function barChart(vals,{line,labels,color,w=340,hgt=140,max}){
+  const L=26,T=10,B=20,n=vals.length,bw=(w-L-6)/n,M=max||Math.max(line||0,...vals,1);
+  const Y=v=>T+(hgt-T-B)*(1-v/M);let g='';
+  [0,M].forEach(v=>{g+=`<text x="${L-5}" y="${Y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${Math.round(v)}</text>`});
+  vals.forEach((v,i)=>{const x=L+i*bw+bw*0.15,hh=Y(0)-Y(v);g+=`<rect x="${x.toFixed(1)}" y="${Y(v).toFixed(1)}" width="${(bw*0.7).toFixed(1)}" height="${Math.max(0,hh).toFixed(1)}" rx="3" fill="var(${color(v,i)})"/>`;
+    if(labels&&labels[i])g+=`<text x="${(x+bw*0.35).toFixed(1)}" y="${hgt-5}" font-size="9.5" text-anchor="middle" fill="var(--muted)">${labels[i]}</text>`});
+  if(line!=null)g+=`<line x1="${L}" x2="${w-6}" y1="${Y(line)}" y2="${Y(line)}" stroke="var(--ink)" stroke-dasharray="4 4" stroke-width="1.2" opacity=".6"/>`;
+  return `<svg viewBox="0 0 ${w} ${hgt}" role="img">${g}</svg>`;
+}
+function dayScore(k){const L=getLog(k),vt=visibleTasks(k),tot=S.config.levers.length+vt.length+1;
+  if(!L)return{d:0,t:tot};return{d:leversHit(L)+vt.filter(t=>taskDone(L,t,k)).length+(L.reviewed?1:0),t:tot}}
+function pctOver(keys){let d=0,t=0;keys.forEach(k=>{const s=dayScore(k);d+=s.d;t+=s.t});return t?Math.round(d/t*100):0}
+function stackChart(rows,{w=340,hgt=150}){
+  const L=24,T=10,B=20,n=rows.length,bw=(w-L-6)/n,M=7,Y=v=>T+(hgt-T-B)*(1-v/M);let g='';
+  [0,3,7].forEach(v=>{g+=`<line x1="${L}" x2="${w-6}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-5}" y="${Y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${v}</text>`});
+  rows.forEach((r,i)=>{const x=(L+i*bw+bw*0.15).toFixed(1),bwid=(bw*0.7).toFixed(1);
+    const yg=Y(r.gym),yw=Y(r.gym+r.walk);
+    if(r.gym)g+=`<rect x="${x}" y="${yg.toFixed(1)}" width="${bwid}" height="${(Y(0)-yg).toFixed(1)}" fill="var(--c2)"/>`;
+    if(r.walk)g+=`<rect x="${x}" y="${yw.toFixed(1)}" width="${bwid}" height="${(yg-yw).toFixed(1)}" fill="var(--c1)" opacity=".75"/>`;
+    g+=`<text x="${(+x+bw*0.35).toFixed(1)}" y="${hgt-5}" font-size="9.5" text-anchor="middle" fill="var(--muted)">${r.label}</text>`});
+  return `<svg viewBox="0 0 ${w} ${hgt}" role="img" aria-label="Gym sessions and walks per week">${g}</svg>`;
+}
+const RQ=[['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']];
+let compView='week';
+(function(){let sx=null,sy=null;
+  document.addEventListener('touchstart',e=>{if(e.target.closest&&e.target.closest('#d-comp')){sx=e.touches[0].clientX;sy=e.touches[0].clientY}else sx=null},{passive:true});
+  document.addEventListener('touchend',e=>{if(sx==null)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;sx=null;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3){const v=dx>0?'month':'week';if(v!==compView){compView=v;render()}}},{passive:true});
+})();
+let reviewsOpen=false;
+document.addEventListener('toggle',e=>{if(e.target&&e.target.id==='d-revs')reviewsOpen=e.target.open},true);
+function dashHTML(){
+  const tk=todayKey(),m0=mondayOf(tk),ym=ymOf(tk),nL=S.config.levers.length;
+  const week=[],month=[];
+  for(let d=0;d<7;d++){const k=addDays(m0,d);if(k<=tk)week.push(k)}
+  for(let k=ym+'-01';k<=tk&&k.startsWith(ym);k=addDays(k,1))month.push(k);
+  const ts=dayScore(tk),tot=ts.t;
+  let h=`<div class="card"><div class="head"><h2>Completion</h2><span class="hint" style="margin:0">${nL} habits + journal + review</span></div>
+    <div class="d-pcts"><div><b>${Math.round(ts.d/ts.t*100)}%</b><span>Today</span></div><div><b>${pctOver(week)}%</b><span>This week</span></div><div><b>${pctOver(month)}%</b><span>${esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}))}</span></div></div>
+    <div class="d-comphead"><div class="seg" role="group" aria-label="Completion view"><button type="button" data-act="cview" data-v="week" aria-pressed="${compView==='week'}">Week</button><button type="button" data-act="cview" data-v="month" aria-pressed="${compView==='month'}">Month</button></div>
+    <span class="d-swipe">${compView==='week'?'Swipe right for the month →':'← Swipe left for the week'}</span></div>
+    <div id="d-comp">${compView==='week'?`<div class="d-wk">${Array.from({length:7},(_,d)=>{const k=addDays(m0,d),fut=k>tk,s=dayScore(k),p=fut?0:Math.round(s.d/s.t*100);
+      return `<button class="d-wkd ${k===tk?'now':''}" ${fut?'disabled':`data-act="open" data-k="${k}"`} aria-label="${fmt(k,{weekday:'long'})}: ${fut?'upcoming':p+'%'}"><span class="d-wkp">${fut?'':p+'%'}</span><span class="d-wkb"><i style="height:${p}%"></i></span><span class="d-dl">${'MTWTFSS'[d]}</span></button>`}).join('')}</div>`
+    :(()=>{const first=ym+'-01',n=new Date(+ym.slice(0,4),+ym.slice(5,7),0).getDate();
+      return `<div class="d-wk month" style="grid-template-columns:repeat(${n},1fr)">${Array.from({length:n},(_,d)=>{const k=addDays(first,d),fut=k>tk,s=dayScore(k),p=fut?0:Math.round(s.d/s.t*100),dn=d+1;
+        return `<button class="d-wkd ${k===tk?'now':''}" ${fut?'disabled':`data-act="open" data-k="${k}"`} aria-label="${fmt(k,{day:'numeric',month:'long'})}: ${fut?'upcoming':p+'%'}"><span class="d-wkb"><i style="height:${p}%"></i></span><span class="d-dl">${dn===1||dn%5===0?dn:''}</span></button>`}).join('')}</div>`})()}</div></div>`;
+
+  const mdays=month.map(getLog).filter(Boolean);
+  const rates=S.config.levers.map(l=>({l,r:mdays.length?mdays.filter(L=>leverHit(L,l)).length/mdays.length:0})).sort((a,b)=>a.r-b.r);
+  h+=`<div class="card"><div class="head"><h2>Your day, ${esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}))}</h2><span class="hint" style="margin:0">Least followed first</span></div>${mdays.length?`<div class="bars d-hbars">${rates.map(({l,r})=>`<div class="bar"><span class="name" title="${esc(l.text)}">${esc(l.kind==='two'?planTitle(tk):l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${Math.round(r*100)}%</span></div>`).join('')}</div>`:'<div class="empty">Tick your habits on Today and this month’s rates show up here.</div>'}</div>`;
+
+  const rows=[];for(let i=7;i>=0;i--){const m=addDays(m0,-7*i);let gym=0,walk=0;for(let d=0;d<7;d++){const L=getLog(addDays(m,d));if(L&&L.move==='gym')gym++;else if(L&&L.move==='walk')walk++}rows.push({gym,walk,label:fmt(m,{day:'numeric',month:'numeric'})})}
+  const gs=gymStreak();
+  h+=`<div class="card"><div class="head"><h2>Gym and walks</h2><span class="badge ${gs>=8?'done':'open'}">Week ${Math.min(gs,8)} of 8</span></div>
+    ${stackChart(rows,{})}
+    <div class="legend"><span><i style="background:var(--c2)"></i>Full gym session</span><span><i style="background:var(--c1);opacity:.75"></i>30 min walk</span></div>
+    <p class="hint">The norm each week: 3 gym sessions and 4 walks, so a full bar reaches 7. Hit 3 gym sessions every week for 8 weeks straight to unlock cardio and the ab routine.</p></div>`;
+
+  const wpts=[];for(let i=59;i>=0;i--){const L=getLog(addDays(tk,-i));if(L&&L.wt!=null)wpts.push({x:-i,y:L.wt})}
+  const wv=wpts.map(p=>p.y),wmin=Math.floor(Math.min(85,...wv)-1),wmax=Math.ceil(Math.max(85,...wv)+0.5),lw=latestWeight();
+  h+=`<div class="card"><div class="head"><h2>Weight</h2>${lw?`<span class="badge open">${lw.v} kg</span>`:''}</div>${svgLine(wpts,{target:85,min:wmin,max:wmax})}</div>`;
+
+  let revs=Object.keys(S.days).filter(k=>k<=tk&&S.days[k].reviewed).map(k=>[k,S.days[k]]);
+  if(reviewSort==='recent')revs.sort((a,b)=>a[0]<b[0]?1:-1);
+  else revs.sort((a,b)=>{const ra=a[1].rating??(reviewSort==='best'?-1:9),rb=b[1].rating??(reviewSort==='best'?-1:9);return (reviewSort==='best'?rb-ra:ra-rb)||(a[0]<b[0]?1:-1)});
+  h+=`<div class="card"><details id="d-revs" ${reviewsOpen?'open':''}><summary><span>Day reviews <span class="badge open">${revs.length}</span></span></summary>
+    <div class="seg" role="group" aria-label="Sort reviews" style="margin-bottom:10px">${[['recent','Recent'],['best','Best'],['worst','Hardest']].map(([v,l])=>`<button type="button" data-act="sort" data-v="${v}" aria-pressed="${reviewSort===v}">${l}</button>`).join('')}</div>`;
+  h+=revs.length?revs.slice(0,10).map(([k,L])=>{const r=L.rating;const col=r==null?'--line':r>=4?'--c2':r>=2?'--c1':'--c3';
+    return `<button class="entry d-rv" data-act="open" data-k="${k}" style="border-left-color:var(${col})">
+      <span class="meta"><span>${esc(fmt(k,{weekday:'short',day:'numeric',month:'short'}))} · ${Math.round(dayScore(k).d/dayScore(k).t*100)}% done</span>
+      <span class="d-rdots" aria-label="Rated ${r??'none'} of 5">${[1,2,3,4,5].map(n=>`<i class="${(r??0)>=n?'f':''}"></i>`).join('')}</span></span>
+      ${L.right?`<span class="lbl">Did right</span><span class="d-p">${esc(L.right)}</span>`:''}
+      ${L.wrong?`<span class="lbl">Did wrong</span><span class="d-p">${esc(L.wrong)}</span>`:''}
+      ${L.why?`<span class="lbl">Why</span><span class="d-p">${esc(L.why)}</span>`:''}</button>`}).join('')
+    :`<div class="empty">Review a day on Today to see it here.</div>`;
+  return h+`</details></div>`;
+}
+
+/* ---------- Weekly ---------- */
+const WQ=[['wrong','Where did I go wrong in my daily tasks this week?'],['update','What do I need to update to stick to them?'],['forward','What will I do differently in the coming weeks?']];
+let wcur=null;
+const ensureWeek=m=>S.weeks[m]=S.weeks[m]||{tasks:[],done:{},meals:false,reviewed:false,review:{}};
+function weekHTML(){
+  const tk=todayKey(),m0=mondayOf(tk),m=wcur||m0,isCur=m===m0,W=S.weeks[m]||{tasks:[],done:{}},nxt=addDays(m,7),NW=S.weeks[nxt]||{tasks:[]};
+  const days=[];for(let d=0;d<7;d++){const k=addDays(m,d);if(k<=tk)days.push(k)}
+  const logs=days.map(getLog).filter(Boolean);
+  let gym=0,walk=0;logs.forEach(L=>{if(L.move==='gym')gym++;else if(L.move==='walk')walk++});
+  const wts=days.map(k=>(getLog(k)||{}).wt).filter(v=>v!=null),dw=wts.length>1?Math.round((wts[wts.length-1]-wts[0])*10)/10:null;
+  const weak=S.config.levers.map(l=>({l,r:logs.length?logs.filter(L=>leverHit(L,l)).length/logs.length:0})).sort((a,b)=>a.r-b.r).slice(0,3);
+  const range=`${fmt(m,{day:'numeric',month:'short'})} – ${fmt(addDays(m,6),{day:'numeric',month:'short'})}`;
+  const nd=[!!W.reviewed,!!W.meals,(NW.tasks||[]).length>0].filter(Boolean).length;
+  let h=`<div class="d-top"><button class="d-nav" data-act="wprev" aria-label="Previous week">‹</button>
+    <div class="d-title"><h1>${isCur?'This week':'Week of '+esc(fmt(m,{day:'numeric',month:'short'}))}</h1><div class="d-sub">${esc(range)}${isCur?'':', <button data-act="wthis">back to this week</button>'}</div></div>
+    <button class="d-nav" data-act="wnext" ${isCur?'disabled':''} aria-label="Next week">›</button></div>`;
+  h+=`<div class="card"><h2>Week at a glance</h2>
+    <div class="d-pcts"><div><b>${pctOver(days)}%</b><span>Completion</span></div><div><b>${gym}/3</b><span>Gym sessions</span></div><div><b>${walk}/4</b><span>Walks</span></div></div>
+    ${dw!=null?`<p class="hint" style="margin:0 0 8px">Weight this week: ${dw>0?'+':''}${dw} kg (${wts[0]} → ${wts[wts.length-1]})</p>`:''}
+    ${logs.length?`<span class="lab">Slipping most this week</span><div class="bars d-hbars">${weak.map(({l,r})=>`<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your main task':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${Math.round(r*100)}%</span></div>`).join('')}</div>`:'<div class="empty">Nothing tracked this week yet.</div>'}</div>`;
+  const tasks=W.tasks||[],td=tasks.filter(t=>W.done&&W.done[t.id]).length;
+  h+=`<section class="card d-sec" style="--c:var(--accent)"><div class="d-sh"><span class="d-st">${isCur?'This week’s tasks':'That week’s tasks'}</span><span class="d-sc">${td}/${tasks.length}</span></div>
+    ${tasks.length?tasks.map(t=>{const on=!!(W.done&&W.done[t.id]);return `<button class="d-task ${on?'on':''}" data-act="wt-done" data-id="${t.id}" role="checkbox" aria-checked="${on}"><span class="d-box">${on?CHECK:''}</span><span class="d-tt"><span class="d-tx">${esc(t.text)}</span></span></button>`}).join('')
+      :`<p class="hint" style="margin:4px 0">No tasks planned for this week yet.</p>`}
+    <button class="d-add" data-act="open-wtasks" data-w="${m}">${tasks.length?'Edit tasks':'＋ Add this week’s tasks'}</button></section>`;
+  h+=`<section class="card d-sec ${nd===3?'full':''}" style="--c:var(--c1)"><div class="d-sh"><span class="d-st">Weekly checklist</span><span class="d-sc">${nd}/3</span></div>
+    <button class="d-task ${W.reviewed?'on':''}" data-act="open-wrev"><span class="d-box">${W.reviewed?CHECK:''}</span><span class="d-tt"><span class="d-tx">Review the week</span><span class="d-nt">Where you went wrong, what to update, and what to do going forward</span></span><span class="d-chev">›</span></button>
+    <button class="d-task ${W.meals?'on':''}" data-act="w-meals" role="checkbox" aria-checked="${!!W.meals}"><span class="d-box">${W.meals?CHECK:''}</span><span class="d-tt"><span class="d-tx">Plan every meal for the coming weeks</span><span class="d-nt">With calories. 80% meal-prepped, the rest you cook yourself</span></span></button>
+    <button class="d-task ${(NW.tasks||[]).length?'on':''}" data-act="open-wtasks" data-w="${nxt}"><span class="d-box">${(NW.tasks||[]).length?CHECK:''}</span><span class="d-tt"><span class="d-tx">Plan next week’s tasks</span><span class="d-nt">${(NW.tasks||[]).length?`${NW.tasks.length} planned. Tap to edit`:'For your goals and your work. Very detailed: exactly what you’ll accomplish'}</span></span><span class="d-chev">›</span></button></section>`;
+  if(W.reviewed&&W.review)h+=`<div class="card"><details><summary><span>Your review</span></summary>${WQ.map(([f,q])=>W.review[f]?`<span class="lab">${q}</span><p style="margin:0 0 10px;white-space:pre-wrap">${esc(W.review[f])}</p>`:'').join('')}</details></div>`;
+  return h;
+}
+
+/* ---------- pop-ups ---------- */
+function modalHTML(){
+  if(!modal)return '';
+  const L=getLog(cur)||{};let inner='';
+  if(modal==='rem'){
+    const soft=['--c1-soft','--c3-soft','--c2-soft','--accent-soft'];
+    inner=`<h2 style="font-size:1.25rem">Reminders</h2>${S.config.reminders.filter(g=>g.kind!=='plan').map((g,i)=>`<div class="d-rg" style="background:var(${soft[i%4]})"><span class="lab" style="margin:0">${esc(g.title)}</span><ul>${g.items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`).join('')}
+    <div class="d-mf">${(()=>{const n=remCount(L),sl=remSlot(L);
+      if(n===2)return `<button class="d-link" data-act="unread">Mark as not read</button><button class="btn" data-act="close">Close</button>`;
+      if(!sl)return `<span class="d-nt" style="margin-right:auto">Morning read done. Read again after 12 pm.</span><button class="btn" data-act="close">Close</button>`;
+      return `<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="read-done">Done, ${sl==='am'?'morning':'afternoon'} read</button>`})()}</div>`;
+  }else if(modal==='plan'){
+    const n=planCount(cur),rules=(S.config.reminders.find(g=>g.kind==='plan')||{items:[]}).items;
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${planTitle(cur)}</h2>
+    ${rules.length?`<div class="d-rg" style="background:var(--c3-soft)"><span class="lab" style="margin:0">Before you plan</span><ul>${rules.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`:''}
+    ${Array.from({length:n},(_,j)=>`<label class="lab mt" for="d-p${j}">${n===1?'Main task':'Task '+(j+1)}</label><input type="text" id="d-p${j}" data-pd="${j}" value="${esc(draft.tasks[j]||'')}" placeholder="What exactly will be done by the end?">`).join('')}
+    <div class="d-mf"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="save-plan">Save plan</button></div>`;
+  }else if(modal==='rstep'){
+    const i=RQ.findIndex(([f])=>f===draft.step),[f,q]=RQ[i];
+    inner=`<div class="d-fhead"><span>Question ${i+1} of ${RQ.length}</span><button class="btn small" data-act="rstep-done">Done</button></div>
+    <h2 style="font-size:1.35rem;margin:6px 0 10px">${q}</h2>
+    <textarea class="d-fta" id="d-fta" data-d="${f}" aria-label="${q}" placeholder="Write freely…">${esc(draft[f]||'')}</textarea>
+    <div class="d-mf"><button class="btn ghost" data-act="rstep-prev">${i?'‹ Previous':'‹ Back'}</button><button class="btn" data-act="rstep-next">${i<RQ.length-1?'Next ›':'Finish'}</button></div>`;
+    return `<div class="d-overlay full" data-act="noop"><div class="d-sheet d-focus" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
+  }else if(modal==='note'){
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">A note from you</h2><div class="d-note-body">${noteHTML(S.config.selfNote)}</div>
+    <div class="d-mf">${L.nr?`<button class="d-link" data-act="note-undo">Mark as not read</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="note-done">Done, I’ve read it</button>`}</div>`;
+  }else if(modal==='wrev'){
+    const i=WQ.findIndex(([f])=>f===draft.step),[f,q]=WQ[i];
+    inner=`<div class="d-fhead"><span>Weekly review · ${i+1} of ${WQ.length}</span><button class="btn small ghost" data-act="close">Cancel</button></div>
+    <h2 style="font-size:1.3rem;margin:6px 0 10px">${q}</h2>
+    <textarea class="d-fta" id="d-fta" data-d="${f}" aria-label="${q}" placeholder="Write freely…">${esc(draft[f]||'')}</textarea>
+    <div class="d-mf"><button class="btn ghost" data-act="wrev-prev" ${i?'':'disabled'}>‹ Previous</button><button class="btn" data-act="wrev-next">${i<WQ.length-1?'Next ›':'Save review'}</button></div>`;
+    return `<div class="d-overlay full" data-act="noop"><div class="d-sheet d-focus" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
+  }else if(modal==='wtasks'){
+    const isNext=draft.w>mondayOf(todayKey());
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">${isNext?'Next week’s tasks':'This week’s tasks'}</h2><p class="hint" style="margin:0 0 6px">${esc(fmt(draft.w,{day:'numeric',month:'short'}))} – ${esc(fmt(addDays(draft.w,6),{day:'numeric',month:'short'}))}. For your goals and your work. Make each one very detailed: exactly what you’ll accomplish, with numbers.</p>
+    ${draft.list.map((t,j)=>`<div class="d-erow"><input type="text" data-wl="${j}" value="${esc(t)}" placeholder="Task ${j+1}" aria-label="Task ${j+1}"><button class="d-x" data-act="wl-del" data-j="${j}" aria-label="Remove task">✕</button></div>`).join('')}
+    <button class="d-add" data-act="wl-add">＋ Add task</button>
+    <div class="d-mf"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="wl-save">Save tasks</button></div>`;
+  }else if(modal==='review'){
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Review the day</h2><p class="hint" style="margin:0 0 10px">Productivity, health and mental state. How well did you follow your day?</p>
+    <div class="scale d-scale" role="group" aria-label="Rate the day">${[0,1,2,3,4,5].map(n=>`<button type="button" data-act="drate" data-n="${n}" aria-pressed="${draft.rating===n}">${n}</button>`).join('')}</div>
+    <div class="scale-ends"><span>Not at all</span><span>Fully</span></div>
+    ${RQ.map(([f,q])=>`<button class="d-qpad" data-act="rstep" data-q="${f}"><span class="lab" style="margin:0 0 2px">${q}</span><span class="d-qtx ${draft[f]?'':'empty'}">${esc(draft[f]||'Tap to write')}</span></button>`).join('')}
+    <div class="d-mf">${L.reviewed?'<button class="d-link" data-act="unreview">Mark as not done</button>':''}<button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="save-review">Save &amp; tick off</button></div>`;
+  }else if(modal==='mreview'){
+    const ym=ymOf(todayKey()),mg=monthGoals(ym);
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">${esc(monthName(ym))} review</h2><p class="hint" style="margin:0 0 6px">Mark each goal. Next month starts with the same goals, and you can edit them.</p>
+    ${mg.map(g=>`<div class="d-mr"><span class="d-tx">${esc(g.text)}</span>${g.metric?`<span class="d-nt">${esc(metricText(g.metric))}</span>`:''}
+      <div class="d-pills"><button class="d-pill ${draft[g.id]==='hit'?'on':''}" data-act="mr" data-id="${g.id}" data-v="hit">Hit</button><button class="d-pill miss ${draft[g.id]==='miss'?'on':''}" data-act="mr" data-id="${g.id}" data-v="miss">Missed</button></div></div>`).join('')}
+    <label class="lab mt" for="d-mnote">What got in the way, and what to change next month</label><textarea class="d-ta" id="d-mnote" data-d="note" rows="3">${esc(draft.note||'')}</textarea>
+    <div class="d-mf"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="save-mreview">Save review</button></div>`;
+  }else if(modal==='month'){
+    const ym=ymOf(todayKey()),mg=ensureMonth(ym);
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">${esc(monthName(ym))} goals</h2><p class="hint" style="margin:0 0 8px">A goal only counts once you’ve written what the end result looks like.</p>
+    ${mg.map(g=>`<div class="d-erow" data-mg="${g.id}"><div class="d-stack"><input type="text" data-mf="text" value="${esc(g.text)}" placeholder="Goal" aria-label="Goal">
+      <textarea class="d-ta" data-mf="outcome" rows="2" placeholder="What does done look like? Be specific, with numbers." aria-label="End result">${esc(g.outcome||'')}</textarea>
+      <select data-mf="kind" class="small" aria-label="Type"><option value="main" ${g.kind==='main'?'selected':''}>Main goal</option><option value="support" ${g.kind!=='main'?'selected':''}>Supporting goal</option></select></div>
+      <button class="d-x" data-act="del-mg" aria-label="Remove goal">✕</button></div>`).join('')}
+    <button class="d-add" data-act="add-mg">＋ Add goal</button>
+    <div class="d-mf"><button class="btn" data-act="close">Done</button></div>`;
+  }
+  return `<div class="d-overlay" data-act="close"><div class="d-sheet" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
+}
+
+function render(){
+  if(!shown)return;
+  seedSample();syncJournal(cur);
+  const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden};
+  if(vis('page-prod'))document.getElementById('day-today').innerHTML=todayHTML();
+  if(vis('page-goals'))document.getElementById('day-goals').innerHTML=goalsHTML();
+  if(vis('page-week'))document.getElementById('day-week').innerHTML=weekHTML();
+  if(vis('page-dash')&&vis('prod-dash'))document.getElementById('prod-dash').innerHTML=dashHTML();
+  const mEl=document.getElementById('day-modal'),sheet=mEl.querySelector('.d-sheet');
+  if(modal&&sheet&&mEl.dataset.m===modal){const st=sheet.scrollTop,tmp=document.createElement('div');tmp.innerHTML=modalHTML();sheet.innerHTML=tmp.querySelector('.d-sheet').innerHTML;sheet.scrollTop=st}
+  else{mEl.innerHTML=modalHTML();mEl.dataset.m=modal||''}
+  document.body.style.overflow=modal?'hidden':'';
+}
+
+/* ---------- events ---------- */
+const findIn=(el,attr,list)=>{const n=el.closest(`[data-${attr}]`);return n&&list.find(x=>x.id===n.dataset[attr])};
+const save=()=>persist();
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const a=b.dataset.act,C=S.config;
+  switch(a){
+    case 'lever':{const L=ensureLog(cur);L.lv[b.dataset.id]=!L.lv[b.dataset.id];touch(cur);break}
+    case 'move':{const L=ensureLog(cur);L.move=L.move===b.dataset.v?null:b.dataset.v;touch(cur);break}
+    case 'zero':{const L=ensureLog(cur);L[b.dataset.v]=!L[b.dataset.v];touch(cur);break}
+    case 'task':{const L=ensureLog(cur);L.t[b.dataset.id]=!L.t[b.dataset.id];touch(cur);break}
+    case 'min':{const L=ensureLog(cur);L.min=Math.max(0,(L.min||0)+(+b.dataset.n));touch(cur);break}
+    case 'mealprep':{const i=S.meta.mealPrep.indexOf(cur);if(i>=0)S.meta.mealPrep.splice(i,1);else S.meta.mealPrep.push(cur);ensureLog(cur);touch(cur);break}
+    case 'go-journal':go('emo');return;
+    case 'goals':go('goals');return;
+    case 'back':go('prod');return;
+    case 'prev':cur=addDays(cur,-1);break;
+    case 'next':if(cur<todayKey())cur=addDays(cur,1);break;
+    case 'today':cur=todayKey();break;
+    case 'open-rem':modal='rem';break;
+    case 'open-review':{const L=getLog(cur)||{};draft={rating:L.rating??null,right:L.right||'',wrong:L.wrong||'',why:L.why||''};modal='review';break}
+    case 'open-mreview':draft=Object.assign({},S.meta.reviews[ymOf(todayKey())]||{});modal='mreview';break;
+    case 'edit-month':ensureMonth(ymOf(todayKey()));save();modal='month';break;
+    case 'close':modal=null;break;
+    case 'noop':return;
+    case 'read-done':{const L=ensureLog(cur),sl=remSlot(L);if(sl==='am')L.readAM=true;else if(sl==='pm')L.readPM=true;touch(cur);modal=null;toast(remCount(L)===2?'Reminders ticked off for today':'Half done. Read them again after 12 pm');break}
+    case 'open-plan':{const L=getLog(cur)||{};draft={tasks:(L.two||[]).map(x=>x&&x.text||'')};modal='plan';break}
+    case 'save-plan':{const L=ensureLog(cur),old=L.two||[];L.two=draft.tasks.slice(0,planCount(cur)).map(t=>(t||'').trim()).filter(Boolean).map(t=>({text:t,done:!!(old.find(o=>o&&o.text===t)||{}).done}));touch(cur);modal=null;toast('Plan saved. Now get them done');break}
+    case 'two-done':{const L=ensureLog(cur);L.two=L.two||[];const j=+b.dataset.j;if(L.two[j]&&L.two[j].text){L.two[j].done=!L.two[j].done;touch(cur)}break}
+    case 'unread':{const L=ensureLog(cur);L.read=false;L.readAM=false;L.readPM=false;touch(cur);modal=null;break}
+    case 'drate':{const n=+b.dataset.n;draft.rating=draft.rating===n?null:n;break}
+    case 'save-review':{const L=ensureLog(cur);Object.assign(L,draft);L.reviewed=true;touch(cur);modal=null;toast('Review saved');break}
+    case 'unreview':{const L=ensureLog(cur);L.reviewed=false;touch(cur);modal=null;break}
+    case 'mr':draft[b.dataset.id]=draft[b.dataset.id]===b.dataset.v?null:b.dataset.v;break;
+    case 'save-mreview':S.meta.reviews[ymOf(todayKey())]=draft;save();modal=null;toast('Monthly review saved');break;
+    case 'add-mg':ensureMonth(ymOf(todayKey())).push({id:uid(),kind:'main',text:''});save();break;
+    case 'del-mg':{const ym=ymOf(todayKey()),id=b.closest('[data-mg]').dataset.mg;C.monthGoals[ym]=ensureMonth(ym).filter(g=>g.id!==id);save();break}
+    case 'pte-pass':if(!ptConfirm){ptConfirm=true;setTimeout(()=>{ptConfirm=false;render()},4000);break}
+      S.meta.ptePassed=todayKey();ptConfirm=false;logChange('Passed PTE. Company and relationship goals unlocked');save();toast('Congratulations! New goals unlocked');break;
+    case 'activate':{const it=findIn(b,'lt',C.later);if(!it)return;C.later=C.later.filter(x=>x!==it);
+      C.tasks.push({id:uid(),goal:it.goal,kind:it.kind||'simple',text:it.text,note:it.note||''});logChange(`Started “${it.text}”`);save();toast('Added to Today');break}
+    case 'del-later':{const it=findIn(b,'lt',C.later);C.later=C.later.filter(x=>x!==it);save();break}
+    case 'add-later':{const i=document.getElementById('d-newlater'),v=i.value.trim();if(!v)return;C.later.push({id:uid(),goal:document.getElementById('d-newgoal').value,text:v});save();break}
+    case 'edit':edit=!edit;if(!edit){C.levers=C.levers.filter(l=>l.text.trim());C.tasks=C.tasks.filter(t=>t.text.trim());C.reminders.forEach(g=>g.items=g.items.filter(x=>x.text.trim()))}save();window.scrollTo(0,0);break;
+    case 'add-lever':{const l={id:uid(),kind:'simple',text:'',note:''};C.levers.push(l);save();render();const i=document.querySelector(`[data-l="${l.id}"] input`);i&&i.focus();return}
+    case 'del-lever':{const l=findIn(b,'l',C.levers);if(l&&l.text)logChange(`Removed lever “${l.text}”`);C.levers=C.levers.filter(x=>x!==l);save();break}
+    case 'lup':case 'ldn':{const l=findIn(b,'l',C.levers),i=C.levers.indexOf(l),j=i+(a==='lup'?-1:1);if(j<0||j>=C.levers.length)return;[C.levers[i],C.levers[j]]=[C.levers[j],C.levers[i]];save();break}
+    case 'add-task':{const gid=b.closest('[data-gid]').dataset.gid,t={id:uid(),goal:gid,kind:'simple',text:'',note:''};C.tasks.push(t);save();render();const i=document.querySelector(`[data-t="${t.id}"] input`);i&&i.focus();return}
+    case 'del-task':{const t=findIn(b,'t',C.tasks);if(t&&t.text)logChange(`Removed “${t.text}”`);C.tasks=C.tasks.filter(x=>x!==t);save();break}
+    case 'to-later':{const t=findIn(b,'t',C.tasks);if(!t)return;C.tasks=C.tasks.filter(x=>x!==t);if(t.text){C.later.push({id:uid(),goal:t.goal,text:t.text,kind:t.kind,note:t.note});logChange(`Moved “${t.text}” to Later`)}save();toast('Moved to Later, on the Goals tab');break}
+    case 'add-ri':{const g=findIn(b,'g',C.reminders),it={id:uid(),text:''};g.items.push(it);save();render();const i=document.querySelector(`[data-i="${it.id}"] textarea`);i&&i.focus();return}
+    case 'del-ri':{const g=findIn(b,'g',C.reminders),id=b.closest('[data-i]').dataset.i;g.items=g.items.filter(x=>x.id!==id);save();break}
+    case 'add-rg':C.reminders.push({id:uid(),title:'New group',items:[]});save();break;
+    case 'del-rg':{const g=findIn(b,'g',C.reminders);C.reminders=C.reminders.filter(x=>x!==g);save();break}
+    case 'sort':reviewSort=b.dataset.v;break;
+    case 'cview':compView=b.dataset.v;break;
+    case 'wprev':wcur=addDays(wcur||mondayOf(todayKey()),-7);break;
+    case 'wnext':{const m0=mondayOf(todayKey()),n=addDays(wcur||m0,7);wcur=n>=m0?null:n;break}
+    case 'wthis':wcur=null;break;
+    case 'wt-done':{const W=ensureWeek(wcur||mondayOf(todayKey()));W.done[b.dataset.id]=!W.done[b.dataset.id];save();break}
+    case 'w-meals':{const W=ensureWeek(wcur||mondayOf(todayKey()));W.meals=!W.meals;save();break}
+    case 'open-wrev':{const W=S.weeks[wcur||mondayOf(todayKey())]||{};draft=Object.assign({step:'wrong'},W.review||{});modal='wrev';render();setTimeout(()=>{const t=document.getElementById('d-fta');t&&t.focus()},40);return}
+    case 'wrev-prev':case 'wrev-next':{const i=WQ.findIndex(([f])=>f===draft.step),j=i+(a==='wrev-next'?1:-1);
+      if(j>=WQ.length){const W=ensureWeek(wcur||mondayOf(todayKey()));W.review={wrong:draft.wrong||'',update:draft.update||'',forward:draft.forward||''};W.reviewed=true;save();modal=null;toast('Weekly review saved');break}
+      if(j<0)return;draft.step=WQ[j][0];render();const t=document.getElementById('d-fta');t&&t.focus();return}
+    case 'open-wtasks':{const w=b.dataset.w,W=S.weeks[w]||{tasks:[]};const list=(W.tasks||[]).map(t=>t.text);while(list.length<3)list.push('');draft={w,list};modal='wtasks';break}
+    case 'wl-add':draft.list.push('');render();{const ins=document.querySelectorAll('[data-wl]');ins[ins.length-1]&&ins[ins.length-1].focus()}return;
+    case 'wl-del':draft.list.splice(+b.dataset.j,1);break;
+    case 'wl-save':{const W=ensureWeek(draft.w),old=W.tasks||[];W.tasks=draft.list.map(s=>s.trim()).filter(Boolean).map(t=>(old.find(o=>o.text===t)||{id:uid(),text:t}));save();modal=null;toast('Tasks saved');break}
+    case 'mg-done':{const g=findIn(b,'mg',ensureMonth(ymOf(todayKey())));if(g&&g.outcome){g.done=!g.done;if(g.done)toast('Goal done. Well done');save()}break}
+    case 'open-note':modal='note';break;
+    case 'note-done':{const L=ensureLog(cur);L.nr=true;touch(cur);modal=null;toast('Note read');break}
+    case 'note-undo':{const L=ensureLog(cur);L.nr=false;touch(cur);modal=null;break}
+    case 'rstep':draft.step=b.dataset.q;modal='rstep';render();setTimeout(()=>{const t=document.getElementById('d-fta');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length)}},40);return;
+    case 'rstep-done':modal='review';break;
+    case 'rstep-prev':case 'rstep-next':{const i=RQ.findIndex(([f])=>f===draft.step),j=i+(a==='rstep-next'?1:-1);
+      if(j<0||j>=RQ.length){modal='review';break}draft.step=RQ[j][0];render();const t=document.getElementById('d-fta');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length)}return}
+    case 'open':cur=b.dataset.k;edit=false;modal=null;go('prod');return;
+    default:return;
+  }
+  render();
+});
+document.addEventListener('input',e=>{const el=e.target;if(el.dataset.wl!=null&&draft&&draft.list){draft.list[+el.dataset.wl]=el.value;return}if(el.dataset.pd!=null&&draft){draft.tasks[+el.dataset.pd]=el.value;return}if(el.dataset.d&&draft)draft[el.dataset.d]=el.value});
+document.addEventListener('change',e=>{
+  const el=e.target,C=S.config;
+  if(el.dataset.two!=null){const L=ensureLog(cur),j=+el.dataset.two;L.two=L.two||[];const v=el.value.trim();L.two[j]={text:v,done:v?!!(L.two[j]&&L.two[j].done):false};touch(cur);render();return}
+  if(el.id==='d-type'){const L=ensureLog(cur);L.type=el.value;touch(cur);render();return}
+  if(el.id==='d-wt'){const v=parseFloat(el.value),L=ensureLog(cur);L.wt=isNaN(v)?null:Math.round(v*10)/10;touch(cur);render();return}
+  if(el.id==='d-bf'){const v=parseFloat(el.value);if(!isNaN(v)){S.meta.bodyFat=S.meta.bodyFat.filter(x=>x.d!==todayKey());S.meta.bodyFat.push({d:todayKey(),v:Math.round(v*10)/10});save();toast('Body fat logged');render()}return}
+  if(el.id==='d-selfnote'){C.selfNote=el.value.trim();save();return}
+  if(el.dataset.lf){const l=findIn(el,'l',C.levers);if(l){l[el.dataset.lf]=el.value.trim();save()}return}
+  if(el.dataset.tf){const t=findIn(el,'t',C.tasks);if(t){const was=t.text;t[el.dataset.tf]=el.value.trim();if(el.dataset.tf==='text'&&!was&&t.text)logChange(`Added “${t.text}”`);save()}return}
+  if(el.dataset.gf){const g=findIn(el,'g',C.reminders);if(!g)return;const i=el.closest('[data-i]');if(i){const it=g.items.find(x=>x.id===i.dataset.i);if(it)it.text=el.value.trim()}else g.title=el.value.trim();save();return}
+  if(el.dataset.mf){const g=findIn(el,'mg',ensureMonth(ymOf(todayKey())));if(g){g[el.dataset.mf]=el.value.trim();save()}return}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal){modal=null;render()}});
+let lastToday=todayKey();
+setInterval(()=>{const t=todayKey();if(t!==lastToday){if(cur===lastToday)cur=t;lastToday=t;render()}},60000);
+
+return {
+  render,
+  markJournal(ts){syncJournal(keyOf(new Date(ts)));render()},
+  journalDone(ts){const k=keyOf(new Date(ts)),t=S.config.tasks.find(t=>t.kind==='journal'),L=getLog(k);return !t||!!(L&&L.t[t.id])},
+  exportData:()=>JSON.parse(JSON.stringify(S)),
+  importData(d){if(d&&d.config&&d.config.levers){S=Object.assign({config:null,days:{},meta:{}},d);S.meta=Object.assign({mealPrep:[],ptePassed:null,bodyFat:[],reviews:{}},S.meta||{});S.weeks=S.weeks||{};persist();render()}}
+};
+})();
+
+renderScale();
+initStore().then(s => { store = s; });
+</script>
+</body>
+</html>
