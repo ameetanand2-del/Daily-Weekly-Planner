@@ -316,6 +316,8 @@ div.d-lever{cursor:default}
 .d-cvl{font-weight:800;font-size:.9rem}
 .d-pcts b.full{color:var(--done)}
 .d-pcts b.up{color:var(--c3)}
+.d-left{grid-template-columns:1fr 1fr}
+#day-week .d-left div{background:var(--surface);box-shadow:var(--shadow)}
 .d-pcts+.d-pcts{margin-top:-6px}
 .d-wkb i.full{background:var(--done)}
 #d-comp{touch-action:pan-y}
@@ -350,6 +352,26 @@ div.d-lever{cursor:default}
 .d-undef{font-size:.82rem;color:var(--open);font-weight:700;margin-top:2px}
 .d-dayrev{display:block}
 .d-rdots.big i{width:12px;height:12px}
+.d-wg{border-left:4px solid var(--c);padding:2px 0 2px 10px;margin:10px 0}
+.d-wgt{display:block;font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.d-wti{padding:7px 0;font-weight:700;border-top:1px solid var(--line)}
+.d-wgt+.d-wti{border-top:none}
+.d-wg .d-task{--c:inherit}
+.d-rules{background:var(--c3-soft);border-radius:12px;padding:10px 12px;margin:10px 0}
+.d-rules summary{font-size:.85rem}
+.d-rules ul{margin:6px 0 0;padding-left:20px;font-size:.9rem}
+.d-wgp{background:color-mix(in srgb,var(--c) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c) 22%,transparent);border-radius:14px;padding:10px 12px;margin:10px 0;transition:border-color .15s}
+.d-wgp:focus-within{border-color:var(--c)}
+.d-wgph{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.d-wgo{display:block;font-size:.78rem;font-weight:600;text-transform:none;letter-spacing:0;color:var(--muted);margin-top:2px;line-height:1.35}
+.d-wadd{font:inherit;font-weight:800;font-size:1.1rem;line-height:1;width:32px;height:32px;border-radius:50%;border:none;background:var(--c);color:var(--surface);cursor:pointer}
+.d-wrow2{display:flex;align-items:center;gap:6px;margin-top:8px;animation:d-in .18s ease}
+.d-wrow2 input{flex:1;border:none;border-bottom:2px solid color-mix(in srgb,var(--c) 30%,var(--line));border-radius:0;background:transparent;padding:8px 2px;font-size:.98rem}
+.d-wrow2 input:focus{outline:none;border-bottom-color:var(--c)}
+.d-wdel{flex:none;border:none;background:none;color:var(--muted);font-size:.9rem;width:30px;height:30px;border-radius:50%;cursor:pointer}
+.d-wdel:hover{background:var(--line)}
+@keyframes d-in{from{opacity:0;transform:translateY(-4px)}}
+.d-boards .card .head{margin-bottom:6px}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -1161,6 +1183,9 @@ function seedSample(){
   S.weeks[pm].done[S.weeks[pm].tasks[0].id]=true;
   S.weeks[m0]={tasks:[{id:uid(),text:'Do 3 full speaking sections, 2 times each, and record them'},{id:uid(),text:'Finish the daily planner’s weekly page and use it every day'}],done:{},meals:false,reviewed:false,review:{}};
   S.weeks[m0].done[S.weeks[m0].tasks[0].id]=true;
+  {const mg=monthGoals(ymOf(t)).filter(g=>g.kind==='main');const G=i=>(mg[i]||{}).id||'';
+   S.weeks[m0].tasks[0].goal=G(0);S.weeks[m0].tasks[1].goal=G(2);
+   S.weeks[addDays(m0,7)]={tasks:[{id:uid(),text:'Score 79+ on 2 full mock tests',goal:G(0)},{id:uid(),text:'Write 5 essays in under 20 minutes each',goal:G(0)},{id:uid(),text:'Add 30 recipes with exact ingredient amounts',goal:G(3)}],done:{},meals:false,reviewed:false,review:{}};}
   S.meta.bodyFat=[{d:addDays(t,-30),v:21.5}];
 }
 
@@ -1342,11 +1367,13 @@ function stackChart(rows,{w=340,hgt=150}){
   return `<svg viewBox="0 0 ${w} ${hgt}" role="img" aria-label="Gym sessions and walks per week">${g}</svg>`;
 }
 const RQ=[['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']];
-let compView='week';
+let compView='week',boardView='week';
+const WCOL=['--c3','--c2','--c1','--accent','--d6'];
 (function(){let sx=null,sy=null;
-  document.addEventListener('touchstart',e=>{if(e.target.closest&&e.target.closest('#d-comp')){sx=e.touches[0].clientX;sy=e.touches[0].clientY}else sx=null},{passive:true});
+  let zone=null;
+  document.addEventListener('touchstart',e=>{const c=e.target.closest&&(e.target.closest('#d-comp')?'comp':e.target.closest('.d-boards')?'board':null);zone=c;if(c){sx=e.touches[0].clientX;sy=e.touches[0].clientY}else sx=null},{passive:true});
   document.addEventListener('touchend',e=>{if(sx==null)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;sx=null;
-    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3){compView=compView==='week'?'month':'week';render()}},{passive:true});
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3){if(zone==='comp')compView=compView==='week'?'month':'week';else boardView=boardView==='week'?'month':'week';render()}},{passive:true});
 })();
 let reviewsOpen=false;
 document.addEventListener('toggle',e=>{if(e.target&&e.target.id==='d-revs')reviewsOpen=e.target.open},true);
@@ -1365,9 +1392,31 @@ function dashHTML(){
       return `<div class="d-wk month" style="grid-template-columns:repeat(${n},1fr)">${Array.from({length:n},(_,d)=>{const k=addDays(first,d),fut=k>tk,s=dayScore(k),p=fut?0:Math.round(s.d/s.t*100),dn=d+1;
         return `<button class="d-wkd ${k===tk?'now':''}" ${fut?'disabled':`data-act="open" data-k="${k}"`} aria-label="${fmt(k,{day:'numeric',month:'long'})}: ${fut?'upcoming':p+'%'}"><span class="d-wkb"><i class="${p>=100?'full':''}" style="height:${p}%"></i></span><span class="d-dl">${dn===1||dn%5===0?dn:''}</span></button>`}).join('')}</div>`})()}</div></div>`;
 
-  const mdays=month.map(getLog).filter(Boolean);
-  const rates=S.config.levers.map(l=>({l,r:mdays.length?mdays.filter(L=>leverHit(L,l)).length/mdays.length:0})).sort((a,b)=>a.r-b.r);
-  h+=`<div class="card"><div class="head"><h2>Your day, ${esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}))}</h2><span class="hint" style="margin:0">Least followed first</span></div>${mdays.length?`<div class="bars d-hbars">${rates.map(({l,r})=>`<div class="bar"><span class="name" title="${esc(l.text)}">${esc(l.kind==='two'?planTitle(tk):l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${Math.round(r*100)}%</span></div>`).join('')}</div>`:'<div class="empty">Tick your habits on Today and this month’s rates show up here.</div>'}</div>`;
+  const bWeek=boardView==='week',pd=bWeek?week:month,plabel=bWeek?'This week':esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}));
+  const plogs=pd.map(getLog).filter(Boolean);
+  const isHealth=l=>['weight','move','meals'].includes(l.kind)||/eat right/i.test(l.text);
+  const avgW=(a,b)=>{const v=[];for(let k=a;k<=b&&k<=tk;k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?Math.round(v.reduce((x,y)=>x+y,0)/v.length*10)/10:null};
+  const aw=avgW(pd[0],pd[pd.length-1]);
+  const prevA=bWeek?avgW(addDays(m0,-28),addDays(m0,-1)):(()=>{const pm=addDays(ym+'-01',-1);return avgW(pm.slice(0,7)+'-01',pm)})();
+  const dl=aw!=null&&prevA!=null?Math.round((aw-prevA)*10)/10:null,cmp=bWeek?'vs last 4 weeks':'vs last month';
+  let gym=0,walk=0;plogs.forEach(L=>{if(L.move==='gym')gym++;else if(L.move==='walk')walk++});
+  const wks=Math.max(1,Math.ceil(pd.length/7)),gT=3*wks,wT=4*wks,nW=pd.filter(k=>(getLog(k)||{}).wt!=null).length;
+  const hits=l=>plogs.filter(L=>leverHit(L,l)).length;
+  const rateRow=l=>{const n=hits(l),r=pd.length?n/pd.length:0;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your main task':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${pd.length}</span></div>`};
+  const hl=S.config.levers.filter(isHealth),pl=S.config.levers.filter(l=>!isHealth(l));
+  let ph=0;plogs.forEach(L=>pl.forEach(l=>{if(leverHit(L,l))ph++}));const pt=pd.length*pl.length;
+  const er=S.config.levers.find(l=>/eat right/i.test(l.text));
+  const rot=`<button class="d-swipe" data-act="bview-toggle">⇄ Swipe for ${bWeek?'the month':'the week'}</button>`;
+  h+=`<div class="d-boards">
+  <div class="card"><div class="head"><h2>Health check-in</h2>${rot}</div><span class="d-cvl" style="display:block;margin:-4px 0 8px">${plabel}</span>
+    <div class="d-pcts"><div><b>${aw!=null?aw+'<small style="font-size:.8rem"> kg</small>':'–'}</b><span>Average weight</span></div>
+      <div><b class="${dl==null?'':dl<=0?'full':'up'}">${dl==null?'–':(dl>0?'+':dl<0?'−':'')+Math.abs(dl).toFixed(1)+'<small style="font-size:.8rem"> kg</small>'}</b><span>${cmp}${prevA!=null?` (${prevA})`:''}</span></div>
+      <div><b class="${nW===pd.length&&pd.length?'full':''}">${nW}/${pd.length}</b><span>Weigh-ins</span></div></div>
+    <div class="d-pcts"><div><b class="${gym>=gT?'full':''}">${gym}/${gT}</b><span>Gym sessions</span></div><div><b class="${walk>=wT?'full':''}">${walk}/${wT}</b><span>Walks</span></div>
+      <div><b>${er?hits(er):0}/${pd.length}</b><span>Ate right</span></div></div>
+    ${plogs.length?`<div class="bars d-hbars">${hl.map(rateRow).join('')}</div>`:''}</div>
+  <div class="card"><div class="head"><h2>Productivity stack</h2>${rot}</div><div class="head" style="margin:-4px 0 8px"><span class="d-cvl">${plabel}</span><span class="badge ${pt&&ph===pt?'done':'open'}">${pt?Math.round(ph/pt*100):0}%</span></div>
+    ${plogs.length?`<div class="bars d-hbars">${pl.map(rateRow).join('')}</div>`:'<div class="empty">Nothing tracked yet.</div>'}</div></div>`;
 
   const rows=[];for(let i=7;i>=0;i--){const m=addDays(m0,-7*i);let gym=0,walk=0;for(let d=0;d<7;d++){const L=getLog(addDays(m,d));if(L&&L.move==='gym')gym++;else if(L&&L.move==='walk')walk++}rows.push({gym,walk,label:fmt(m,{day:'numeric',month:'numeric'})})}
   const gs=gymStreak();
@@ -1396,47 +1445,44 @@ function dashHTML(){
   return h+`</details></div>`;
 }
 
+function monthLeft(ym){const tk=todayKey(),cym=ymOf(tk),y=+ym.slice(0,4),mo=+ym.slice(5,7),n=new Date(y,mo,0).getDate(),last=`${ym}-${pad(n)}`;
+  const d=ym<cym?0:ym>cym?n:diffDays(tk,last)+1;return{d,w:Math.floor(d/7),r:d%7}}
+function leftHTML(ym){const L=monthLeft(ym),mn=parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'});
+  return `<div class="d-pcts d-left"><div><b>${L.w}</b><span>week${L.w===1?'':'s'}${L.r?` + ${L.r} day${L.r===1?'':'s'}`:''} left</span></div><div><b>${L.d}</b><span>day${L.d===1?'':'s'} left in ${esc(mn)}</span></div></div>`}
 /* ---------- Weekly ---------- */
 const WQ=[['wrong','Where did I go wrong in my daily tasks this week?'],['update','What do I need to update to stick to them?'],['forward','What will I do differently in the coming weeks?']];
 let wcur=null;
 const ensureWeek=m=>S.weeks[m]=S.weeks[m]||{tasks:[],done:{},meals:false,reviewed:false,review:{}};
 function weekHTML(){
   const tk=todayKey(),m0=mondayOf(tk),m=wcur||m0,isCur=m===m0,W=S.weeks[m]||{tasks:[],done:{}},nxt=addDays(m,7),NW=S.weeks[nxt]||{tasks:[]};
-  const days=[];for(let d=0;d<7;d++){const k=addDays(m,d);if(k<=tk)days.push(k)}
-  const logs=days.map(getLog).filter(Boolean);
-  let gym=0,walk=0;logs.forEach(L=>{if(L.move==='gym')gym++;else if(L.move==='walk')walk++});
-  const wts=days.map(k=>(getLog(k)||{}).wt).filter(v=>v!=null),dw=wts.length>1?Math.round((wts[wts.length-1]-wts[0])*10)/10:null;
-  const weak=S.config.levers.map(l=>({l,r:logs.length?logs.filter(L=>leverHit(L,l)).length/logs.length:0})).sort((a,b)=>a.r-b.r).slice(0,3);
   const range=`${fmt(m,{day:'numeric',month:'short'})} – ${fmt(addDays(m,6),{day:'numeric',month:'short'})}`;
   const nd=[!!W.reviewed,!!W.meals,(NW.tasks||[]).length>0].filter(Boolean).length;
   let h=`<div class="d-top"><button class="d-nav" data-act="wprev" aria-label="Previous week">‹</button>
     <div class="d-title"><h1>${isCur?'This week':'Week of '+esc(fmt(m,{day:'numeric',month:'short'}))}</h1><div class="d-sub">${esc(range)}${isCur?'':', <button data-act="wthis">back to this week</button>'}</div></div>
     <button class="d-nav" data-act="wnext" ${isCur?'disabled':''} aria-label="Next week">›</button></div>`;
-  const isHealth=l=>['weight','move','meals'].includes(l.kind)||/eat right/i.test(l.text);
-  const avgW=(a,b)=>{const v=[];for(let k=a;k<=b&&k<=tk;k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?Math.round(v.reduce((x,y)=>x+y,0)/v.length*10)/10:null};
-  const aw=avgW(m,addDays(m,6)),p4=avgW(addDays(m,-28),addDays(m,-1)),dl=aw!=null&&p4!=null?Math.round((aw-p4)*10)/10:null;
-  const wpts=[];for(let i=4;i>=0;i--){const wm=addDays(m,-7*i),v=avgW(wm,addDays(wm,6));if(v!=null)wpts.push({x:-i,y:v})}
-  const nW=days.filter(k=>(getLog(k)||{}).wt!=null).length;
-  const rateRow=l=>{const r=logs.length?logs.filter(L=>leverHit(L,l)).length/logs.length:0;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your main task':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${logs.filter(L=>leverHit(L,l)).length}/${days.length}</span></div>`};
-  const hl=S.config.levers.filter(isHealth),pl=S.config.levers.filter(l=>!isHealth(l));
-  let ph=0,pt=0;logs.forEach(L=>pl.forEach(l=>{pt++;if(leverHit(L,l))ph++}));pt=days.length*pl.length;
-  h+=`<div class="card"><h2>Health check-in</h2>
-    <div class="d-pcts"><div><b>${aw!=null?aw+'<small style="font-size:.8rem"> kg</small>':'–'}</b><span>Average weight</span></div>
-      <div><b class="${dl==null?'':dl<=0?'full':'up'}">${dl==null?'–':(dl>0?'+':dl<0?'−':'')+Math.abs(dl).toFixed(1)+'<small style="font-size:.8rem"> kg</small>'}</b><span>vs last 4 weeks${p4!=null?` (${p4})`:''}</span></div>
-      <div><b>${nW}/${days.length}</b><span>Weigh-ins</span></div></div>
-    <div class="d-pcts"><div><b class="${gym>=3?'full':''}">${gym}/3</b><span>Gym sessions</span></div><div><b class="${walk>=4?'full':''}">${walk}/4</b><span>Walks</span></div>
-      <div><b>${logs.filter(L=>S.config.levers.some(l=>/eat right/i.test(l.text)&&leverHit(L,l))).length}/${days.length}</b><span>Ate right</span></div></div>
-    <span class="lab">Weekly average weight, last 5 weeks</span>${wpts.length>1?svgLine(wpts,{target:85,min:Math.floor(Math.min(85,...wpts.map(p=>p.y))-1),max:Math.ceil(Math.max(85,...wpts.map(p=>p.y))+0.5),hgt:120}):'<div class="empty">Weigh in daily and your weekly averages show up here.</div>'}
-    ${logs.length?`<div class="bars d-hbars" style="margin-top:10px">${hl.map(rateRow).join('')}</div>`:''}</div>`;
-  h+=`<div class="card"><div class="head"><h2>Productivity stack</h2><span class="badge ${pt&&ph===pt?'done':'open'}">${pt?Math.round(ph/pt*100):0}% this week</span></div>
-    ${logs.length?`<div class="bars d-hbars">${pl.map(rateRow).join('')}</div>`:'<div class="empty">Nothing tracked this week yet.</div>'}</div>`;
+  if(isCur)h+=leftHTML(ymOf(tk));
   h+=`<section class="card d-sec ${nd===3?'full':''}" style="--c:var(--c1)"><div class="d-sh"><span class="d-st">Weekly checklist</span><span class="d-sc">${nd}/3</span></div>
     <button class="d-task ${W.reviewed?'on':''}" data-act="open-wrev"><span class="d-box">${W.reviewed?CHECK:''}</span><span class="d-tt"><span class="d-tx">Review the week</span><span class="d-nt">Go through each day’s review, then: where you went wrong, what to update, and what to do going forward</span></span><span class="d-chev">›</span></button>
     <button class="d-task ${W.meals?'on':''}" data-act="${W.meals?'noop':'open-wmeals'}" aria-haspopup="dialog"><span class="d-box">${W.meals?CHECK:''}</span><span class="d-tt"><span class="d-tx">Plan every meal for next week</span><span class="d-nt">${W.meals?'Planned':'21 meals and 7 snacks. 80% meal-prepped, groceries ordered'}</span></span></button>
-    <button class="d-task ${(NW.tasks||[]).length?'on':''}" data-act="open-wtasks" data-w="${nxt}"><span class="d-box">${(NW.tasks||[]).length?CHECK:''}</span><span class="d-tt"><span class="d-tx">Plan next week’s tasks</span><span class="d-nt">${(NW.tasks||[]).length?`${NW.tasks.length} planned: ${[...new Set(NW.tasks.map(t=>{const g=monthGoals(ymOf(nxt)).find(g=>g.id===t.goal);return g?g.text:'Other'}))].map(esc).join(', ')}. Tap to edit`:'Exactly what you’ll complete, 100%, based on this month’s goals'}</span></span><span class="d-chev">›</span></button></section>`;
+    <button class="d-task ${(NW.tasks||[]).length?'on':''}" data-act="open-wtasks" data-w="${nxt}"><span class="d-box">${(NW.tasks||[]).length?CHECK:''}</span><span class="d-tt"><span class="d-tx">Plan next week’s tasks</span><span class="d-nt">${(NW.tasks||[]).length?`${NW.tasks.length} planned. Tap to edit`:'Exactly what you’ll complete, 100%, based on this month’s goals'}</span></span><span class="d-chev">›</span></button></section>`;
+  const block=(wk,title,tickable)=>{const WK=S.weeks[wk]||{tasks:[],done:{}},ts=WK.tasks||[];if(!ts.length&&!tickable)return '';
+    const goals=monthGoals(ymOf(wk)).filter(g=>g.kind==='main'),ids=[...goals.map(g=>g.id),''];
+    const dn=ts.filter(t=>WK.done&&WK.done[t.id]).length;
+    let s=`<section class="card d-wtc"><div class="head"><h2>${title}</h2>${ts.length?`<span class="badge ${tickable&&dn===ts.length?'done':'open'}">${tickable?`${dn}/${ts.length} done`:`${ts.length} planned`}</span>`:''}</div>
+      <p class="hint" style="margin:-6px 0 8px">${esc(fmt(wk,{day:'numeric',month:'short'}))} – ${esc(fmt(addDays(wk,6),{day:'numeric',month:'short'}))}</p>`;
+    if(!ts.length)s+=`<div class="empty">No tasks planned for this week.</div>`;
+    ids.forEach((gid,gi)=>{const list=ts.filter(t=>(t.goal||'')===gid||(gid===''&&!goals.some(g=>g.id===t.goal)));if(!list.length)return;
+      const g=goals.find(x=>x.id===gid);
+      s+=`<div class="d-wg" style="--c:var(${WCOL[gi%WCOL.length]})"><span class="d-wgt">${esc(g?g.text:'Other')}</span>
+        ${list.map(t=>{const on=!!(WK.done&&WK.done[t.id]);return tickable?`<button class="d-task ${on?'on':''}" data-act="wt-done" data-w="${wk}" data-id="${t.id}" role="checkbox" aria-checked="${on}"><span class="d-box">${on?CHECK:''}</span><span class="d-tt"><span class="d-tx">${esc(t.text)}</span></span></button>`
+          :`<div class="d-wti">${esc(t.text)}</div>`}).join('')}</div>`});
+    return s+`<button class="d-add" data-act="open-wtasks" data-w="${wk}">${ts.length?'Edit tasks':'＋ Add tasks'}</button></section>`};
+  h+=block(nxt,'Next week’s tasks',false);
+  h+=block(m,isCur?'This week’s tasks':'That week’s tasks',true);
   if(W.reviewed&&W.review)h+=`<div class="card"><details><summary><span>Your review</span></summary>${WQ.map(([f,q])=>W.review[f]?`<span class="lab">${q}</span><p style="margin:0 0 10px;white-space:pre-wrap">${esc(W.review[f])}</p>`:'').join('')}</details></div>`;
   return h;
 }
+
 
 /* ---------- pop-ups ---------- */
 function modalHTML(){
@@ -1485,17 +1531,25 @@ function modalHTML(){
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">Plan every meal for next week</h2>
     <div class="d-rg" style="background:var(--c2-soft)"><ul><li>Plan 21 meals and 7 snacks for the coming week.</li><li>80% of the meals fully meal-prepped.</li><li>Order the groceries you need.</li></ul></div>
     <div class="d-mf"><button class="btn ghost" data-act="close">Not yet</button><button class="btn" data-act="wmeals-done">Confirm, all planned</button></div>`;
+  }else if(modal==='wtasks'&&draft.stage==='goals'){
+    const ymw=ymOf(draft.w),all=monthGoals(ymw),goals=all.filter(g=>g.kind==='main'),isCurW=draft.w===mondayOf(todayKey());
+    inner=`<div class="head" style="margin-bottom:2px"><h2 style="font-size:1.25rem;margin:0">Start with your goals</h2><span class="hint" style="margin:0">${esc(monthName(ymw))}</span></div>
+    ${leftHTML(ymw)}
+    <p class="hint" style="margin:4px 0 10px">Look at where each goal stands, then break ${isCurW?'this':'next'} week down into tasks that move them forward.</p>
+    ${goals.map((g,gi)=>`<div class="d-wgp" style="--c:var(${WCOL[gi%WCOL.length]})"><span class="d-wgt">Goal ${gi+1}${g.done?' · done':''}</span><b style="display:block;margin:2px 0 4px">${esc(g.text)}</b>
+      ${g.outcome?`<span class="d-out"><b>Done means:</b> ${esc(g.outcome)}</span>`:'<span class="d-undef">End result not written yet</span>'}
+      ${g.metric?`<span class="d-nt" style="display:block;margin-top:4px">${esc(metricText(g.metric))}</span>`:''}</div>`).join('')||'<div class="empty">No goals set for this month yet.</div>'}
+    <div class="d-mf"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="wl-start">Plan the tasks ›</button></div>`;
   }else if(modal==='wtasks'){
-    const goals=monthGoals(ymOf(draft.w)).filter(g=>g.kind==='main');
-    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Next week’s tasks</h2><p class="hint" style="margin:0 0 8px">${esc(fmt(draft.w,{day:'numeric',month:'short'}))} – ${esc(fmt(addDays(draft.w,6),{day:'numeric',month:'short'}))}</p>
-    <div class="d-rg" style="background:var(--c3-soft)"><ul>
+    const goals=monthGoals(ymOf(draft.w)).filter(g=>g.kind==='main'),ids=[...goals.map(g=>g.id),''],isCurW=draft.w===mondayOf(todayKey());
+    inner=`<div class="head" style="margin-bottom:2px"><h2 style="font-size:1.25rem;margin:0">${isCurW?'This week’s tasks':'Next week’s tasks'}</h2><span class="hint" style="margin:0">${esc(fmt(draft.w,{day:'numeric',month:'short'}))} – ${esc(fmt(addDays(draft.w,6),{day:'numeric',month:'short'}))}</span></div>
+    <details class="d-rules"><summary><span>Before you plan</span></summary><ul>
       <li>Write exactly what you’ll complete, based on this month’s goals. Each task has to be achieved fully, 100%, with nothing carried over.</li>
-      <li>Don’t overplan. Underplan and achieve, so you build momentum in the long run. Working less, but on high-priority work, leads to higher productivity anyway.</li></ul></div>
-    ${draft.list.map((t,j)=>`<div class="d-erow"><div class="d-stack"><input type="text" data-wl="${j}" value="${esc(t.text)}" placeholder="Task ${j+1}: exactly what will be done" aria-label="Task ${j+1}">
-      <select class="small" data-wg="${j}" aria-label="Goal for task ${j+1}">${goals.map(g=>`<option value="${g.id}" ${t.goal===g.id?'selected':''}>${esc(g.text.length>34?g.text.slice(0,32)+'…':g.text)}</option>`).join('')}<option value="" ${!t.goal?'selected':''}>Other</option></select></div>
-      <button class="d-x" data-act="wl-del" data-j="${j}" aria-label="Remove task">✕</button></div>`).join('')}
-    <button class="d-add" data-act="wl-add">＋ Add task</button>
-    <div class="d-mf"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="wl-save">Save tasks</button></div>`;
+      <li>Don’t overplan. Underplan and achieve, so you build momentum in the long run. Working less, but on high-priority work, leads to higher productivity anyway.</li></ul></details>
+    ${ids.map((gid,gi)=>{const g=goals.find(x=>x.id===gid),rows=draft.list.map((t,j)=>[t,j]).filter(([t])=>(t.goal||'')===gid);
+      return `<div class="d-wgp" style="--c:var(${WCOL[gi%WCOL.length]})"><div class="d-wgph"><span class="d-wgt">${esc(g?g.text:'Other')}${g&&g.outcome?`<span class="d-wgo">Done means: ${esc(g.outcome)}</span>`:''}</span><button class="d-wadd" data-act="wl-add" data-g="${gid}" aria-label="Add a task for ${esc(g?g.text:'Other')}">＋</button></div>
+        ${rows.map(([t,j])=>`<div class="d-wrow2"><input type="text" data-wl="${j}" value="${esc(t.text)}" placeholder="Exactly what will be done" aria-label="Task"><button class="d-wdel" data-act="wl-del" data-j="${j}" aria-label="Remove task">✕</button></div>`).join('')}</div>`}).join('')}
+    <div class="d-mf"><button class="btn ghost" data-act="wl-goals">‹ Goals</button><button class="btn" data-act="wl-save">Save tasks</button></div>`;
   }else if(modal==='review'){
     inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Review the day</h2><p class="hint" style="margin:0 0 10px">Productivity, health and mental state. How well did you follow your day?</p>
     <div class="scale d-scale" role="group" aria-label="Rate the day">${[0,1,2,3,4,5].map(n=>`<button type="button" data-act="drate" data-n="${n}" aria-pressed="${draft.rating===n}">${n}</button>`).join('')}</div>
@@ -1597,10 +1651,11 @@ document.addEventListener('click',e=>{
     case 'sort':reviewSort=b.dataset.v;break;
     case 'cview':compView=b.dataset.v;break;
     case 'cview-toggle':compView=compView==='week'?'month':'week';break;
+    case 'bview-toggle':boardView=boardView==='week'?'month':'week';break;
     case 'wprev':wcur=addDays(wcur||mondayOf(todayKey()),-7);break;
     case 'wnext':{const m0=mondayOf(todayKey()),n=addDays(wcur||m0,7);wcur=n>=m0?null:n;break}
     case 'wthis':wcur=null;break;
-    case 'wt-done':{const W=ensureWeek(wcur||mondayOf(todayKey()));W.done[b.dataset.id]=!W.done[b.dataset.id];save();break}
+    case 'wt-done':{const W=ensureWeek(b.dataset.w||wcur||mondayOf(todayKey()));W.done[b.dataset.id]=!W.done[b.dataset.id];save();break}
     case 'w-meals':case 'open-wmeals':modal='wmeals';break;
     case 'wmeals-done':{const W=ensureWeek(wcur||mondayOf(todayKey()));W.meals=true;save();modal=null;toast('Meals planned for next week');break}
     case 'open-wrev':{const m=wcur||mondayOf(todayKey()),W=S.weeks[m]||{};draft=Object.assign({s:0,m},W.review||{});modal='wrev';break}
@@ -1608,8 +1663,10 @@ document.addEventListener('click',e=>{
       if(j>=tot){const W=ensureWeek(draft.m);W.review={wrong:draft.wrong||'',update:draft.update||'',forward:draft.forward||''};W.reviewed=true;save();modal=null;toast('Weekly review saved');break}
       if(j<0)return;draft.s=j;render();const t=document.getElementById('d-fta');t&&t.focus();return}
     case 'open-wtasks':{const w=b.dataset.w,W=S.weeks[w]||{tasks:[]},g0=(monthGoals(ymOf(w)).find(g=>g.kind==='main')||{}).id||'';
-      const list=(W.tasks||[]).map(t=>({text:t.text,goal:t.goal??g0}));if(!list.length)list.push({text:'',goal:g0},{text:'',goal:g0});draft={w,list,g0};modal='wtasks';break}
-    case 'wl-add':draft.list.push({text:'',goal:draft.g0});render();{const ins=document.querySelectorAll('[data-wl]');ins[ins.length-1]&&ins[ins.length-1].focus()}return;
+      const list=(W.tasks||[]).map(t=>({text:t.text,goal:t.goal??''}));if(!list.length)list.push({text:'',goal:g0});draft={w,list,g0,stage:'goals'};modal='wtasks';break}
+    case 'wl-start':draft.stage='tasks';{const sh=document.querySelector('.d-sheet');sh&&(sh.scrollTop=0)}break;
+    case 'wl-goals':draft.stage='goals';break;
+    case 'wl-add':{const gid=b.dataset.g??draft.g0;draft.list.push({text:'',goal:gid});const j=draft.list.length-1;render();const i=document.querySelector(`[data-wl="${j}"]`);i&&i.focus();return}
     case 'wl-del':draft.list.splice(+b.dataset.j,1);break;
     case 'wl-save':{const W=ensureWeek(draft.w),old=W.tasks||[];W.tasks=draft.list.filter(t=>t.text.trim()).map(t=>{const o=old.find(o=>o.text===t.text.trim());return {id:o?o.id:uid(),text:t.text.trim(),goal:t.goal}});save();modal=null;toast('Next week’s tasks saved');break}
     case 'mg-done':{const g=findIn(b,'mg',ensureMonth(ymOf(todayKey())));if(g&&g.outcome){g.done=!g.done;if(g.done)toast('Goal done. Well done');save()}break}
