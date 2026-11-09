@@ -255,7 +255,7 @@ select.d-type{width:auto;padding:6px 28px 6px 12px;font-size:.85rem;font-weight:
 .d-tbox.on{background:var(--done);border-color:var(--done)}
 .d-tbox:disabled{opacity:.4;cursor:default}
 .d-tbox svg{width:14px;height:14px}
-.d-topbar{display:flex;justify-content:flex-end;margin-bottom:2px}
+.d-topbar{display:flex;justify-content:space-between;margin-bottom:2px}
 .d-goalsbtn,.d-back{font:inherit;font-weight:800;font-size:.88rem;border:none;border-radius:999px;padding:7px 14px;cursor:pointer;background:var(--surface);color:var(--accent);box-shadow:var(--shadow)}
 .d-back{margin:2px 0 6px}
 .d-lever{all:unset;box-sizing:border-box;display:block;width:100%;padding:10px 0;cursor:pointer}
@@ -372,6 +372,25 @@ div.d-lever{cursor:default}
 .d-wdel:hover{background:var(--line)}
 @keyframes d-in{from{opacity:0;transform:translateY(-4px)}}
 .d-boards .card .head{margin-bottom:6px}
+.d-sheet.h65{min-height:65vh}
+.d-hcard{background:var(--c2-soft);--c:var(--c2)}
+.d-hs{border-radius:12px;padding:10px 12px;margin:10px 0;background:var(--bg1);font-size:.93rem}
+.d-hs.ok{background:var(--c2-soft)}.d-hs.lvl{background:var(--accent-soft)}.d-hs.warn{background:var(--c3-soft)}
+.d-lvls{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.d-lvls .d-pill:disabled{opacity:.4}
+.d-hh{display:flex;flex-wrap:wrap;gap:6px}
+.d-hh span{font-size:.82rem;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--line)}
+.d-hh span.on{background:var(--done);color:var(--surface)}
+.d-nd{background:var(--bg1);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.d-nd ul{margin:2px 0 4px;padding-left:20px}
+.d-nd li{margin:3px 0}
+.d-rg ol{margin:4px 0 0;padding-left:22px}
+.d-rg ol li{margin:5px 0}
+.d-side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:.72rem;font-weight:800;color:var(--muted);align-self:center;white-space:nowrap}
+.d-side .z{color:var(--done)}
+.d-opt{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;cursor:pointer;border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:8px;background:var(--surface)}
+.d-opt.on{border-color:var(--done);background:var(--c2-soft)}
+.d-opt.on .d-box{background:var(--done);border-color:var(--done)}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -1107,6 +1126,23 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
 (function(){const C=S.config;if(C.mig.includes('order13'))return;C.mig.push('order13');
   const g=C.reminders.find(g=>g.kind==='plan');if(g&&!g.items.some(x=>/shorter burst/i.test(x.text)))g.items.push(R('For a shorter burst of work, like 2, 3 or 5 hours, block out that time and sip your coffee slowly through it. Without that, you tend to lose focus. The downside: once you’re done, you won’t have the energy for much else. The upside: with the work done, you’re free to do anything else afterwards. It’s a blessing in disguise.'));
   persist();})();
+(function(){const C=S.config;if(C.mig.includes('order14'))return;C.mig.push('order14');
+  if(!C.health)C.health={walk:30,gym:3,kcal:2600,last:null};
+  if(!C.principles)C.principles={do:['Follow a strict whole-food diet','Hydrate: 1 hydration drink, 1 water bottle and 2 cups of coffee','Exercise','Complete your 3 main tasks','Mental health checks','7 hours of sleep'],dont:['No Break: in bed by 9 pm','No social media: Hinge or talking to someone instead']};
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order15'))return;C.mig.push('order15');
+  const sd=C.levers.find(l=>/shut down/i.test(l.text));if(sd){sd.kind='shutdown';sd.note='Everything off, phone out of the room, then reflect on the day'}
+  const sl=C.levers.find(l=>/^sleep/i.test(l.text));if(sl)sl.note=(sl.note||'').replace(/^Phone out of the room\.\s*/,'');
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order16'))return;C.mig.push('order16');
+  C.levers=C.levers.filter(l=>!/^sleep/i.test(l.text));
+  const mv=(f,before)=>{const a=C.levers.find(f),b=C.levers.find(before);if(!a||!b||a===b)return;C.levers=C.levers.filter(x=>x!==a);C.levers.splice(C.levers.indexOf(b),0,a);a.phase=b.phase};
+  mv(l=>l.kind==='reminders',l=>/coffee/i.test(l.text));
+  mv(l=>l.kind==='note',l=>l.kind==='shutdown');
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order17'))return;C.mig.push('order17');
+  const m=C.levers.find(l=>l.kind==='move');if(m){if(/^move$/i.test(m.text.trim()))m.text='Daily exercise';m.note='No excuses. Just do it.'}
+  persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1121,7 +1157,7 @@ const ymOf=k=>k.slice(0,7);
 const monthName=ym=>parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long',year:'numeric'});
 function logChange(text){S.config.changes.unshift({d:todayKey(),text});S.config.changes=S.config.changes.slice(0,100)}
 
-function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='note')return !!L.nr;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
+function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='note')return !!L.nr;if(l.kind==='shutdown')return !!L.reviewed;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
 const leversHit=L=>S.config.levers.filter(l=>leverHit(L,l)).length;
 const fullDay=L=>!!L&&S.config.levers.length>0&&leversHit(L)===S.config.levers.length;
 function lastMealPrep(before){return S.meta.mealPrep.filter(d=>d<=before).sort().pop()||null}
@@ -1152,7 +1188,7 @@ function longest(fn){const ks=Object.keys(S.days).sort();let best=0,run=0,prev=n
   for(const k of ks){if(fn(S.days[k])){run=(prev&&run&&diffDays(prev,k)===1)?run+1:1;best=Math.max(best,run)}else run=0;prev=k}return best}
 const gymCount=m=>{let n=0;for(let d=0;d<7;d++){const L=getLog(addDays(m,d));if(L&&L.move==='gym')n++}return n};
 function gymWeeks(){const out=[],m0=mondayOf(todayKey());for(let i=7;i>=0;i--){const m=addDays(m0,-7*i);out.push({m,n:gymCount(m)})}return out}
-function gymStreak(){const m0=mondayOf(todayKey());let s=0,m=addDays(m0,-7);while(gymCount(m)>=3&&s<60){s++;m=addDays(m,-7)}if(gymCount(m0)>=3)s++;return s}
+function gymStreak(){const m0=mondayOf(todayKey());let s=0,m=addDays(m0,-7);while(gymCount(m)>=H().gym&&s<60){s++;m=addDays(m,-7)}if(gymCount(m0)>=H().gym)s++;return s}
 function latestWeight(){const ks=Object.keys(S.days).filter(k=>S.days[k].wt!=null).sort();return ks.length?{k:ks[ks.length-1],v:S.days[ks[ks.length-1]].wt}:null}
 function pteMonth(ym){let m=0,hit=0,n=0;const t=todayKey();for(const k in S.days)if(k.startsWith(ym)&&k<=t){const L=S.days[k];m+=L.min||0;n++;if((L.min||0)>=pteTarget(k))hit++}return{m,hit,n}}
 
@@ -1161,8 +1197,8 @@ function seedSample(){
   if(seeded||!PREVIEW)return;seeded=true;
   let x=11;const rnd=()=>(x=(x*16807)%2147483647)/2147483647,pick=a=>a[Math.floor(rnd()*a.length)];
   const SR=['Gym done straight after waking','Sipped both coffees slowly','Hit 2,600 kcal exactly','Two good speaking sessions','Phone out of the room by 9','Stayed calm and slow with people'];
-  const SW=['Scrolled for 20 minutes','Skipped the walk','In bed at 9:40','Third coffee','Rushed my speaking practice'];
-  const SY=['Tired after work','Didn’t plan meals in the morning','Long day, low energy','Stayed late at work'];
+  const SW=['Walk straight after work','Plan meals before 8 am','Phone out of the room by 8:45','Stop at two coffees','Slow down during speaking practice'];
+  const SY=['Tired days need an earlier night','Planning meals early makes eating right easy','A short walk resets my focus','Less coffee, better sleep'];
   const t=todayKey(),C=S.config;
   for(let i=42;i>=1;i--){
     const k=addDays(t,-i);if(i%13===6)continue;
@@ -1174,7 +1210,7 @@ function seedSample(){
     if(rnd()<0.85)L.wt=Math.round((89.4-0.055*(42-i)+(rnd()-0.5)*0.6)*10)/10;
     C.tasks.forEach(tk=>{if(tk.kind==='simple'&&rnd()<form)L.t[tk.id]=true;if(tk.kind==='journal'&&journaledOn(k))L.t[tk.id]=true});
     L.readAM=rnd()<0.85;L.readPM=rnd()<0.7;L.planRead=rnd()<form;
-    if(rnd()<0.7){L.reviewed=true;const p=leversHit(L)/C.levers.length;L.rating=Math.max(0,Math.min(5,Math.round(p*5+(rnd()-0.5)*1.4)));L.right=pick(SR);if(p<0.9){L.wrong=pick(SW);L.why=pick(SY)}}
+    if(rnd()<0.7){L.reviewed=true;const p=leversHit(L)/C.levers.length;L.rating=Math.max(0,Math.min(5,Math.round(p*5+(rnd()-0.5)*1.4)));L.went=pick(SR);if(p<0.9){L.diff=pick(SW);L.learn=pick(SY)}}
   }
   S.meta.mealPrep=[addDays(t,-16),addDays(t,-2)];
   const m0=mondayOf(t),pm=addDays(m0,-7);
@@ -1191,7 +1227,7 @@ function seedSample(){
 
 /* ---------- Today ---------- */
 function pills(L,l){
-  if(l.kind==='move')return `<div class="d-pills"><button class="d-pill ${L.move==='gym'?'on':''}" data-act="move" data-v="gym">Full gym session</button><button class="d-pill ${L.move==='walk'?'on':''}" data-act="move" data-v="walk">30 min walk</button></div>`;
+  if(l.kind==='move')return `<div class="d-pills"><button class="d-pill ${L.move==='gym'?'on':''}" data-act="move" data-v="gym">Full gym session</button><button class="d-pill ${L.move==='walk'?'on':''}" data-act="move" data-v="walk">${H().walk} min walk + 50 push-ups</button></div>`;
   return `<div class="d-pills"><button class="d-pill ${L.zb?'on':''}" data-act="zero" data-v="zb">${L.zb?'✓ ':''}No Break</button><button class="d-pill ${L.zs?'on':''}" data-act="zero" data-v="zs">${L.zs?'✓ ':''}No social media</button></div>`;
 }
 function leverRow(l,i,L){
@@ -1203,6 +1239,10 @@ function leverRow(l,i,L){
       <span class="d-wrow"><input type="number" inputmode="decimal" step="0.1" min="30" max="250" id="d-wt" value="${has?L.wt:''}" placeholder="${lw?lw.v:'kg'}" aria-label="Weight in kg"><span class="d-nt">kg${lw&&!has?`, last ${lw.v}`:''}</span></span></span></div></div>`}
   if(l.kind==='reminders'){const n=remCount(L),nt=n===2?'Read twice today':n===1?(L.readAM?'Morning read done. Read again after 12 pm':'Afternoon read done'):'Read before 12 pm, and again after';
     return `<button class="d-lever ${on?'on':''} ${n===1?'half':''}" data-act="open-rem" aria-haspopup="dialog"><span class="d-num">${on?CHECK:n===1?'½':i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)} <span class="d-mnum">${n}/2</span></span><span class="d-nt">${nt}</span></span><span class="d-chev">›</span></button>`}
+  if(l.kind==='shutdown')return `<button class="d-lever ${on?'on':''}" data-act="open-review" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?`Reflected${L.rating!=null?`, rated ${L.rating}/5`:''}. Tap to view or edit`:esc(l.note)}</span></span><span class="d-chev">›</span></button>`;
+  if(l.kind==='move'){const wc=weekMove(cur),h=H(),gl=Math.max(0,h.gym-wc.gym),wl=Math.max(0,7-h.gym-wc.walk);
+    return `<button class="d-lever ${on?'on':''}" data-act="open-move" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${L.move==='gym'?'Full gym session':L.move==='walk'?`${h.walk} min walk + 50 push-ups`:esc(l.note)}</span></span>
+      <span class="d-side" aria-label="This week: ${gl} gym and ${wl} walks left"><span class="${gl?'':'z'}">🏋️ ${gl} left</span><span class="${wl?'':'z'}">🚶 ${wl} left</span></span><span class="d-chev">›</span></button>`}
   if(l.kind==='meals')return `<button class="d-lever ${on?'on':''}" data-act="open-meals" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Planned today':'With calories. Tap to read your meal rules'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='two')return `<button class="d-lever ${on?'on':''}" data-act="open-plan" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${planTitle(cur)}</span><span class="d-nt">${on?'Read today':'Tap to read your planning principles'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='simple')return `<button class="d-lever ${on?'on':''}" data-act="lever" data-id="${l.id}" role="checkbox" aria-checked="${on}">${head}</button>`;
@@ -1225,17 +1265,18 @@ function taskRow(t,L,k){
 }
 function todayHTML(){
   const k=cur,L=getLog(k)||{lv:{},t:{}},type=typeOf(k),isToday=k===todayKey();
-  const nL=S.config.levers.length,hit=leversHit(L),full=nL>0&&hit===nL;
+  const nL=S.config.levers.length,hit=leversHit(L),sc=dayScore(k),full=sc.t>0&&sc.d===sc.t;
   const vt=visibleTasks(k),td=vt.filter(t=>taskDone(L,t,k)).length;
-  let h=`<div class="d-topbar"><button class="d-goalsbtn" data-act="goals">🎯 Goals</button></div><div class="d-top"><button class="d-nav" data-act="prev" aria-label="Previous day">‹</button>
+  let h=`<div class="d-topbar"><button class="d-goalsbtn" data-act="open-princ">📜 Principles</button><button class="d-goalsbtn" data-act="goals">🎯 Goals</button></div><div class="d-top"><button class="d-nav" data-act="prev" aria-label="Previous day">‹</button>
     <div class="d-title"><h1>${isToday?'Today':esc(fmt(k,{weekday:'long'}))}</h1>
     <div class="d-sub">${isToday?esc(fmt(k,{weekday:'long',day:'numeric',month:'long'})):`${esc(fmt(k,{day:'numeric',month:'long'}))}, <button data-act="today">back to today</button>`}</div></div>
     <button class="d-nav" data-act="next" ${isToday?'disabled':''} aria-label="Next day">›</button></div>
-  <div class="card d-prog ${full?'full':''}"><div class="d-pct">${hit}<small>/${nL}</small></div>
+  <div class="card d-prog ${full?'full':''}"><div class="d-pct">${sc.d}<small>/${sc.t}</small></div>
     <div class="d-pr"><div class="d-prrow"><span class="d-prt">${full?'Full day!':'done today'}</span>
       <select id="d-type" class="d-type" aria-label="Day type">${[['weekday','Weekday'],['weekend','Weekend'],['holiday','Holiday']].map(([v,l])=>`<option value="${v}" ${type===v?'selected':''}>${l}</option>`).join('')}</select></div>
-    <div class="d-track"><div class="d-fill" style="width:${nL?hit/nL*100:0}%"></div></div>
-    <div class="d-nt" style="margin-top:6px">Goal tasks ${td} of ${vt.length}</div></div></div>`;
+    <div class="d-track"><div class="d-fill" style="width:${sc.t?sc.d/sc.t*100:0}%"></div></div>
+    <div class="d-nt" style="margin-top:6px">${nL} habits + ${vt.map(t=>t.text.toLowerCase()).join(' + ')||'tasks'}</div></div></div>`;
+  {const hs=healthState();h+=`<button class="d-row d-hcard" data-act="open-health" aria-haspopup="dialog"><span class="d-ico" aria-hidden="true">💪</span><span class="d-tt"><span class="d-tx">Health</span><span class="d-nt">${hs.aw!=null?`${hs.aw.toFixed(1)} kg average this week. `:''}${Math.min(hs.st,10)} of 10 days at 100%${hs.rule==='level'||hs.rule==='stall'?'. Time to level up':hs.rule==='track'?'. On the right track':''}</span></span><span class="d-chev">›</span></button>`}
 
   if(edit)return h+editHTML();
 
@@ -1245,10 +1286,7 @@ function todayHTML(){
   h+=groups.map(gid=>{const g=goalOf(gid),ts=vt.filter(t=>t.goal===gid),d=ts.filter(t=>taskDone(L,t,k)).length;
     return `<section class="card d-sec ${d===ts.length?'full':''}" style="--c:var(${g.color})"><div class="d-sh"><span class="d-st">${esc(GROUP_TITLE[gid]||gid)}</span><span class="d-sc">${d}/${ts.length}</span></div>
       ${ts.map(t=>taskRow(t,L,k)).join('')}</section>`}).join('');
-  const rv=!!L.reviewed;
-  h+=`<button class="d-row d-review ${rv?'on':''}" data-act="open-review" aria-haspopup="dialog"><span class="d-box">${rv?CHECK:''}</span>
-    <span class="d-tt"><span class="d-tx">Review the day</span><span class="d-nt">${rv?(L.rating!=null?`Rated ${L.rating}/5. `:'')+'Tap to view or edit':'Productivity, health and mental state'}</span></span><span class="d-chev">›</span></button>
-    <div class="d-foot"><button class="btn small ghost" data-act="edit">Edit your day, tasks &amp; reminders</button></div>`;
+  h+=`<div class="d-foot"><button class="btn small ghost" data-act="edit">Edit your day, tasks &amp; reminders</button></div>`;
   return h;
 }
 function editHTML(){
@@ -1280,7 +1318,7 @@ function editHTML(){
 function metricText(m){
   const ym=ymOf(todayKey());
   if(m==='pte'){const p=pteMonth(ym);return `${(p.m/60).toFixed(1)} h studied this month, target met on ${p.hit} of ${p.n} days`}
-  if(m==='weight'){const w=latestWeight(),gs=gymStreak();return `${w?`Latest ${w.v} kg, ${Math.max(0,w.v-85).toFixed(1)} kg to go`:'No weigh-ins yet'}. Gym: ${Math.min(gs,8)} of 8 weeks with 3 sessions`}
+  if(m==='weight'){const w=latestWeight(),gs=gymStreak();return `${w?`Latest ${w.v} kg, ${Math.max(0,w.v-85).toFixed(1)} kg to go`:'No weigh-ins yet'}. Gym: ${Math.min(gs,8)} of 8 weeks with ${H().gym} sessions`}
   if(m==='zb'){let n=0,d=0;for(const k in S.days)if(k.startsWith(ym)&&k<=todayKey()){d++;if(S.days[k].nr)n++}return `Note to yourself read on ${n} of ${d} days this month`}
   if(m==='usage'){let n=0;for(const k in S.days)if(k.startsWith(ym)&&k<=todayKey())n++;return `Used on ${Math.min(n,20)} of 20 days this month`}
   if(m==='zs')return `Streak ${streak(L=>L&&L.zs)} days, longest ${longest(L=>L&&L.zs)}`;
@@ -1324,7 +1362,7 @@ function goalsHTML(){
   const gs=gymStreak();
   h+=`<div class="card"><h2>Later</h2><p class="hint" style="margin:-4px 0 6px">Only add once you’re consistent. Only cut what isn’t useful.</p>
     ${S.config.later.map(it=>{const locked=it.lock==='gym8'?gs<8:it.lock==='pte'?!passed:false;
-      const why=it.lock==='gym8'?`Unlocks after 8 straight weeks of 3 full gym sessions. Week ${Math.min(gs,8)} of 8`:it.lock==='pte'?'Unlocks once PTE is done':'';
+      const why=it.lock==='gym8'?`Unlocks after 8 straight weeks of ${H().gym} full gym sessions. Week ${Math.min(gs,8)} of 8`:it.lock==='pte'?'Unlocks once PTE is done':'';
       return `<div class="d-li ${locked?'locked':''}" data-lt="${it.id}"><span class="d-tt"><span class="d-tx">${locked?LOCK+' ':''}${esc(it.text)}</span><span class="d-nt">${esc(GROUP_TITLE[it.goal]||'')}${why?'. '+esc(why):''}</span></span>
         ${locked?'':`<button class="btn small ghost" data-act="activate">Start</button>`}<button class="d-x" data-act="del-later" aria-label="Remove">✕</button></div>`}).join('')}
     <div class="d-erow" style="margin-top:10px"><input type="text" id="d-newlater" placeholder="Add something for later"><select id="d-newgoal" aria-label="Goal" style="width:auto">${GOALS.map(g=>`<option value="${g.id}">${esc(GROUP_TITLE[g.id])}</option>`).join('')}</select><button class="btn small" data-act="add-later">Add</button></div></div>`;
@@ -1353,12 +1391,12 @@ function barChart(vals,{line,labels,color,w=340,hgt=140,max}){
   if(line!=null)g+=`<line x1="${L}" x2="${w-6}" y1="${Y(line)}" y2="${Y(line)}" stroke="var(--ink)" stroke-dasharray="4 4" stroke-width="1.2" opacity=".6"/>`;
   return `<svg viewBox="0 0 ${w} ${hgt}" role="img">${g}</svg>`;
 }
-function dayScore(k){const L=getLog(k),vt=visibleTasks(k),tot=S.config.levers.length+vt.length+1;
-  if(!L)return{d:0,t:tot};return{d:leversHit(L)+vt.filter(t=>taskDone(L,t,k)).length+(L.reviewed?1:0),t:tot}}
+function dayScore(k){const L=getLog(k),vt=visibleTasks(k),sd=S.config.levers.some(l=>l.kind==='shutdown'),tot=S.config.levers.length+vt.length+(sd?0:1);
+  if(!L)return{d:0,t:tot};return{d:leversHit(L)+vt.filter(t=>taskDone(L,t,k)).length+(!sd&&L.reviewed?1:0),t:tot}}
 function pctOver(keys){let d=0,t=0;keys.forEach(k=>{const s=dayScore(k);d+=s.d;t+=s.t});return t?Math.round(d/t*100):0}
 function stackChart(rows,{w=340,hgt=150}){
   const L=24,T=10,B=20,n=rows.length,bw=(w-L-6)/n,M=7,Y=v=>T+(hgt-T-B)*(1-v/M);let g='';
-  [0,3,7].forEach(v=>{g+=`<line x1="${L}" x2="${w-6}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-5}" y="${Y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${v}</text>`});
+  [0,H().gym,7].forEach(v=>{g+=`<line x1="${L}" x2="${w-6}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-5}" y="${Y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${v}</text>`});
   rows.forEach((r,i)=>{const x=(L+i*bw+bw*0.15).toFixed(1),bwid=(bw*0.7).toFixed(1);
     const yg=Y(r.gym),yw=Y(r.gym+r.walk);
     if(r.gym)g+=`<rect x="${x}" y="${yg.toFixed(1)}" width="${bwid}" height="${(Y(0)-yg).toFixed(1)}" fill="var(--c2)"/>`;
@@ -1366,7 +1404,8 @@ function stackChart(rows,{w=340,hgt=150}){
     g+=`<text x="${(+x+bw*0.35).toFixed(1)}" y="${hgt-5}" font-size="9.5" text-anchor="middle" fill="var(--muted)">${r.label}</text>`});
   return `<svg viewBox="0 0 ${w} ${hgt}" role="img" aria-label="Gym sessions and walks per week">${g}</svg>`;
 }
-const RQ=[['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']];
+const RQ=[['went','How did today go?'],['diff','What can you do differently?'],['learn','What did you learn?'],['revise','Anything to review or revise?']];
+const RQ_ALL=RQ.concat([['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']]);
 let compView='week',boardView='week';
 const WCOL=['--c3','--c2','--c1','--accent','--d6'];
 (function(){let sx=null,sy=null;
@@ -1383,7 +1422,7 @@ function dashHTML(){
   for(let d=0;d<7;d++){const k=addDays(m0,d);if(k<=tk)week.push(k)}
   for(let k=ym+'-01';k<=tk&&k.startsWith(ym);k=addDays(k,1))month.push(k);
   const ts=dayScore(tk),tot=ts.t;
-  let h=`<div class="card"><div class="head"><h2>Completion</h2><span class="hint" style="margin:0">${nL} habits + journal + review</span></div>
+  let h=`<div class="card"><div class="head"><h2>Completion</h2><span class="hint" style="margin:0">${nL} habits + journal</span></div>
     <div class="d-pcts">${[[Math.round(ts.d/ts.t*100),'Today'],[pctOver(week),'This week']].map(([v,l])=>`<div><b class="${v>=100?'full':''}">${v}%</b><span>${l}</span></div>`).join('')}<div><b class="${pctOver(month)>=100?'full':''}">${pctOver(month)}%</b><span>${esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}))}</span></div></div>
     <div class="d-comphead"><span class="d-cvl">${compView==='week'?'This week':'This month'}</span><button class="d-swipe" data-act="cview-toggle">⇄ Swipe for ${compView==='week'?'the month':'the week'}</button></div>
     <div id="d-comp">${compView==='week'?`<div class="d-wk">${Array.from({length:7},(_,d)=>{const k=addDays(m0,d),fut=k>tk,s=dayScore(k),p=fut?0:Math.round(s.d/s.t*100);
@@ -1394,13 +1433,13 @@ function dashHTML(){
 
   const bWeek=boardView==='week',pd=bWeek?week:month,plabel=bWeek?'This week':esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}));
   const plogs=pd.map(getLog).filter(Boolean);
-  const isHealth=l=>['weight','move','meals'].includes(l.kind)||/eat right/i.test(l.text);
+  const isHealth=isHealthL;
   const avgW=(a,b)=>{const v=[];for(let k=a;k<=b&&k<=tk;k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?Math.round(v.reduce((x,y)=>x+y,0)/v.length*10)/10:null};
   const aw=avgW(pd[0],pd[pd.length-1]);
   const prevA=bWeek?avgW(addDays(m0,-28),addDays(m0,-1)):(()=>{const pm=addDays(ym+'-01',-1);return avgW(pm.slice(0,7)+'-01',pm)})();
   const dl=aw!=null&&prevA!=null?Math.round((aw-prevA)*10)/10:null,cmp=bWeek?'vs last 4 weeks':'vs last month';
   let gym=0,walk=0;plogs.forEach(L=>{if(L.move==='gym')gym++;else if(L.move==='walk')walk++});
-  const wks=Math.max(1,Math.ceil(pd.length/7)),gT=3*wks,wT=4*wks,nW=pd.filter(k=>(getLog(k)||{}).wt!=null).length;
+  const wks=Math.max(1,Math.ceil(pd.length/7)),gT=H().gym*wks,wT=(7-H().gym)*wks,nW=pd.filter(k=>(getLog(k)||{}).wt!=null).length;
   const hits=l=>plogs.filter(L=>leverHit(L,l)).length;
   const rateRow=l=>{const n=hits(l),r=pd.length?n/pd.length:0;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your main task':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${pd.length}</span></div>`};
   const hl=S.config.levers.filter(isHealth),pl=S.config.levers.filter(l=>!isHealth(l));
@@ -1423,7 +1462,7 @@ function dashHTML(){
   h+=`<div class="card"><div class="head"><h2>Gym and walks</h2><span class="badge ${gs>=8?'done':'open'}">Week ${Math.min(gs,8)} of 8</span></div>
     ${stackChart(rows,{})}
     <div class="legend"><span><i style="background:var(--c2)"></i>Full gym session</span><span><i style="background:var(--c1);opacity:.75"></i>30 min walk</span></div>
-    <p class="hint">The norm each week: 3 gym sessions and 4 walks, so a full bar reaches 7. Hit 3 gym sessions every week for 8 weeks straight to unlock cardio and the ab routine.</p></div>`;
+    <p class="hint">The norm each week: ${H().gym} gym sessions and ${7-H().gym} walks, so a full bar reaches 7. Hit ${H().gym} gym sessions every week for 8 weeks straight to unlock cardio and the ab routine.</p></div>`;
 
   const wpts=[];for(let i=59;i>=0;i--){const L=getLog(addDays(tk,-i));if(L&&L.wt!=null)wpts.push({x:-i,y:L.wt})}
   const wv=wpts.map(p=>p.y),wmin=Math.floor(Math.min(85,...wv)-1),wmax=Math.ceil(Math.max(85,...wv)+0.5),lw=latestWeight();
@@ -1438,9 +1477,7 @@ function dashHTML(){
     return `<button class="entry d-rv" data-act="open" data-k="${k}" style="border-left-color:var(${col})">
       <span class="meta"><span>${esc(fmt(k,{weekday:'short',day:'numeric',month:'short'}))} · ${Math.round(dayScore(k).d/dayScore(k).t*100)}% done</span>
       <span class="d-rdots" aria-label="Rated ${r??'none'} of 5">${[1,2,3,4,5].map(n=>`<i class="${(r??0)>=n?'f':''}"></i>`).join('')}</span></span>
-      ${L.right?`<span class="lbl">Did right</span><span class="d-p">${esc(L.right)}</span>`:''}
-      ${L.wrong?`<span class="lbl">Did wrong</span><span class="d-p">${esc(L.wrong)}</span>`:''}
-      ${L.why?`<span class="lbl">Why</span><span class="d-p">${esc(L.why)}</span>`:''}</button>`}).join('')
+      ${RQ_ALL.map(([f,q])=>L[f]?`<span class="lbl">${q}</span><span class="d-p">${esc(L[f])}</span>`:'').join('')}</button>`}).join('')
     :`<div class="empty">Review a day on Today to see it here.</div>`;
   return h+`</details></div>`;
 }
@@ -1449,6 +1486,40 @@ function monthLeft(ym){const tk=todayKey(),cym=ymOf(tk),y=+ym.slice(0,4),mo=+ym.
   const d=ym<cym?0:ym>cym?n:diffDays(tk,last)+1;return{d,w:Math.floor(d/7),r:d%7}}
 function leftHTML(ym){const L=monthLeft(ym),mn=parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'});
   return `<div class="d-pcts d-left"><div><b>${L.w}</b><span>week${L.w===1?'':'s'}${L.r?` + ${L.r} day${L.r===1?'':'s'}`:''} left</span></div><div><b>${L.d}</b><span>day${L.d===1?'':'s'} left in ${esc(mn)}</span></div></div>`}
+/* ---------- Health levels, rules, principles ---------- */
+const H=()=>S.config.health;
+const isHealthL=l=>['weight','move','meals'].includes(l.kind)||/eat right|creatine/i.test(l.text);
+function applyHealthNotes(){const C=S.config,h=H();
+  const mv=C.levers.find(l=>l.kind==='move');if(mv)mv.note='No excuses. Just do it.';
+  const er=C.levers.find(l=>/eat right/i.test(l.text));if(er)er.note=`3 meals and a snack, ${h.kcal.toLocaleString('en-US')} kcal`}
+function wkAvg(m){const v=[];for(let d=0;d<7;d++){const k=addDays(m,d);if(k>todayKey())break;const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((a,b)=>a+b,0)/v.length:null}
+function rangeAvg(a,b){const v=[];for(let k=a;k<=b&&k<=todayKey();k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((x,y)=>x+y,0)/v.length:null}
+function healthState(){
+  const tk=todayKey(),m0=mondayOf(tk),hl=S.config.levers.filter(isHealthL),since=H().last;
+  const full=k=>{const L=getLog(k);return !!L&&hl.length>0&&hl.every(l=>leverHit(L,l))};
+  let st=0,k=tk;if(!full(k))k=addDays(k,-1);while(full(k)&&(!since||k>since)&&st<400){st++;k=addDays(k,-1)}
+  const w1=addDays(m0,-7),w2=addDays(m0,-14),w3=addDays(m0,-21),a1=wkAvg(w1),a2=wkAvg(w2),a3=wkAvg(w3);
+  const loss1=a1!=null&&a2!=null?a2-a1:null,loss2=a2!=null&&a3!=null?a3-a2:null;
+  const onTrack=loss1!=null&&loss2!=null&&[loss1,loss2].every(x=>x>=0.30&&x<=0.55);
+  const stallW=w=>{const a=wkAvg(w),p=rangeAvg(addDays(w,-28),addDays(w,-1));return a!=null&&p!=null&&(p-a)<0.15};
+  const stall=stallW(w1)&&stallW(w2)&&(!since||w2>since);
+  const rule=st>=10?(onTrack?'track':'level'):(stall&&!onTrack?'stall':null);
+  return {st,onTrack,stall,rule,loss1,hl,aw:wkAvg(m0),p4:rangeAvg(addDays(m0,-28),addDays(m0,-1))};
+}
+const NOTES=[
+  {t:'Break',g:[
+    ['Night triggers',['Right before sleep, when you’re exhausted and tired','Back pain or a headache','Being upset about something','Sleep problems: it feels like it helps you sleep','Strong urges, mostly out of habit','High caffeine during the day, which hurts your sleep']],
+    ['Day triggers',['After a high-carb meal on a free day','Feeling really upset and not knowing what to do with it','Feeling very bored']],
+    ['What helps at night',['A high-carb meal to fall asleep faster','A podcast or audiobook','Phone away from you','Sleeping on your left side']],
+    ['What helps during the day',['A planned day','Doing something exciting and different','Going out']]]},
+  {t:'Social media and scrolling',g:[
+    ['Triggers',['Boredom','Exhaustion, because you can’t get anything done','Heavy brain fog','A lot of free time, when you feel you need to recharge','Not feeling good about yourself. Heavy use makes you feel worse, which sends you back to it']],
+    ['What helps',['Resting or sleeping','Going for a walk','Talking to someone','Building something with Claude or ChatGPT']]]},
+  {t:'Diet',g:[
+    ['Triggers',['Boredom between work, eating to entertain yourself','A “foodie” mindset','Tiredness pulls you to comfort food','Undereating for days, then overeating on the third','Eating too fast','Not enough time between meals']],
+    ['What works',['Same food gets easy after about a week','A small snack between meals so you don’t get hungry','Dinner around 7–8 pm','Sleep within 1–2 hours of dinner']]]}];
+
+function weekMove(k){const m=mondayOf(k);let gym=0,walk=0;for(let d=0;d<7;d++){const L=getLog(addDays(m,d));if(L&&L.move==='gym')gym++;else if(L&&L.move==='walk')walk++}return{gym,walk,m}}
 /* ---------- Weekly ---------- */
 const WQ=[['wrong','Where did I go wrong in my daily tasks this week?'],['update','What do I need to update to stick to them?'],['forward','What will I do differently in the coming weeks?']];
 let wcur=null;
@@ -1521,7 +1592,7 @@ function modalHTML(){
       body=`<h2 style="font-size:1.3rem;margin:6px 0 4px">${esc(fmt(k,{weekday:'long',day:'numeric',month:'long'}))}</h2>
       <p class="hint" style="margin:0 0 12px">${k>todayKey()?'Still to come':`${Math.round(sc.d/sc.t*100)}% of your day done`}</p>
       ${L&&L.reviewed?`<div class="d-dayrev"><span class="lab">Rating</span><span class="d-rdots big">${[1,2,3,4,5].map(n=>`<i class="${(r??0)>=n?'f':''}"></i>`).join('')}</span> <b>${r??'–'}/5</b>
-        ${RQ.map(([f,q])=>L[f]?`<span class="lab mt" style="display:block">${q}</span><p style="margin:0;white-space:pre-wrap">${esc(L[f])}</p>`:'').join('')}</div>`
+        ${RQ_ALL.map(([f,q])=>L[f]?`<span class="lab mt" style="display:block">${q}</span><p style="margin:0;white-space:pre-wrap">${esc(L[f])}</p>`:'').join('')}</div>`
         :`<div class="empty">No review written for this day.</div>`}<div style="flex:1"></div>`}
     else{const[f,q]=WQ[s-7];body=`<h2 style="font-size:1.3rem;margin:6px 0 10px">${q}</h2><textarea class="d-fta" id="d-fta" data-d="${f}" aria-label="${q}" placeholder="Write freely…">${esc(draft[f]||'')}</textarea>`}
     inner=`<div class="d-fhead"><span>${s<7?`Your days · ${s+1} of 7`:`Your answers · ${s-6} of ${WQ.length}`}</span><button class="btn small ghost" data-act="close">Cancel</button></div>${body}
@@ -1550,8 +1621,46 @@ function modalHTML(){
       return `<div class="d-wgp" style="--c:var(${WCOL[gi%WCOL.length]})"><div class="d-wgph"><span class="d-wgt">${esc(g?g.text:'Other')}${g&&g.outcome?`<span class="d-wgo">Done means: ${esc(g.outcome)}</span>`:''}</span><button class="d-wadd" data-act="wl-add" data-g="${gid}" aria-label="Add a task for ${esc(g?g.text:'Other')}">＋</button></div>
         ${rows.map(([t,j])=>`<div class="d-wrow2"><input type="text" data-wl="${j}" value="${esc(t.text)}" placeholder="Exactly what will be done" aria-label="Task"><button class="d-wdel" data-act="wl-del" data-j="${j}" aria-label="Remove task">✕</button></div>`).join('')}</div>`}).join('')}
     <div class="d-mf"><button class="btn ghost" data-act="wl-goals">‹ Goals</button><button class="btn" data-act="wl-save">Save tasks</button></div>`;
+  }else if(modal==='move'){
+    const h=H(),wc=weekMove(cur),left=Math.max(0,diffDays(cur,addDays(wc.m,6))+1);
+    const opt=(v,t,sub)=>`<button class="d-opt ${L.move===v?'on':''}" data-act="move-pick" data-v="${v}"><span class="d-box">${L.move===v?CHECK:''}</span><span class="d-tt"><span class="d-tx">${t}</span><span class="d-nt">${sub}</span></span></button>`;
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:2px">Daily exercise</h2><p class="hint" style="margin:0 0 10px">No excuses. Just do it.</p>
+    ${opt('gym','Full gym session',`${wc.gym} of ${h.gym} this week`)}${opt('walk',`${h.walk} min walk + 50 push-ups`,`${wc.walk} of ${7-h.gym} this week`)}
+    <div class="d-pcts" style="margin-top:12px"><div><b class="${wc.gym>=h.gym?'full':''}">${Math.max(0,h.gym-wc.gym)}</b><span>gym left</span></div><div><b class="${wc.walk>=7-h.gym?'full':''}">${Math.max(0,7-h.gym-wc.walk)}</b><span>walks left</span></div><div><b>${left}</b><span>day${left===1?'':'s'} left this week</span></div></div>
+    <div class="d-mf">${L.move?'<button class="d-link" data-act="move-pick" data-v="">Clear</button>':''}<button class="btn" data-act="close">Close</button></div>`;
+  }else if(modal==='princ'){
+    const P=S.config.principles;
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">Your principles</h2><p class="hint" style="margin:0 0 8px">Every day, without a miss, no matter what.</p>
+    <div class="d-rg" style="background:var(--c2-soft)"><span class="lab" style="margin:0">Do</span><ol>${P.do.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>
+    <div class="d-rg" style="background:var(--c3-soft)"><span class="lab" style="margin:0">Don’t</span><ol>${P.dont.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>
+    <h2 style="margin:16px 0 6px">Your notes</h2>
+    ${NOTES.map(n=>`<details class="d-nd"><summary><span>${esc(n.t)}</span></summary>${n.g.map(([h,it])=>`<span class="lab" style="margin-top:8px">${esc(h)}</span><ul>${it.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`).join('')}</details>`).join('')}
+    <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`;
+  }else if(modal==='health'){
+    const hs=healthState(),h=H(),tk=todayKey(),m0=mondayOf(tk),Lt=getLog(cur)||{};
+    const pts=[];for(let d=0;d<7;d++){const k=addDays(m0,d);if(k>tk)break;const L=getLog(k);if(L&&L.wt!=null)pts.push({x:d,y:L.wt})}
+    const dl=hs.aw!=null&&hs.p4!=null?Math.round((hs.aw-hs.p4)*10)/10:null;
+    const lv=`<div class="d-lvls"><button class="d-pill" data-act="lvl" data-v="walk">Walk ${h.walk} → ${h.walk+15} min</button><button class="d-pill" data-act="lvl" data-v="gym" ${h.gym>=7?'disabled':''}>Gym ${h.gym} → ${h.gym+1}× a week</button><button class="d-pill" data-act="lvl" data-v="kcal">${h.kcal.toLocaleString('en-US')} → ${(h.kcal-100).toLocaleString('en-US')} kcal</button></div>`;
+    const status=hs.rule==='track'?`<div class="d-hs ok"><b>You’re on the right track.</b> 10 straight days at 100%, and you’re losing about ${hs.loss1.toFixed(2)} kg a week. Keep at it, no changes needed.</div>`
+      :hs.rule==='level'?`<div class="d-hs lvl"><b>10 straight days at 100%.</b> You can level up one thing:${lv}</div>`
+      :hs.rule==='stall'?`<div class="d-hs warn"><b>Your weight has stalled for 2 weeks.</b> It’s less than 0.15 kg below your monthly average. Step one thing up:${lv}</div>`
+      :`<div class="d-hs">${hs.st} of 10 straight days at 100% on your health habits.${hs.onTrack?' Weight is dropping 0.35–0.5 kg a week, so you’re on track.':''}</div>`;
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">Health</h2>
+    <div class="d-pcts"><div><b>${hs.aw!=null?hs.aw.toFixed(1)+'<small style="font-size:.8rem"> kg</small>':'–'}</b><span>Average this week</span></div>
+      <div><b class="${dl==null?'':dl<=0?'full':'up'}">${dl==null?'–':(dl>0?'+':dl<0?'−':'')+Math.abs(dl).toFixed(1)+'<small style="font-size:.8rem"> kg</small>'}</b><span>vs last 4 weeks</span></div>
+      <div><b class="${hs.st>=10?'full':''}">${Math.min(hs.st,10)}/10</b><span>Days at 100%</span></div></div>
+    <span class="lab">Weight this week</span>${pts.length>1?svgLine(pts,{target:85,min:Math.floor(Math.min(85,...pts.map(p=>p.y))-0.5),max:Math.ceil(Math.max(85,...pts.map(p=>p.y))+0.5),hgt:120}):'<div class="empty">Weigh in on two days this week to see the line.</div>'}
+    ${status}
+    <span class="lab mt" style="display:block">Today’s health habits</span>
+    <div class="d-hh">${hs.hl.map(l=>{const on=leverHit(Lt,l);return `<span class="${on?'on':''}">${on?'✓ ':''}${esc(l.text)}</span>`}).join('')}</div>
+    <p class="hint">Current levels: ${h.walk} min walks, ${h.gym} gym sessions a week, ${h.kcal.toLocaleString('en-US')} kcal.</p>
+    <details class="d-nd"><summary><span>The rules</span></summary><ol style="margin:6px 0 0;padding-left:20px;font-size:.9rem">
+      <li>10 straight days at 100% on your health habits: you can level up one thing (a longer walk, one more gym session, or fewer calories).</li>
+      <li>2 weeks straight where your weekly average weight is the same, higher, or less than 0.15 kg below your monthly average: step one thing up.</li>
+      <li>Losing 0.35–0.5 kg a week: you’re on the right track. Keep at it, even after 10 straight days at 100%.</li></ol></details>
+    <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`;
   }else if(modal==='review'){
-    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Review the day</h2><p class="hint" style="margin:0 0 10px">Productivity, health and mental state. How well did you follow your day?</p>
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:6px">Shut down and reflect</h2><div class="d-rg" style="background:var(--accent-soft);margin-bottom:10px"><ul><li>Everything off and put away by 9 pm.</li><li>Phone out of the room.</li></ul></div><span class="lab">How well did you follow your day?</span>
     <div class="scale d-scale" role="group" aria-label="Rate the day">${[0,1,2,3,4,5].map(n=>`<button type="button" data-act="drate" data-n="${n}" aria-pressed="${draft.rating===n}">${n}</button>`).join('')}</div>
     <div class="scale-ends"><span>Not at all</span><span>Fully</span></div>
     ${RQ.map(([f,q])=>`<button class="d-qpad" data-act="rstep" data-q="${f}"><span class="lab" style="margin:0 0 2px">${q}</span><span class="d-qtx ${draft[f]?'':'empty'}">${esc(draft[f]||'Tap to write')}</span></button>`).join('')}
@@ -1573,13 +1682,14 @@ function modalHTML(){
     <button class="d-add" data-act="add-mg">＋ Add goal</button>
     <div class="d-mf"><button class="btn" data-act="close">Done</button></div>`;
   }
-  return `<div class="d-overlay" data-act="close"><div class="d-sheet" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
+  return `<div class="d-overlay" data-act="close"><div class="d-sheet ${['health','princ'].includes(modal)?'h65':''}" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
 }
 
 function render(){
   if(!shown)return;
   seedSample();syncJournal(cur);
   const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden};
+  if(!modal&&vis('page-prod')&&S.meta.hpShown!==todayKey()){const hs=healthState();if(hs.rule){S.meta.hpShown=todayKey();persist();modal='health'}}
   if(vis('page-prod'))document.getElementById('day-today').innerHTML=todayHTML();
   if(vis('page-goals'))document.getElementById('day-goals').innerHTML=goalsHTML();
   if(vis('page-week'))document.getElementById('day-week').innerHTML=weekHTML();
@@ -1610,7 +1720,7 @@ document.addEventListener('click',e=>{
     case 'next':if(cur<todayKey())cur=addDays(cur,1);break;
     case 'today':cur=todayKey();break;
     case 'open-rem':modal='rem';break;
-    case 'open-review':{const L=getLog(cur)||{};draft={rating:L.rating??null,right:L.right||'',wrong:L.wrong||'',why:L.why||''};modal='review';break}
+    case 'open-review':{const L=getLog(cur)||{};draft={rating:L.rating??null};RQ.forEach(([f])=>draft[f]=L[f]||'');modal='review';break}
     case 'open-mreview':draft=Object.assign({},S.meta.reviews[ymOf(todayKey())]||{});modal='mreview';break;
     case 'edit-month':ensureMonth(ymOf(todayKey()));save();modal='month';break;
     case 'close':modal=null;break;
@@ -1625,7 +1735,7 @@ document.addEventListener('click',e=>{
     case 'two-done':{const L=ensureLog(cur);L.two=L.two||[];const j=+b.dataset.j;if(L.two[j]&&L.two[j].text){L.two[j].done=!L.two[j].done;touch(cur)}break}
     case 'unread':{const L=ensureLog(cur);L.read=false;L.readAM=false;L.readPM=false;touch(cur);modal=null;break}
     case 'drate':{const n=+b.dataset.n;draft.rating=draft.rating===n?null:n;break}
-    case 'save-review':{const L=ensureLog(cur);Object.assign(L,draft);L.reviewed=true;touch(cur);modal=null;toast('Review saved');break}
+    case 'save-review':{const L=ensureLog(cur);Object.assign(L,draft);L.reviewed=true;touch(cur);modal=null;toast('Shut down and reflected');break}
     case 'unreview':{const L=ensureLog(cur);L.reviewed=false;touch(cur);modal=null;break}
     case 'mr':draft[b.dataset.id]=draft[b.dataset.id]===b.dataset.v?null:b.dataset.v;break;
     case 'save-mreview':S.meta.reviews[ymOf(todayKey())]=draft;save();modal=null;toast('Monthly review saved');break;
@@ -1650,6 +1760,12 @@ document.addEventListener('click',e=>{
     case 'del-rg':{const g=findIn(b,'g',C.reminders);C.reminders=C.reminders.filter(x=>x!==g);save();break}
     case 'sort':reviewSort=b.dataset.v;break;
     case 'cview':compView=b.dataset.v;break;
+    case 'open-princ':modal='princ';break;
+    case 'open-move':modal='move';break;
+    case 'move-pick':{const L=ensureLog(cur),v=b.dataset.v||null;L.move=L.move===v?null:v;touch(cur);modal=null;if(v)toast(v==='gym'?'Gym session done':'Walk and push-ups done');break}
+    case 'open-health':modal='health';break;
+    case 'lvl':{const h=H(),v=b.dataset.v;if(v==='walk')h.walk+=15;else if(v==='gym')h.gym=Math.min(7,h.gym+1);else h.kcal-=100;h.last=todayKey();applyHealthNotes();
+      logChange(v==='walk'?`Walks up to ${h.walk} min`:v==='gym'?`Gym up to ${h.gym} sessions a week`:`Calories down to ${h.kcal.toLocaleString('en-US')} kcal`);save();modal=null;toast('Levelled up. The 10-day count starts again');break}
     case 'cview-toggle':compView=compView==='week'?'month':'week';break;
     case 'bview-toggle':boardView=boardView==='week'?'month':'week';break;
     case 'wprev':wcur=addDays(wcur||mondayOf(todayKey()),-7);break;
