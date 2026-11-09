@@ -1143,6 +1143,9 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
 (function(){const C=S.config;if(C.mig.includes('order17'))return;C.mig.push('order17');
   const m=C.levers.find(l=>l.kind==='move');if(m){if(/^move$/i.test(m.text.trim()))m.text='Daily exercise';m.note='No excuses. Just do it.'}
   persist();})();
+(function(){const C=S.config;if(C.mig.includes('order18'))return;C.mig.push('order18');
+  const m=C.levers.find(l=>l.kind==='move');if(m&&!/morning/i.test(m.note||''))m.note='Mornings only. '+(m.note||'No excuses. Just do it.');
+  persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1490,7 +1493,7 @@ function leftHTML(ym){const L=monthLeft(ym),mn=parseKey(ym+'-01').toLocaleDateSt
 const H=()=>S.config.health;
 const isHealthL=l=>['weight','move','meals'].includes(l.kind)||/eat right|creatine/i.test(l.text);
 function applyHealthNotes(){const C=S.config,h=H();
-  const mv=C.levers.find(l=>l.kind==='move');if(mv)mv.note='No excuses. Just do it.';
+  const mv=C.levers.find(l=>l.kind==='move');if(mv)mv.note='Mornings only. No excuses. Just do it.';
   const er=C.levers.find(l=>/eat right/i.test(l.text));if(er)er.note=`3 meals and a snack, ${h.kcal.toLocaleString('en-US')} kcal`}
 function wkAvg(m){const v=[];for(let d=0;d<7;d++){const k=addDays(m,d);if(k>todayKey())break;const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((a,b)=>a+b,0)/v.length:null}
 function rangeAvg(a,b){const v=[];for(let k=a;k<=b&&k<=todayKey();k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((x,y)=>x+y,0)/v.length:null}
@@ -1624,7 +1627,7 @@ function modalHTML(){
   }else if(modal==='move'){
     const h=H(),wc=weekMove(cur),left=Math.max(0,diffDays(cur,addDays(wc.m,6))+1);
     const opt=(v,t,sub)=>`<button class="d-opt ${L.move===v?'on':''}" data-act="move-pick" data-v="${v}"><span class="d-box">${L.move===v?CHECK:''}</span><span class="d-tt"><span class="d-tx">${t}</span><span class="d-nt">${sub}</span></span></button>`;
-    inner=`<h2 style="font-size:1.25rem;margin-bottom:2px">Daily exercise</h2><p class="hint" style="margin:0 0 10px">No excuses. Just do it.</p>
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:2px">Daily exercise</h2><p class="hint" style="margin:0 0 10px"><b>Mornings only.</b> No excuses. Just do it.</p>
     ${opt('gym','Full gym session',`${wc.gym} of ${h.gym} this week`)}${opt('walk',`${h.walk} min walk + 50 push-ups`,`${wc.walk} of ${7-h.gym} this week`)}
     <div class="d-pcts" style="margin-top:12px"><div><b class="${wc.gym>=h.gym?'full':''}">${Math.max(0,h.gym-wc.gym)}</b><span>gym left</span></div><div><b class="${wc.walk>=7-h.gym?'full':''}">${Math.max(0,7-h.gym-wc.walk)}</b><span>walks left</span></div><div><b>${left}</b><span>day${left===1?'':'s'} left this week</span></div></div>
     <div class="d-mf">${L.move?'<button class="d-link" data-act="move-pick" data-v="">Clear</button>':''}<button class="btn" data-act="close">Close</button></div>`;
