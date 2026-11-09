@@ -391,6 +391,14 @@ div.d-lever{cursor:default}
 .d-opt{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;cursor:pointer;border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:8px;background:var(--surface)}
 .d-opt.on{border-color:var(--done);background:var(--c2-soft)}
 .d-opt.on .d-box{background:var(--done);border-color:var(--done)}
+.d-hpl{flex:none;font-weight:800;font-size:1.15rem;color:var(--open);text-align:right;line-height:1.05;align-self:center}
+.d-hpl small{display:block;font-size:.7rem;color:var(--muted)}
+.d-hpl.z{color:var(--done)}
+.d-hk{flex:none;min-width:44px;text-align:center;line-height:1;color:var(--open)}
+.d-hk b{display:block;font-size:1.35rem;font-weight:800}
+.d-hk small{display:block;font-size:.66rem;font-weight:800;color:var(--muted);margin-top:2px}
+.d-hk.z{color:var(--done)}
+.d-hk.z b{font-size:1.05rem}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -1279,7 +1287,8 @@ function todayHTML(){
       <select id="d-type" class="d-type" aria-label="Day type">${[['weekday','Weekday'],['weekend','Weekend'],['holiday','Holiday']].map(([v,l])=>`<option value="${v}" ${type===v?'selected':''}>${l}</option>`).join('')}</select></div>
     <div class="d-track"><div class="d-fill" style="width:${sc.t?sc.d/sc.t*100:0}%"></div></div>
     <div class="d-nt" style="margin-top:6px">${nL} habits + ${vt.map(t=>t.text.toLowerCase()).join(' + ')||'tasks'}</div></div></div>`;
-  {const hs=healthState();h+=`<button class="d-row d-hcard" data-act="open-health" aria-haspopup="dialog"><span class="d-ico" aria-hidden="true">💪</span><span class="d-tt"><span class="d-tx">Health</span><span class="d-nt">${hs.aw!=null?`${hs.aw.toFixed(1)} kg average this week. `:''}${Math.min(hs.st,10)} of 10 days at 100%${hs.rule==='level'||hs.rule==='stall'?'. Time to level up':hs.rule==='track'?'. On the right track':''}</span></span><span class="d-chev">›</span></button>`}
+  {const hl=S.config.levers.filter(isHealthL),hd=hl.filter(l=>leverHit(L,l)).length,left=hl.length-hd,pl=hl.length?Math.round(left/hl.length*100):0;
+   h+=`<button class="d-row d-hcard ${left?'':'on'}" data-act="open-health" aria-haspopup="dialog"><span class="d-hk ${left?'':'z'}">${left?`<b>${left}</b><small>left</small>`:'<b>100%</b>'}</span><span class="d-tt"><span class="d-tx">Health</span><span class="d-nt">${left?`${left===1?'1 more task':left+' more tasks'} to hit 100%`:'100% done today. Well done'}</span></span><span class="d-hpl ${left?'':'z'}">${pl}%<small>left</small></span><span class="d-chev">›</span></button>`}
 
   if(edit)return h+editHTML();
 
