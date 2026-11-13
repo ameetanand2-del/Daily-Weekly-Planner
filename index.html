@@ -44,7 +44,7 @@
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg1)}
 body{margin:0;min-height:100vh;background:linear-gradient(165deg,var(--bg1) 0%,var(--bg2) 100%) fixed;color:var(--ink);font-family:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.5;font-weight:500}
-main{max-width:620px;margin:0 auto;padding:16px 16px 110px}
+main{max-width:620px;margin:0 auto;padding:16px 16px 170px}
 h1{font-size:1.65rem;line-height:1.2;margin:6px 0 14px;font-weight:800;letter-spacing:-.01em}
 h2{font-size:1rem;margin:0 0 10px;font-weight:800}
 .card{background:var(--surface);border-radius:16px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px}
@@ -77,7 +77,7 @@ select:focus,input:focus,button:focus-visible{outline:3px solid var(--accent-sof
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:999px;font-weight:800;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
 .toast.show{opacity:1}
 nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:460px;margin:0 auto;background:var(--surface);border-radius:999px;box-shadow:0 8px 28px rgba(20,33,61,.18);display:flex;gap:4px;padding:6px;z-index:5}
-nav button{flex:1;font:inherit;font-weight:800;font-size:.9rem;padding:11px 6px;border-radius:999px;border:none;background:transparent;color:var(--muted);cursor:pointer}
+nav button{flex:1;font:inherit;font-weight:800;font-size:.86rem;padding:11px 4px;border-radius:999px;border:none;background:transparent;color:var(--muted);cursor:pointer}
 nav button[aria-current=page]{background:var(--ink);color:var(--surface)}
 .page[hidden]{display:none}
 
@@ -399,6 +399,47 @@ div.d-lever{cursor:default}
 .d-hk small{display:block;font-size:.66rem;font-weight:800;color:var(--muted);margin-top:2px}
 .d-hk.z{color:var(--done)}
 .d-hk.z b{font-size:1.05rem}
+.d-miss{background:var(--bg1);border-radius:14px;padding:10px 12px;margin-top:10px}
+.d-mrow{display:block;margin-top:8px}
+.d-mrow span{display:block;font-weight:800;font-size:.9rem;margin-bottom:3px}
+.d-mrow textarea{width:100%;font:inherit;font-size:.92rem;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:10px;padding:7px 10px;resize:none}
+.d-mrow textarea:focus{outline:none;border-color:var(--accent)}
+.d-qpad.need{border-style:dashed}
+nav button.d-navj{flex:0 0 auto;width:46px;padding:0;display:grid;place-items:center}
+nav button.d-navj span{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);font-size:1rem}
+nav button.d-navj[aria-current=page]{background:transparent}
+nav button.d-navj[aria-current=page] span{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.d-fab{position:fixed;z-index:6;width:54px;height:54px;border-radius:50%;border:none;cursor:pointer;font-size:1.35rem;line-height:1;
+  background:var(--surface);color:var(--ink);box-shadow:0 8px 24px rgba(20,33,61,.22);
+  bottom:calc(10px + env(safe-area-inset-bottom,0px) + 74px);right:max(18px,calc((100vw - 460px)/2 + 6px))}
+.d-fab[aria-current=page]{background:var(--ink);color:var(--surface)}
+.d-fab:focus-visible{outline:3px solid var(--accent)}
+.d-two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.d-two-col .d-rg{margin-bottom:10px}
+.d-rulebox{background:var(--accent-soft);border:2px solid var(--accent);border-radius:14px;padding:10px 12px;margin-bottom:10px}
+.d-rulebox ul{margin:4px 0 0;padding-left:20px}
+.d-rulebox li{margin:5px 0}
+.d-dotsbar{display:flex;gap:4px;margin:10px 0 14px}
+.d-dotsbar i{flex:1;height:4px;border-radius:4px;background:var(--line)}
+.d-dotsbar i.f{background:var(--accent)}
+.d-onenote{border-radius:16px;padding:18px 16px;min-height:180px;display:flex;flex-direction:column;justify-content:center}
+.d-onenote p{margin:0;font-size:1.15rem;line-height:1.55;font-weight:700}
+.d-opt.miss.on{border-color:var(--c3);background:var(--c3-soft)}
+.d-opt.miss.on .d-box{background:var(--c3);border-color:var(--c3)}
+#day-today .d-left div{background:var(--surface);box-shadow:var(--shadow)}
+.bk-months{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.bk-m{font:inherit;border:none;border-radius:12px;background:var(--bg1);padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:var(--ink)}
+.bk-m span{font-size:.7rem;font-weight:800;color:var(--muted)}
+.bk-m b{font-size:1.35rem;font-weight:800;color:var(--danger);line-height:1.1}
+.bk-m.cur{background:var(--accent-soft)}
+.bk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.bk-h{text-align:center;font-size:.72rem;font-weight:800;color:var(--muted)}
+.bk-c{font:inherit;font-weight:800;font-size:.9rem;aspect-ratio:1;border:none;border-radius:10px;cursor:pointer;padding:0}
+.bk-c.yes{background:var(--danger);color:#fff}
+.bk-c.no{background:var(--c2-soft);color:var(--done)}
+.bk-c.nl{background:var(--line);color:var(--muted)}
+.bk-c.fut{background:transparent;color:var(--line);cursor:default}
+.bk-c.now{outline:2px solid var(--accent);outline-offset:1px}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -462,11 +503,12 @@ div.d-lever{cursor:default}
 
   <section id="page-prod" class="page" hidden><div id="day-today"></div></section>
   <section id="page-goals" class="page" hidden><div id="day-goals"></div></section>
+  <section id="page-brk" class="page" hidden><div id="day-brk"></div></section>
   <section id="page-week" class="page" hidden><div id="day-week"></div></section>
 
   <section id="page-dash" class="page" hidden>
-    <h1>Dashboard</h1>
-    <div class="seg wide" role="group" aria-label="Dashboard view" style="margin-bottom:12px">
+    <h1 id="dash-title">Habits</h1>
+    <div class="seg wide" role="group" aria-label="Dashboard view" style="display:none">
       <button type="button" id="d-prod" aria-pressed="true">Habits</button>
       <button type="button" id="d-emo" aria-pressed="false">Journal</button>
     </div>
@@ -558,10 +600,11 @@ div.d-lever{cursor:default}
 
 <nav>
   <button id="nav-prod" type="button">Today</button>
-  <button id="nav-week" type="button">Weekly</button>
-  <button id="nav-emo" type="button">Journal</button>
-  <button id="nav-dash" type="button">Dashboard</button>
+  <button id="nav-brk" type="button">Break</button>
+  <button id="nav-dash" type="button">Habits</button>
+  <button id="nav-jdash" type="button">Journal</button>
 </nav>
+<button id="nav-emo" type="button" class="d-fab" aria-label="Journal" title="Journal">✎</button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -671,18 +714,21 @@ function go(page){
   $("page-write").hidden = page!=="emo";
   $("page-prod").hidden = page!=="prod";
   $("page-goals").hidden = page!=="goals";
+  $("page-brk").hidden = page!=="brk";
   $("page-week").hidden = page!=="week";
   $("page-dash").hidden = page!=="dash";
-  ["emo","prod","week","dash"].forEach(p => $("nav-"+p).setAttribute("aria-current", (page===p||(p==="prod"&&page==="goals"))?"page":"false"));
+  ["emo","prod","brk","dash"].forEach(p => $("nav-"+p).setAttribute("aria-current", (page===p||(p==="prod"&&page==="goals"))?"page":"false"));
+  if(page==="dash"){ $("nav-dash").setAttribute("aria-current", dashMode==="prod"?"page":"false"); $("nav-jdash").setAttribute("aria-current", dashMode==="emo"?"page":"false"); } else $("nav-jdash").setAttribute("aria-current","false");
   if(page!=="emo" && shown) Day.render();
   window.scrollTo(0,0);
 }
 let shown=false;
 function showApp(){ if(shown) return; shown=true; $("loading").hidden=true; go("prod"); refresh(); }
 $("nav-emo").onclick = () => go("emo");
-$("nav-week").onclick = () => go("week");
 $("nav-prod").onclick = () => go("prod");
-$("nav-dash").onclick = () => go("dash");
+$("nav-brk").onclick = () => go("brk");
+$("nav-dash").onclick = () => { setDash("prod"); go("dash"); };
+$("nav-jdash").onclick = () => { setDash("emo"); go("dash"); };
 
 /* ---------- focus writing ---------- */
 let focusDone = null;
@@ -775,7 +821,7 @@ $("save").onclick = async () => {
 /* ---------- dashboard ---------- */
 const filt = {cat:"", tag:""};
 let range = "week", openBy = "cat";
-function setDash(m){ dashMode = m; filt.cat = ""; filt.tag = ""; $("d-emo").setAttribute("aria-pressed", m==="emo"); $("d-prod").setAttribute("aria-pressed", m==="prod");
+function setDash(m){ dashMode = m; $("dash-title").textContent = m==="emo" ? "Journal" : "Habits"; filt.cat = ""; filt.tag = ""; $("d-emo").setAttribute("aria-pressed", m==="emo"); $("d-prod").setAttribute("aria-pressed", m==="prod");
   $("emo-dash").hidden = m!=="emo"; $("prod-dash").hidden = m!=="prod";
   if(m==="emo"){ renderDash(); renderRename(true); } else Day.render(); }
 $("d-emo").onclick = () => setDash("emo");
@@ -1033,6 +1079,7 @@ if(!PREVIEW){try{const r=localStorage.getItem(LS);if(r){const o=JSON.parse(r);if
 if(!S.config)S.config=defaults();
 S.meta=Object.assign({mealPrep:[],ptePassed:null,bodyFat:[],reviews:{}},S.meta||{});
 S.weeks=S.weeks||{};
+S.meta.brk=S.meta.brk||{};S.meta.brkTotals=S.meta.brkTotals||{};
 function persist(){if(PREVIEW)return;try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
 
 (function(){const C=S.config;C.mig=C.mig||[];if(C.mig.includes('order1'))return;C.mig.push('order1');
@@ -1060,8 +1107,8 @@ function persist(){if(PREVIEW)return;try{localStorage.setItem(LS,JSON.stringify(
   persist();})();
 const remCount=L=>L?(L.readAM?1:0)+(L.readPM?1:0):0;
 function remSlot(L){L=L||{};if(cur===todayKey()){return new Date().getHours()<12?(L.readAM?null:'am'):(L.readPM?null:'pm')}return !L.readAM?'am':!L.readPM?'pm':null}
-const planCount=k=>typeOf(k)==='weekday'?1:2;
-const planTitle=k=>planCount(k)===1?'Plan your main task':'Plan your 2 main tasks';
+const planCount=k=>3;
+const planTitle=k=>'Plan your 3 main tasks';
 (function(){const C=S.config;if(C.mig.includes('plan1'))return;C.mig.push('plan1');
   if(!C.reminders.some(g=>g.kind==='plan'))C.reminders.push({id:uid(),kind:'plan',title:'Planning your tasks',items:[
     R('Define each task specifically: exactly what you’re trying to achieve by the end of it.'),
@@ -1154,6 +1201,75 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
 (function(){const C=S.config;if(C.mig.includes('order18'))return;C.mig.push('order18');
   const m=C.levers.find(l=>l.kind==='move');if(m&&!/morning/i.test(m.note||''))m.note='Mornings only. '+(m.note||'No excuses. Just do it.');
   persist();})();
+(function(){const C=S.config;if(C.mig.includes('order19'))return;C.mig.push('order19');
+  const sd=C.levers.find(l=>l.kind==='shutdown');if(sd){sd.kind='simple';sd.note='Everything off and put away. Phone out of the room.'}
+  if(!C.levers.some(l=>l.kind==='review')){const nl=C.levers.find(l=>l.kind==='note'),i=nl?C.levers.indexOf(nl)+1:(sd?C.levers.indexOf(sd):C.levers.length);
+    C.levers.splice(i,0,{id:uid(),kind:'review',text:'Review the day',note:'How it went, what to do differently, what you learned, what to revise',phase:'night'})}
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order20'))return;C.mig.push('order20');
+  const j=C.tasks.filter(t=>t.kind==='journal');C.tasks=C.tasks.filter(t=>t.kind!=='journal');
+  j.forEach(t=>C.later.unshift({id:uid(),goal:t.goal,text:t.text,kind:t.kind,note:t.note}));
+  const rv=C.levers.find(l=>l.kind==='review');if(rv)rv.note='What went well, why you missed anything, and what to do tomorrow';
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order21'))return;C.mig.push('order21');
+  const sg=C.reminders.find(g=>!g.kind&&/social media/i.test(g.title));
+  if(sg){sg.kind='social';if(!sg.items.some(x=>/hinge/i.test(x.text)))sg.items.unshift(R('No social media. Hinge or talking to someone instead.'))}
+  else if(!C.reminders.some(g=>g.kind==='social'))C.reminders.push({id:uid(),kind:'social',title:'Social media',items:[R('No social media. Hinge or talking to someone instead.')]});
+  if(!C.reminders.some(g=>g.kind==='eat'))C.reminders.push({id:uid(),kind:'eat',title:'Eating right',items:[
+    R('3 meals, on time, and 1 snack.'),
+    R('1 hydration drink, early morning and during your workout.'),
+    R('2 coffees. That’s it. No snacking, nothing else.'),
+    R('90–95% of your food is whole food. No other options.'),
+    R('No fried food.'),
+    R('No refined-flour (maida) food: no dumplings, pizza, bread, naan, pastries, cakes, biscuits or noodles.'),
+    R('No chips, packaged snacks, fast food, sugary drinks or juices.')]});
+  const er=C.levers.find(l=>/eat right/i.test(l.text));if(er)er.kind='eat';
+  const ns=C.levers.find(l=>l.kind==='ns'),rm=C.levers.find(l=>l.kind==='reminders');
+  if(ns&&rm){C.levers=C.levers.filter(x=>x!==ns);C.levers.splice(C.levers.indexOf(rm),0,ns);ns.phase=rm.phase}
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order22'))return;C.mig.push('order22');
+  const g=C.reminders.find(g=>g.kind==='social');
+  if(g){g.allow=['Hinge','Talking to people','Going out','Podcasts and audiobooks','A nap','A walk','Claude and ChatGPT'];g.deny=['Instagram','Netflix','LinkedIn','YouTube'];
+    g.items=g.items.filter(x=>!/^no social media/i.test(x.text)&&!/^no instagram/i.test(x.text))}
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order23'))return;C.mig.push('order23');
+  const l=C.levers.find(l=>l.kind==='eat');if(l&&/eat right/i.test(l.text))l.text='Follow a whole-food diet';
+  const g=C.reminders.find(g=>g.kind==='eat');
+  if(g){g.title='Whole-food diet';g.items=[];
+    g.allow=['Whole foods: meat, fish, eggs, dairy, lentils, rice, oats, potatoes, fruit and vegetables','3 meals, on time','1 snack: coffee, fruit or a small dessert','1 hydration drink, early morning and during your workout','2 coffees'];
+    g.deny=['Fried food','Refined-flour (maida) food: dumplings, pizza, bread, naan, pastries, cakes, biscuits, noodles','Chips and packaged snacks','Fast food','Sugary drinks and juices','Any snacking beyond your 1 snack']}
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order24'))return;C.mig.push('order24');
+  const g=C.reminders.find(g=>g.kind==='eat');
+  if(g)g.checks=['Did I eat fried food?','Did I eat refined-flour (maida) food, like dumplings, pizza, bread, naan, pastries, cakes, biscuits or noodles?','Did I eat chips or packaged snacks?','Did I eat fast food?','Did I have sugary drinks or juices?','Did I snack beyond my 1 snack?','Did I eat out or order in by myself?'];
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order25'))return;C.mig.push('order25');
+  const find=re=>C.reminders.find(g=>!g.kind&&re.test(g.title));
+  const cg=find(/coffee/i);if(cg)cg.kind='coffee';
+  const ch=find(/charisma/i);if(ch)ch.kind='charisma';
+  const st=find(/stress/i);if(st)st.kind='stress';
+  const nb=find(/no break/i);if(nb){C.principles.breakRules=nb.items.map(x=>x.text);C.reminders=C.reminders.filter(g=>g!==nb)}
+  const co=C.levers.find(l=>/coffee/i.test(l.text));if(co)co.kind='coffee';
+  const pm=C.levers.find(l=>/positive mindset/i.test(l.text));if(pm){pm.kind='mind';pm.text='Positive, charismatic mindset';pm.note='Songs or a motivational video, then your charisma notes'}
+  C.levers=C.levers.filter(l=>l.kind!=='reminders');
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order26'))return;C.mig.push('order26');
+  const cg=C.reminders.find(g=>g.kind==='coffee');if(cg){cg.title='Coffee';cg.items=cg.items.filter(x=>!/eat out/i.test(x.text))}
+  const eg=C.reminders.find(g=>g.kind==='eat');if(eg&&eg.allow&&!eg.allow.some(x=>/eat(ing)? out/i.test(x)))eg.allow.push('Eating out once a week, with friends');
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order27'))return;C.mig.push('order27');
+  if(!C.reminders.some(g=>g.kind==='positive'))C.reminders.unshift({id:uid(),kind:'positive',title:'Positive mindset',items:[
+    R('This is the first thing you do.'),R('Listen to a song or a motivational video while you’re working out.'),R('Practise happiness, a calm manner and gratitude.')]});
+  const ch=C.reminders.find(g=>g.kind==='charisma');if(ch){const i=ch.items.findIndex(x=>/negative thoughts/i.test(x.text));if(i>0){const[x]=ch.items.splice(i,1);ch.items.unshift(x)}}
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order28'))return;C.mig.push('order28');
+  if(!C.levers.some(l=>l.kind==='brk'))C.levers.unshift({id:uid(),kind:'brk',text:'Did I Break yesterday?',note:'',phase:'wake'});
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order29'))return;C.mig.push('order29');
+  const D={"2026-07-01": "yes", "2026-07-02": "yes", "2026-07-03": "yes", "2026-07-04": "yes", "2026-07-05": "yes", "2026-07-07": "yes", "2026-07-08": "yes", "2026-07-11": "yes", "2026-07-12": "no", "2026-07-13": "no", "2026-07-14": "no", "2026-07-15": "yes", "2026-07-17": "yes", "2026-07-18": "no", "2026-07-19": "yes", "2026-07-20": "yes", "2026-07-21": "no", "2026-07-22": "yes", "2026-07-23": "yes", "2026-07-24": "yes", "2026-07-25": "yes", "2026-07-26": "yes", "2026-07-27": "no", "2026-07-28": "no", "2026-07-29": "no", "2026-07-30": "no", "2026-07-31": "no", "2026-08-01": "yes", "2026-08-02": "no", "2026-08-03": "yes", "2026-08-04": "yes", "2026-08-05": "yes", "2026-08-06": "no", "2026-08-07": "yes", "2026-08-08": "yes", "2026-08-09": "no", "2026-08-10": "no", "2026-08-11": "no", "2026-08-12": "yes", "2026-08-13": "yes", "2026-08-14": "yes", "2026-08-15": "yes", "2026-08-16": "yes", "2026-08-17": "yes", "2026-08-18": "yes", "2026-08-19": "no", "2026-08-20": "yes", "2026-08-21": "no", "2026-08-22": "yes", "2026-08-23": "no", "2026-08-24": "no", "2026-08-25": "no", "2026-08-26": "no", "2026-08-27": "yes", "2026-08-28": "no", "2026-08-29": "yes", "2026-08-31": "yes", "2026-09-01": "yes", "2026-09-02": "no", "2026-09-03": "no", "2026-09-04": "no", "2026-09-05": "no", "2026-09-06": "no", "2026-09-07": "yes", "2026-09-08": "no", "2026-09-09": "no", "2026-09-10": "yes", "2026-09-11": "yes", "2026-09-12": "yes", "2026-09-13": "yes", "2026-09-14": "yes", "2026-09-15": "no", "2026-09-16": "yes", "2026-09-17": "no", "2026-09-18": "no", "2026-09-19": "yes", "2026-09-20": "yes", "2026-09-21": "no", "2026-09-22": "no", "2026-09-23": "no", "2026-09-24": "yes", "2026-09-25": "no", "2026-09-26": "no", "2026-09-27": "yes", "2026-09-28": "yes", "2026-09-29": "yes", "2026-09-30": "yes", "2026-10-01": "no", "2026-10-02": "no", "2026-10-03": "no", "2026-10-04": "yes", "2026-10-05": "yes", "2026-10-06": "yes", "2026-10-07": "yes", "2026-10-08": "yes", "2026-10-09": "yes", "2026-10-10": "no", "2026-10-11": "no", "2026-10-12": "no", "2026-10-13": "yes", "2026-10-14": "yes", "2026-10-15": "no", "2026-10-16": "yes", "2026-10-17": "yes", "2026-10-18": "no", "2026-10-19": "yes", "2026-10-20": "no", "2026-10-21": "no", "2026-10-22": "yes", "2026-10-23": "yes", "2026-10-24": "no", "2026-10-25": "yes", "2026-10-26": "yes", "2026-10-27": "yes", "2026-10-28": "no", "2026-10-29": "no", "2026-10-30": "no", "2026-10-31": "yes", "2026-11-01": "yes", "2026-11-02": "no", "2026-11-03": "yes", "2026-11-04": "no", "2026-11-05": "no", "2026-11-06": "yes", "2026-11-07": "yes", "2026-11-08": "yes", "2026-11-09": "yes", "2026-11-10": "no", "2026-11-11": "yes", "2026-11-12": "yes", "2026-11-13": "yes"};for(const k in D)if(!S.meta.brk[k])S.meta.brk[k]=D[k];S.meta.brkTotals['2026-06']=4;
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order30'))return;C.mig.push('order30');
+  delete S.meta.brkTotals['2026-06'];persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1168,7 +1284,7 @@ const ymOf=k=>k.slice(0,7);
 const monthName=ym=>parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long',year:'numeric'});
 function logChange(text){S.config.changes.unshift({d:todayKey(),text});S.config.changes=S.config.changes.slice(0,100)}
 
-function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='note')return !!L.nr;if(l.kind==='shutdown')return !!L.reviewed;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
+function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='brk')return !!L.brkY;if(l.kind==='ns')return !!L.zs;if(l.kind==='note')return !!L.nr;if(l.kind==='review'||l.kind==='shutdown')return !!L.reviewed;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
 const leversHit=L=>S.config.levers.filter(l=>leverHit(L,l)).length;
 const fullDay=L=>!!L&&S.config.levers.length>0&&leversHit(L)===S.config.levers.length;
 function lastMealPrep(before){return S.meta.mealPrep.filter(d=>d<=before).sort().pop()||null}
@@ -1214,14 +1330,14 @@ function seedSample(){
   for(let i=42;i>=1;i--){
     const k=addDays(t,-i);if(i%13===6)continue;
     const L=ensureLog(k),dow=(parseKey(k).getDay()+6)%7,form=0.6+0.35*rnd()+(i<14?0.08:0);
-    C.levers.forEach(l=>{if((l.kind==='simple'||l.kind==='meals')&&rnd()<form)L.lv[l.id]=true});
+    C.levers.forEach(l=>{if(['simple','meals','coffee','mind','eat'].includes(l.kind)&&rnd()<form)L.lv[l.id]=true});
     L.move=[0,2,4].includes(dow)?(rnd()<0.82?'gym':(rnd()<0.6?'walk':null)):(rnd()<0.8?'walk':null);
     L.zb=i!==19;L.nr=rnd()<0.8;L.zs=!(i===27||i===33);
     L.min=Math.round((L.type==='weekday'?40+rnd()*70:120+rnd()*120)/5)*5;
     if(rnd()<0.85)L.wt=Math.round((89.4-0.055*(42-i)+(rnd()-0.5)*0.6)*10)/10;
     C.tasks.forEach(tk=>{if(tk.kind==='simple'&&rnd()<form)L.t[tk.id]=true;if(tk.kind==='journal'&&journaledOn(k))L.t[tk.id]=true});
     L.readAM=rnd()<0.85;L.readPM=rnd()<0.7;L.planRead=rnd()<form;
-    if(rnd()<0.7){L.reviewed=true;const p=leversHit(L)/C.levers.length;L.rating=Math.max(0,Math.min(5,Math.round(p*5+(rnd()-0.5)*1.4)));L.went=pick(SR);if(p<0.9){L.diff=pick(SW);L.learn=pick(SY)}}
+    if(rnd()<0.7){L.reviewed=true;const p=leversHit(L)/C.levers.length;L.rating=Math.max(0,Math.min(5,Math.round(p*5+(rnd()-0.5)*1.4)));L.went=pick(SR);if(p<0.9){L.next=pick(SW)}}
   }
   S.meta.mealPrep=[addDays(t,-16),addDays(t,-2)];
   const m0=mondayOf(t),pm=addDays(m0,-7);
@@ -1250,7 +1366,8 @@ function leverRow(l,i,L){
       <span class="d-wrow"><input type="number" inputmode="decimal" step="0.1" min="30" max="250" id="d-wt" value="${has?L.wt:''}" placeholder="${lw?lw.v:'kg'}" aria-label="Weight in kg"><span class="d-nt">kg${lw&&!has?`, last ${lw.v}`:''}</span></span></span></div></div>`}
   if(l.kind==='reminders'){const n=remCount(L),nt=n===2?'Read twice today':n===1?(L.readAM?'Morning read done. Read again after 12 pm':'Afternoon read done'):'Read before 12 pm, and again after';
     return `<button class="d-lever ${on?'on':''} ${n===1?'half':''}" data-act="open-rem" aria-haspopup="dialog"><span class="d-num">${on?CHECK:n===1?'½':i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)} <span class="d-mnum">${n}/2</span></span><span class="d-nt">${nt}</span></span><span class="d-chev">›</span></button>`}
-  if(l.kind==='shutdown')return `<button class="d-lever ${on?'on':''}" data-act="open-review" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?`Reflected${L.rating!=null?`, rated ${L.rating}/5`:''}. Tap to view or edit`:esc(l.note)}</span></span><span class="d-chev">›</span></button>`;
+  if(l.kind==='brk'){const yk=addDays(cur,-1);return `<button class="d-lever ${on?'on':''}" data-act="open-brk" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${L.brkY==='yes'?`Logged: Break on ${esc(fmt(yk,{weekday:'long'}))}`:L.brkY==='no'?`Logged: no Break on ${esc(fmt(yk,{weekday:'long'}))}`:'Answer for yesterday'}</span></span><span class="d-chev">›</span></button>`}
+  if(l.kind==='review')return `<button class="d-lever ${on?'on':''}" data-act="open-review" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?`Reflected${L.rating!=null?`, rated ${L.rating}/5`:''}. Tap to view or edit`:esc(l.note)}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='move'){const wc=weekMove(cur),h=H(),gl=Math.max(0,h.gym-wc.gym),wl=Math.max(0,7-h.gym-wc.walk);
     return `<button class="d-lever ${on?'on':''}" data-act="open-move" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${L.move==='gym'?'Full gym session':L.move==='walk'?`${h.walk} min walk + 50 push-ups`:esc(l.note)}</span></span>
       <span class="d-side" aria-label="This week: ${gl} gym and ${wl} walks left"><span class="${gl?'':'z'}">🏋️ ${gl} left</span><span class="${wl?'':'z'}">🚶 ${wl} left</span></span><span class="d-chev">›</span></button>`}
@@ -1258,6 +1375,7 @@ function leverRow(l,i,L){
   if(l.kind==='two')return `<button class="d-lever ${on?'on':''}" data-act="open-plan" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${planTitle(cur)}</span><span class="d-nt">${on?'Read today':'Tap to read your planning principles'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='simple')return `<button class="d-lever ${on?'on':''}" data-act="lever" data-id="${l.id}" role="checkbox" aria-checked="${on}">${head}</button>`;
   if(l.kind==='note')return `<button class="d-lever ${on?'on':''}" data-act="open-note" aria-haspopup="dialog"><span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read tonight':'Tap to read it'}</span></span><span class="d-chev">›</span></button>`;
+  if(['ns','eat','coffee','mind'].includes(l.kind))return `<button class="d-lever ${on?'on':''}" data-act="open-gate" data-id="${l.id}" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read and done today':esc(l.note)+(l.note?'. ':'')+(l.kind==='eat'?'Read your rules, then tick it':'Read your note, then tick it')}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='nb'||l.kind==='ns')return `<button class="d-lever ${on?'on':''}" data-act="zero" data-v="${l.kind==='nb'?'zb':'zs'}" role="checkbox" aria-checked="${on}">${head}</button>`;
   return `<div class="d-lever ${on?'on':''}"><div class="d-lh">${head}</div>${pills(L,l)}</div>`;
 }
@@ -1282,11 +1400,11 @@ function todayHTML(){
     <div class="d-title"><h1>${isToday?'Today':esc(fmt(k,{weekday:'long'}))}</h1>
     <div class="d-sub">${isToday?esc(fmt(k,{weekday:'long',day:'numeric',month:'long'})):`${esc(fmt(k,{day:'numeric',month:'long'}))}, <button data-act="today">back to today</button>`}</div></div>
     <button class="d-nav" data-act="next" ${isToday?'disabled':''} aria-label="Next day">›</button></div>
-  <div class="card d-prog ${full?'full':''}"><div class="d-pct">${sc.d}<small>/${sc.t}</small></div>
+  ${isToday?leftHTML(ymOf(k)):''}<div class="card d-prog ${full?'full':''}"><div class="d-pct">${sc.d}<small>/${sc.t}</small></div>
     <div class="d-pr"><div class="d-prrow"><span class="d-prt">${full?'Full day!':'done today'}</span>
       <select id="d-type" class="d-type" aria-label="Day type">${[['weekday','Weekday'],['weekend','Weekend'],['holiday','Holiday']].map(([v,l])=>`<option value="${v}" ${type===v?'selected':''}>${l}</option>`).join('')}</select></div>
     <div class="d-track"><div class="d-fill" style="width:${sc.t?sc.d/sc.t*100:0}%"></div></div>
-    <div class="d-nt" style="margin-top:6px">${nL} habits + ${vt.map(t=>t.text.toLowerCase()).join(' + ')||'tasks'}</div></div></div>`;
+    <div class="d-nt" style="margin-top:6px">${nL} habits${vt.length?' + '+vt.map(t=>t.text.toLowerCase()).join(' + '):''}</div></div></div>`;
   {const hl=S.config.levers.filter(isHealthL),hd=hl.filter(l=>leverHit(L,l)).length,left=hl.length-hd,pl=hl.length?Math.round(left/hl.length*100):0;
    h+=`<button class="d-row d-hcard ${left?'':'on'}" data-act="open-health" aria-haspopup="dialog"><span class="d-hk ${left?'':'z'}">${left?`<b>${left}</b><small>left</small>`:'<b>100%</b>'}</span><span class="d-tt"><span class="d-tx">Health</span><span class="d-nt">${left?`${left===1?'1 more task':left+' more tasks'} to hit 100%`:'100% done today. Well done'}</span></span><span class="d-hpl ${left?'':'z'}">${pl}%<small>left</small></span><span class="d-chev">›</span></button>`}
 
@@ -1403,7 +1521,7 @@ function barChart(vals,{line,labels,color,w=340,hgt=140,max}){
   if(line!=null)g+=`<line x1="${L}" x2="${w-6}" y1="${Y(line)}" y2="${Y(line)}" stroke="var(--ink)" stroke-dasharray="4 4" stroke-width="1.2" opacity=".6"/>`;
   return `<svg viewBox="0 0 ${w} ${hgt}" role="img">${g}</svg>`;
 }
-function dayScore(k){const L=getLog(k),vt=visibleTasks(k),sd=S.config.levers.some(l=>l.kind==='shutdown'),tot=S.config.levers.length+vt.length+(sd?0:1);
+function dayScore(k){const L=getLog(k),vt=visibleTasks(k),sd=S.config.levers.some(l=>l.kind==='review'||l.kind==='shutdown'),tot=S.config.levers.length+vt.length+(sd?0:1);
   if(!L)return{d:0,t:tot};return{d:leversHit(L)+vt.filter(t=>taskDone(L,t,k)).length+(!sd&&L.reviewed?1:0),t:tot}}
 function pctOver(keys){let d=0,t=0;keys.forEach(k=>{const s=dayScore(k);d+=s.d;t+=s.t});return t?Math.round(d/t*100):0}
 function stackChart(rows,{w=340,hgt=150}){
@@ -1416,8 +1534,8 @@ function stackChart(rows,{w=340,hgt=150}){
     g+=`<text x="${(+x+bw*0.35).toFixed(1)}" y="${hgt-5}" font-size="9.5" text-anchor="middle" fill="var(--muted)">${r.label}</text>`});
   return `<svg viewBox="0 0 ${w} ${hgt}" role="img" aria-label="Gym sessions and walks per week">${g}</svg>`;
 }
-const RQ=[['went','How did today go?'],['diff','What can you do differently?'],['learn','What did you learn?'],['revise','Anything to review or revise?']];
-const RQ_ALL=RQ.concat([['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']]);
+const RQ=[['went','What went well?'],['next','What can I do tomorrow so I don’t make the same mistakes?']];
+const RQ_ALL=RQ.concat([['diff','What can you do differently?'],['learn','What did you learn?'],['revise','Anything to review or revise?']],[['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']]);
 let compView='week',boardView='week';
 const WCOL=['--c3','--c2','--c1','--accent','--d6'];
 (function(){let sx=null,sy=null;
@@ -1453,10 +1571,10 @@ function dashHTML(){
   let gym=0,walk=0;plogs.forEach(L=>{if(L.move==='gym')gym++;else if(L.move==='walk')walk++});
   const wks=Math.max(1,Math.ceil(pd.length/7)),gT=H().gym*wks,wT=(7-H().gym)*wks,nW=pd.filter(k=>(getLog(k)||{}).wt!=null).length;
   const hits=l=>plogs.filter(L=>leverHit(L,l)).length;
-  const rateRow=l=>{const n=hits(l),r=pd.length?n/pd.length:0;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your main task':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${pd.length}</span></div>`};
+  const rateRow=l=>{const n=hits(l),r=pd.length?n/pd.length:0;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your 3 main tasks':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${pd.length}</span></div>`};
   const hl=S.config.levers.filter(isHealth),pl=S.config.levers.filter(l=>!isHealth(l));
   let ph=0;plogs.forEach(L=>pl.forEach(l=>{if(leverHit(L,l))ph++}));const pt=pd.length*pl.length;
-  const er=S.config.levers.find(l=>/eat right/i.test(l.text));
+  const er=S.config.levers.find(l=>l.kind==='eat'||/eat right/i.test(l.text));
   const rot=`<button class="d-swipe" data-act="bview-toggle">⇄ Swipe for ${bWeek?'the month':'the week'}</button>`;
   h+=`<div class="d-boards">
   <div class="card"><div class="head"><h2>Health check-in</h2>${rot}</div><span class="d-cvl" style="display:block;margin:-4px 0 8px">${plabel}</span>
@@ -1489,6 +1607,7 @@ function dashHTML(){
     return `<button class="entry d-rv" data-act="open" data-k="${k}" style="border-left-color:var(${col})">
       <span class="meta"><span>${esc(fmt(k,{weekday:'short',day:'numeric',month:'short'}))} · ${Math.round(dayScore(k).d/dayScore(k).t*100)}% done</span>
       <span class="d-rdots" aria-label="Rated ${r??'none'} of 5">${[1,2,3,4,5].map(n=>`<i class="${(r??0)>=n?'f':''}"></i>`).join('')}</span></span>
+      ${missLines(L).length?`<span class="lbl">Why I didn’t follow through</span>${missLines(L).map(([n,t])=>`<span class="d-p"><b>${esc(n)}:</b> ${esc(t)}</span>`).join('')}`:''}
       ${RQ_ALL.map(([f,q])=>L[f]?`<span class="lbl">${q}</span><span class="d-p">${esc(L[f])}</span>`:'').join('')}</button>`}).join('')
     :`<div class="empty">Review a day on Today to see it here.</div>`;
   return h+`</details></div>`;
@@ -1500,10 +1619,10 @@ function leftHTML(ym){const L=monthLeft(ym),mn=parseKey(ym+'-01').toLocaleDateSt
   return `<div class="d-pcts d-left"><div><b>${L.w}</b><span>week${L.w===1?'':'s'}${L.r?` + ${L.r} day${L.r===1?'':'s'}`:''} left</span></div><div><b>${L.d}</b><span>day${L.d===1?'':'s'} left in ${esc(mn)}</span></div></div>`}
 /* ---------- Health levels, rules, principles ---------- */
 const H=()=>S.config.health;
-const isHealthL=l=>['weight','move','meals'].includes(l.kind)||/eat right|creatine/i.test(l.text);
+const isHealthL=l=>['weight','move','meals','eat'].includes(l.kind)||/eat right|creatine/i.test(l.text);
 function applyHealthNotes(){const C=S.config,h=H();
   const mv=C.levers.find(l=>l.kind==='move');if(mv)mv.note='Mornings only. No excuses. Just do it.';
-  const er=C.levers.find(l=>/eat right/i.test(l.text));if(er)er.note=`3 meals and a snack, ${h.kcal.toLocaleString('en-US')} kcal`}
+  const er=C.levers.find(l=>l.kind==='eat');if(er)er.note=`3 meals and a snack, ${h.kcal.toLocaleString('en-US')} kcal`}
 function wkAvg(m){const v=[];for(let d=0;d<7;d++){const k=addDays(m,d);if(k>todayKey())break;const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((a,b)=>a+b,0)/v.length:null}
 function rangeAvg(a,b){const v=[];for(let k=a;k<=b&&k<=todayKey();k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((x,y)=>x+y,0)/v.length:null}
 function healthState(){
@@ -1525,13 +1644,62 @@ const NOTES=[
     ['What helps at night',['A high-carb meal to fall asleep faster','A podcast or audiobook','Phone away from you','Sleeping on your left side']],
     ['What helps during the day',['A planned day','Doing something exciting and different','Going out']]]},
   {t:'Social media and scrolling',g:[
-    ['Triggers',['Boredom','Exhaustion, because you can’t get anything done','Heavy brain fog','A lot of free time, when you feel you need to recharge','Not feeling good about yourself. Heavy use makes you feel worse, which sends you back to it']],
+    ['Triggers',['Boredom','Exhaustion, because you can’t get anything done','Heavy brain fog','A lot of caffeine in a short time','A lot of free time, when you feel you need to recharge','Not feeling good about yourself. Heavy use makes you feel worse, which sends you back to it']],
     ['What helps',['Resting or sleeping','Going for a walk','Talking to someone','Building something with Claude or ChatGPT']]]},
   {t:'Diet',g:[
     ['Triggers',['Boredom between work, eating to entertain yourself','A “foodie” mindset','Tiredness pulls you to comfort food','Undereating for days, then overeating on the third','Eating too fast','Not enough time between meals']],
     ['What works',['Same food gets easy after about a week','A small snack between meals so you don’t get hungry','Dinner around 7–8 pm','Sleep within 1–2 hours of dinner']]]}];
 
 function weekMove(k){const m=mondayOf(k);let gym=0,walk=0;for(let d=0;d<7;d++){const L=getLog(addDays(m,d));if(L&&L.move==='gym')gym++;else if(L&&L.move==='walk')walk++}return{gym,walk,m}}
+function missedLevers(k){const L=getLog(k)||{},ls=S.config.levers,ri=ls.findIndex(l=>l.kind==='review');return ls.filter((l,i)=>(ri<0||i<ri)&&!leverHit(L,l))}
+function reviewComplete(d,ms){return d.rating!=null&&RQ.every(([f])=>(d[f]||'').trim())&&ms.every(l=>((d.miss||{})[l.id]||'').trim())}
+const missLines=L=>L.miss?Object.entries(L.miss).filter(([,t])=>t).map(([id,t])=>{const l=S.config.levers.find(x=>x.id===id);return [l?(l.kind==='two'?'Plan your 3 main tasks':l.text):'A habit',t]}):[];
+function mindNotes(){const g=k=>S.config.reminders.find(x=>x.kind===k)||{items:[],title:''},out=[];
+  [['positive','--accent-soft'],['charisma','--c1-soft'],['stress','--c2-soft']].forEach(([k,c])=>{const G=g(k);G.items.forEach(x=>out.push({h:G.title,t:x.text,c}))});return out}
+function brkStreak(){const B=S.meta.brk;let n=0,k=todayKey();if(!B[k])k=addDays(k,-1);if(!B[k])k=addDays(k,-1);while(B[k]==='no'&&n<3650){n++;k=addDays(k,-1)}return n}
+/* ---------- Break tracker ---------- */
+let bm=null,brange=6;
+const BRK=()=>S.meta.brk;
+function brkCount(ym){let n=0,logged=0;for(const k in BRK())if(k.startsWith(ym)){logged++;if(BRK()[k]==='yes')n++}return logged?n:(S.meta.brkTotals[ym]??null)}
+function brkMonthStats(ym){let y=0,no=0;for(const k in BRK())if(k.startsWith(ym)){if(BRK()[k]==='yes')y++;else no++}return{y,no}}
+function longestClean(){const ks=Object.keys(BRK()).sort();let best=0,run=0,prev=null;for(const k of ks){if(BRK()[k]==='no'){run=(prev&&run&&diffDays(prev,k)===1)?run+1:1;best=Math.max(best,run)}else run=0;prev=k}return best}
+const monthsBack=(n,cym)=>{const out=[];for(let i=n-1;i>=0;i--){const d=parseKey(cym+'-01');d.setMonth(d.getMonth()-i);out.push(keyOf(d).slice(0,7))}return out};
+const mShort=ym=>parseKey(ym+'-01').toLocaleDateString(undefined,{month:'short'});
+function brkHTML(){
+  const tk=todayKey(),cym=ymOf(tk),six=monthsBack(6,cym),vals=six.map(brkCount),known=vals.filter(v=>v!=null);
+  const total=known.reduce((a,b)=>a+b,0),avg=known.length?Math.round(total/known.length):0;
+  const curV=vals[5],prevV=vals[4],diff=curV!=null&&prevV!=null?prevV-curV:null;
+  let clean=0,notLogged=0;six.forEach(ym=>{const s=brkMonthStats(ym);clean+=s.no});
+  let h=`<h1 style="margin-bottom:4px">Break</h1><p class="hint" style="margin:0 0 12px">Days you took a Break. Fewer is better. A skipped day is the win. Half counts as full.</p>
+  <div class="card"><span class="lab">Last 6 months</span><div class="bk-months">${six.map((ym,i)=>`<button class="bk-m ${ym===cym?'cur':''}" data-act="bk-month" data-m="${ym}"><span>${esc(mShort(ym).toUpperCase())}</span><b>${vals[i]??'–'}</b></button>`).join('')}</div>
+    <p class="hint" style="margin:10px 0 0"><b>${total}</b> Break days across ${known.length} month${known.length===1?'':'s'} · averaging <b>${avg}</b>/month${diff!=null?` · <b style="color:var(${diff>0?'--done':diff<0?'--danger':'--muted'})">${Math.abs(diff)} ${diff>=0?'fewer':'more'}</b> than last month`:''}</p></div>
+  <div class="card"><div class="d-pcts" style="margin:0"><div><b style="color:var(--danger)">${total}</b><span>Break days</span></div><div><b class="full">${clean}</b><span>Clean days</span></div><div><b class="full">${brkStreak()}</b><span>Clean streak now</span></div></div>
+    <p class="hint" style="margin:8px 0 0">Longest clean streak: <b>${longestClean()}</b> days</p></div>`;
+  const tm=monthsBack(brange,cym),tv=tm.map(brkCount),W=340,Ht=170,L=26,R=14,T=22,B=24,mx=Math.max(4,...tv.filter(v=>v!=null));
+  const X=i=>L+(W-L-R)*(tm.length===1?0.5:i/(tm.length-1)),Y=v=>T+(Ht-T-B)*(1-v/mx);
+  let g='';[0,Math.round(mx/2),mx].forEach(v=>{g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${Y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${v}</text>`});
+  const pts=tv.map((v,i)=>v==null?null:[X(i),Y(v),v]).filter(Boolean);
+  if(pts.length>1)g+=`<polyline points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="var(--danger)" stroke-width="2.5" stroke-linejoin="round"/>`;
+  pts.forEach(p=>{g+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="var(--danger)"/><text x="${p[0]}" y="${p[1]-8}" font-size="10.5" font-weight="800" text-anchor="middle" fill="var(--ink)">${p[2]}</text>`});
+  tm.forEach((ym,i)=>{if(brange===6||i%2===0)g+=`<text x="${X(i)}" y="${Ht-6}" font-size="10" text-anchor="middle" fill="var(--muted)">${esc(mShort(ym))}</text>`});
+  const best=known.length?six[vals.indexOf(Math.min(...known))]:null,worst=known.length?six[vals.indexOf(Math.max(...known))]:null;
+  const rate=yms=>{let y=0,t=0;yms.forEach(ym=>{const s=brkMonthStats(ym);y+=s.y;t+=s.y+s.no});return t?y/t:null},rNow=rate([cym]),rPrev=rate(six.slice(2,5));
+  const trend=rNow!=null&&rPrev!=null?rNow-rPrev:null;
+  h+=`<div class="card"><div class="head"><h2>Trend</h2><div class="seg" role="group" aria-label="Range"><button type="button" data-act="bk-range" data-v="6" aria-pressed="${brange===6}">6 months</button><button type="button" data-act="bk-range" data-v="12" aria-pressed="${brange===12}">12 months</button></div></div>
+    <svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Break days per month">${g}</svg>
+    <p class="hint">${best?`Best <b style="color:var(--done)">${esc(mShort(best))} (${brkCount(best)})</b> · worst <b>${esc(mShort(worst))} (${brkCount(worst)})</b>`:''}${trend!=null?`<br>This month’s pace: <b style="color:var(${trend<=0?'--done':'--danger'})">${Math.round(rNow*100)}% of days</b>, vs ${Math.round(rPrev*100)}% over the previous 3 months · <b style="color:var(${trend<=0?'--done':'--danger'})">${trend<=0?'improving':'getting worse'}</b>`:''}</p></div>`;
+  const m=bm||cym,first=m+'-01',n=new Date(+m.slice(0,4),+m.slice(5,7),0).getDate(),lead=(parseKey(first).getDay()+6)%7,st=brkMonthStats(m);
+  let cells='';for(let i=0;i<lead;i++)cells+='<span></span>';
+  let nl=0;for(let d=1;d<=n;d++){const k=`${m}-${pad(d)}`,v=BRK()[k],fut=k>tk;if(!v&&!fut&&k<tk)nl++;
+    cells+=`<button class="bk-c ${fut?'fut':v==='yes'?'yes':v==='no'?'no':'nl'} ${k===tk?'now':''}" ${fut?'disabled':`data-act="bk-cell" data-k="${k}"`} aria-label="${fmt(k,{day:'numeric',month:'long'})}: ${v==='yes'?'Break':v==='no'?'clean':'not logged'}">${d}</button>`}
+  const tot=S.meta.brkTotals[m];
+  h+=`<div class="card"><div class="d-top" style="margin:0 0 10px"><button class="d-nav" data-act="bk-prev" aria-label="Previous month">‹</button><div class="d-title"><h2 style="margin:0">${esc(monthName(m))}</h2></div><button class="d-nav" data-act="bk-next" ${m>=cym?'disabled':''} aria-label="Next month">›</button></div>
+    <div class="bk-grid">${'MTWTFSS'.split('').map(x=>`<span class="bk-h">${x}</span>`).join('')}${cells}</div>
+    <div class="legend" style="margin-top:10px"><span><i style="background:var(--danger)"></i>Break (half or full)</span><span><i style="background:var(--c2-soft);border:1px solid var(--done)"></i>Clean</span><span><i style="background:var(--line)"></i>Not logged</span></div>
+    <p class="hint"><b style="color:var(--danger)">${st.y}</b> Break · <b style="color:var(--done)">${st.no}</b> clean${nl?` · ${nl} not logged`:''}${!st.y&&!st.no&&tot!=null?` · ${tot} Break days recorded for this month, no daily detail`:''}. Tap a day to change it.</p></div>`;
+  return h;
+}
+
 /* ---------- Weekly ---------- */
 const WQ=[['wrong','Where did I go wrong in my daily tasks this week?'],['update','What do I need to update to stick to them?'],['forward','What will I do differently in the coming weeks?']];
 let wcur=null;
@@ -1604,6 +1772,7 @@ function modalHTML(){
       body=`<h2 style="font-size:1.3rem;margin:6px 0 4px">${esc(fmt(k,{weekday:'long',day:'numeric',month:'long'}))}</h2>
       <p class="hint" style="margin:0 0 12px">${k>todayKey()?'Still to come':`${Math.round(sc.d/sc.t*100)}% of your day done`}</p>
       ${L&&L.reviewed?`<div class="d-dayrev"><span class="lab">Rating</span><span class="d-rdots big">${[1,2,3,4,5].map(n=>`<i class="${(r??0)>=n?'f':''}"></i>`).join('')}</span> <b>${r??'–'}/5</b>
+        ${missLines(L).length?`<span class="lab mt" style="display:block">Why I didn’t follow through</span>${missLines(L).map(([n,t])=>`<p style="margin:0 0 4px"><b>${esc(n)}:</b> ${esc(t)}</p>`).join('')}`:''}
         ${RQ_ALL.map(([f,q])=>L[f]?`<span class="lab mt" style="display:block">${q}</span><p style="margin:0;white-space:pre-wrap">${esc(L[f])}</p>`:'').join('')}</div>`
         :`<div class="empty">No review written for this day.</div>`}<div style="flex:1"></div>`}
     else{const[f,q]=WQ[s-7];body=`<h2 style="font-size:1.3rem;margin:6px 0 10px">${q}</h2><textarea class="d-fta" id="d-fta" data-d="${f}" aria-label="${q}" placeholder="Write freely…">${esc(draft[f]||'')}</textarea>`}
@@ -1640,11 +1809,56 @@ function modalHTML(){
     ${opt('gym','Full gym session',`${wc.gym} of ${h.gym} this week`)}${opt('walk',`${h.walk} min walk + 50 push-ups`,`${wc.walk} of ${7-h.gym} this week`)}
     <div class="d-pcts" style="margin-top:12px"><div><b class="${wc.gym>=h.gym?'full':''}">${Math.max(0,h.gym-wc.gym)}</b><span>gym left</span></div><div><b class="${wc.walk>=7-h.gym?'full':''}">${Math.max(0,7-h.gym-wc.walk)}</b><span>walks left</span></div><div><b>${left}</b><span>day${left===1?'':'s'} left this week</span></div></div>
     <div class="d-mf">${L.move?'<button class="d-link" data-act="move-pick" data-v="">Clear</button>':''}<button class="btn" data-act="close">Close</button></div>`;
+  }else if(modal==='brk'){
+    const yk=addDays(cur,-1),st=brkStreak();
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Did you Break yesterday?</h2><p class="hint" style="margin:0 0 10px">${esc(fmt(yk,{weekday:'long',day:'numeric',month:'long'}))}</p>
+    <div class="d-rulebox"><b>Never assume half is half. It’s full.</b> Half or full, it counts as a Break.</div>
+    <button class="d-opt ${L.brkY==='no'?'on':''}" data-act="brk-set" data-v="no"><span class="d-box">${L.brkY==='no'?CHECK:''}</span><span class="d-tt"><span class="d-tx">No, I didn’t Break</span></span></button>
+    <button class="d-opt miss ${L.brkY==='yes'?'on':''}" data-act="brk-set" data-v="yes"><span class="d-box">${L.brkY==='yes'?CHECK:''}</span><span class="d-tt"><span class="d-tx">Yes, I did (half or full)</span></span></button>
+    <p class="hint" style="margin-top:12px">Days without a Break: <b>${st}</b></p>
+    <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`;
+  }else if(modal==='notes'){
+    const nk=draft.nk,lv=S.config.levers.find(l=>nk==='meals'?l.kind==='meals':l.kind==='two')||{},on=leverHit(L,lv);
+    const g=S.config.reminders.find(x=>x.kind===nk)||{items:[],title:''},notes=g.items,n=notes.length,i=Math.min(draft.i||0,Math.max(0,n-1));
+    const title=nk==='plan'?planTitle(cur):esc(lv.text||'');
+    inner=`<div class="d-fhead"><span>${title}</span><span>${n?i+1:0} of ${n}</span></div>
+    <div class="d-dotsbar">${notes.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
+    <div class="d-onenote" style="background:var(${nk==='meals'?'--c2-soft':'--c3-soft'})"><span class="lab" style="margin:0 0 8px">${esc(g.title)}</span><p>${esc(n?notes[i].text:'No notes yet.')}</p></div>
+    <div class="d-mf">${i?'<button class="btn ghost" data-act="mn-prev">‹ Previous</button>':'<button class="btn ghost" data-act="close">Later</button>'}${i<n-1?'<button class="btn" data-act="mn-next">Next ›</button>':on?'<button class="d-link" data-act="notes-undo">Undo</button><button class="btn" data-act="close">Close</button>':`<button class="btn" data-act="notes-done">${nk==='meals'?'Done, meals planned':'Done, I’ve read them all'}</button>`}</div>`;
+  }else if(modal==='gate'&&(S.config.levers.find(x=>x.id===draft.id)||{}).kind==='mind'){
+    const l=S.config.levers.find(x=>x.id===draft.id),on=leverHit(L,l),notes=mindNotes(),n=notes.length,i=Math.min(draft.i||0,n-1),cur_=notes[i]||{h:'',t:'No notes yet.',c:'--line'};
+    inner=`<div class="d-fhead"><span>${esc(l.text)}</span><span>${i+1} of ${n}</span></div>
+    <div class="d-dotsbar">${notes.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
+    <div class="d-onenote" style="background:var(${cur_.c})"><span class="lab" style="margin:0 0 8px">${esc(cur_.h)}</span><p>${esc(cur_.t)}</p></div>
+    <div class="d-mf">${i?'<button class="btn ghost" data-act="mn-prev">‹ Previous</button>':'<button class="btn ghost" data-act="close">Later</button>'}${i<n-1?'<button class="btn" data-act="mn-next">Next ›</button>':on?'<button class="d-link" data-act="gate-undo">Undo</button><button class="btn" data-act="close">Close</button>':'<button class="btn" data-act="gate-done">Done, I’ve read them all</button>'}</div>`;
+  }else if(modal==='gate'&&(S.config.levers.find(x=>x.id===draft.id)||{}).kind==='coffee'){
+    const l=S.config.levers.find(x=>x.id===draft.id),on=leverHit(L,l),grp=k=>S.config.reminders.find(g=>g.kind===k)||{items:[],title:''};
+    const box=(g,c)=>g.items.length?`<div class="d-rg" style="background:var(${c})"><span class="lab" style="margin:0">${esc(g.title)}</span><ul>${g.items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`:'';
+    const body=l.kind==='coffee'?`<div class="d-rulebox"><span class="lab" style="margin:0">The rules</span><ul>${grp('coffee').items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`
+      :`<div class="d-rulebox"><span class="lab" style="margin:0">Positive mindset</span><ul><li>Start with songs or a motivational video. Have fun with it.</li><li>Practise happiness, a calm manner and gratitude.</li></ul></div>${box(grp('charisma'),'--c1-soft')}${box(grp('stress'),'--c2-soft')}`;
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${esc(l.text)}</h2>${body}
+    <div class="d-mf">${on?`<button class="d-link" data-act="gate-undo">Undo</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="gate-done">Done, I’ve read it</button>`}</div>`;
+  }else if(modal==='gate'&&draft.stage==='check'){
+    const g=S.config.reminders.find(g=>g.kind==='eat')||{checks:[]},qs=g.checks||[],done=qs.every((_,i)=>draft.ans[i]);
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Check yourself</h2><p class="hint" style="margin:0 0 6px">Be honest. These are the things you weren’t supposed to do today.</p>
+    ${qs.map((q,i)=>`<div class="d-mr"><span class="d-tx">${esc(q)}</span><div class="d-pills"><button class="d-pill ${draft.ans[i]==='no'?'on':''}" data-act="eq" data-i="${i}" data-v="no">No</button><button class="d-pill miss ${draft.ans[i]==='yes'?'on':''}" data-act="eq" data-i="${i}" data-v="yes">Yes</button></div></div>`).join('')}
+    <div class="d-mf"><button class="btn ghost" data-act="eq-back">‹ Rules</button><button class="btn" data-act="eq-save" ${done?'':'disabled'}>Save</button></div>`;
+  }else if(modal==='gate'){
+    const l=S.config.levers.find(x=>x.id===draft.id)||{},isNS=l.kind==='ns',g=S.config.reminders.find(g=>g.kind===(isNS?'social':'eat'))||{items:[]},on=leverHit(L,l);
+    const sn=NOTES.find(n=>/social/i.test(n.t));
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${esc(l.text||'')}</h2>
+    ${!isNS?`<div class="d-rulebox"><span class="lab" style="margin:0">The rules</span><ul><li><b>90–95% of your food is whole food.</b> No other options.</li><li><b>Under ${H().kcal.toLocaleString('en-US')} kcal.</b></li><li><b>3 meals on time, 1 snack, 1 hydration drink, 2 coffees.</b> That’s it.</li></ul></div>`:''}
+    ${g.allow?`<div class="d-two-col"><div class="d-rg" style="background:var(--c2-soft)"><span class="lab" style="margin:0">Allowed</span><ul>${(g.allow||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+      <div class="d-rg" style="background:var(--c3-soft)"><span class="lab" style="margin:0">Not allowed</span><ul>${(g.deny||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>`:''}
+    ${isNS&&g.items.length?`<div class="d-rg" style="background:var(--c1-soft)"><span class="lab" style="margin:0">Your rules</span><ul>${g.items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`:''}
+    ${isNS&&sn?sn.g.map(([h,it],i)=>`<div class="d-rg" style="background:var(${i?'--c2-soft':'--c3-soft'})"><span class="lab" style="margin:0">${esc(h)}</span><ul>${it.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`).join(''):''}
+    <div class="d-mf">${on?`<button class="d-link" data-act="gate-undo">Undo</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="gate-done">Done, I’ve read it</button>`}</div>`;
   }else if(modal==='princ'){
     const P=S.config.principles;
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">Your principles</h2><p class="hint" style="margin:0 0 8px">Every day, without a miss, no matter what.</p>
     <div class="d-rg" style="background:var(--c2-soft)"><span class="lab" style="margin:0">Do</span><ol>${P.do.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>
     <div class="d-rg" style="background:var(--c3-soft)"><span class="lab" style="margin:0">Don’t</span><ol>${P.dont.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>
+    ${(P.breakRules||[]).length?`<div class="d-rg" style="background:var(--c1-soft)"><span class="lab" style="margin:0">No Break rules</span><ul>${P.breakRules.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
     <h2 style="margin:16px 0 6px">Your notes</h2>
     ${NOTES.map(n=>`<details class="d-nd"><summary><span>${esc(n.t)}</span></summary>${n.g.map(([h,it])=>`<span class="lab" style="margin-top:8px">${esc(h)}</span><ul>${it.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`).join('')}</details>`).join('')}
     <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`;
@@ -1672,11 +1886,17 @@ function modalHTML(){
       <li>Losing 0.35–0.5 kg a week: you’re on the right track. Keep at it, even after 10 straight days at 100%.</li></ol></details>
     <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`;
   }else if(modal==='review'){
-    inner=`<h2 style="font-size:1.25rem;margin-bottom:6px">Shut down and reflect</h2><div class="d-rg" style="background:var(--accent-soft);margin-bottom:10px"><ul><li>Everything off and put away by 9 pm.</li><li>Phone out of the room.</li></ul></div><span class="lab">How well did you follow your day?</span>
+    const ms=missedLevers(cur),pad=([f,q])=>`<button class="d-qpad ${draft[f]&&draft[f].trim()?'':'need'}" data-act="rstep" data-q="${f}"><span class="lab" style="margin:0 0 2px">${q}</span><span class="d-qtx ${draft[f]?'':'empty'}">${esc(draft[f]||'Tap to write')}</span></button>`;
+    const ok=reviewComplete(draft,ms);
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:6px">Review the day</h2><span class="lab">How well did you follow your day?</span>
     <div class="scale d-scale" role="group" aria-label="Rate the day">${[0,1,2,3,4,5].map(n=>`<button type="button" data-act="drate" data-n="${n}" aria-pressed="${draft.rating===n}">${n}</button>`).join('')}</div>
     <div class="scale-ends"><span>Not at all</span><span>Fully</span></div>
-    ${RQ.map(([f,q])=>`<button class="d-qpad" data-act="rstep" data-q="${f}"><span class="lab" style="margin:0 0 2px">${q}</span><span class="d-qtx ${draft[f]?'':'empty'}">${esc(draft[f]||'Tap to write')}</span></button>`).join('')}
-    <div class="d-mf">${L.reviewed?'<button class="d-link" data-act="unreview">Mark as not done</button>':''}<button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="save-review">Save &amp; tick off</button></div>`;
+    ${pad(RQ[0])}
+    <div class="d-miss"><span class="lab" style="margin:0 0 4px">Why didn’t I follow through?</span>
+      ${ms.length?ms.map(l=>`<label class="d-mrow"><span>${esc(l.kind==='two'?planTitle(cur):l.text)}</span><textarea rows="2" data-miss="${l.id}" placeholder="One or two lines on why">${esc(draft.miss[l.id]||'')}</textarea></label>`).join('')
+        :'<div class="d-nt">Nothing missed so far today. Well done.</div>'}</div>
+    ${pad(RQ[1])}
+    <div class="d-mf"><span class="d-nt d-revhint" style="margin-right:auto">${ok?'':'Finish every section to tick it off'}</span>${L.reviewed?'<button class="d-link" data-act="unreview">Undo</button>':''}<button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="save-review">Save &amp; tick off</button></div>`;
   }else if(modal==='mreview'){
     const ym=ymOf(todayKey()),mg=monthGoals(ym);
     inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">${esc(monthName(ym))} review</h2><p class="hint" style="margin:0 0 6px">Mark each goal. Next month starts with the same goals, and you can edit them.</p>
@@ -1700,10 +1920,12 @@ function modalHTML(){
 function render(){
   if(!shown)return;
   seedSample();syncJournal(cur);
+  if(cur===todayKey()){const yk=addDays(cur,-1),v=S.meta.brk[yk],L0=getLog(cur);if(v&&(!L0||L0.brkY!==v)){ensureLog(cur).brkY=v;touch(cur)}}
   const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden};
   if(!modal&&vis('page-prod')&&S.meta.hpShown!==todayKey()){const hs=healthState();if(hs.rule){S.meta.hpShown=todayKey();persist();modal='health'}}
   if(vis('page-prod'))document.getElementById('day-today').innerHTML=todayHTML();
   if(vis('page-goals'))document.getElementById('day-goals').innerHTML=goalsHTML();
+  if(vis('page-brk'))document.getElementById('day-brk').innerHTML=brkHTML();
   if(vis('page-week'))document.getElementById('day-week').innerHTML=weekHTML();
   if(vis('page-dash')&&vis('prod-dash'))document.getElementById('prod-dash').innerHTML=dashHTML();
   const mEl=document.getElementById('day-modal'),sheet=mEl.querySelector('.d-sheet');
@@ -1732,14 +1954,15 @@ document.addEventListener('click',e=>{
     case 'next':if(cur<todayKey())cur=addDays(cur,1);break;
     case 'today':cur=todayKey();break;
     case 'open-rem':modal='rem';break;
-    case 'open-review':{const L=getLog(cur)||{};draft={rating:L.rating??null};RQ.forEach(([f])=>draft[f]=L[f]||'');modal='review';break}
+    case 'open-review':{const L=getLog(cur)||{};draft={rating:L.rating??null,miss:Object.assign({},L.miss||{})};RQ.forEach(([f])=>draft[f]=L[f]||'');modal='review';break}
     case 'open-mreview':draft=Object.assign({},S.meta.reviews[ymOf(todayKey())]||{});modal='mreview';break;
     case 'edit-month':ensureMonth(ymOf(todayKey()));save();modal='month';break;
     case 'close':modal=null;break;
     case 'noop':return;
     case 'read-done':{const L=ensureLog(cur),sl=remSlot(L);if(sl==='am')L.readAM=true;else if(sl==='pm')L.readPM=true;touch(cur);modal=null;toast(remCount(L)===2?'Reminders ticked off for today':'Half done. Read them again after 12 pm');break}
-    case 'open-plan':modal='plan';break;
-    case 'open-meals':modal='meals';break;
+    case 'open-plan':draft={nk:'plan',i:0};modal='notes';break;
+    case 'notes-done':case 'notes-undo':{const L=ensureLog(cur),v=a==='notes-done';if(draft.nk==='plan')L.planRead=v;else{const ml=C.levers.find(l=>l.kind==='meals');if(ml)L.lv[ml.id]=v}touch(cur);modal=null;if(v)toast(draft.nk==='plan'?'Planning principles read':'Meals planned');break}
+    case 'open-meals':draft={nk:'meals',i:0};modal='notes';break;
     case 'meals-done':case 'meals-undo':{const ml=C.levers.find(l=>l.kind==='meals');if(ml){const L=ensureLog(cur);L.lv[ml.id]=a==='meals-done';touch(cur)}modal=null;if(a==='meals-done')toast('Meals planned');break}
     case 'plan-done':{const L=ensureLog(cur);L.planRead=true;touch(cur);modal=null;toast('Planning principles read');break}
     case 'plan-undo':{const L=ensureLog(cur);L.planRead=false;touch(cur);modal=null;break}
@@ -1747,7 +1970,8 @@ document.addEventListener('click',e=>{
     case 'two-done':{const L=ensureLog(cur);L.two=L.two||[];const j=+b.dataset.j;if(L.two[j]&&L.two[j].text){L.two[j].done=!L.two[j].done;touch(cur)}break}
     case 'unread':{const L=ensureLog(cur);L.read=false;L.readAM=false;L.readPM=false;touch(cur);modal=null;break}
     case 'drate':{const n=+b.dataset.n;draft.rating=draft.rating===n?null:n;break}
-    case 'save-review':{const L=ensureLog(cur);Object.assign(L,draft);L.reviewed=true;touch(cur);modal=null;toast('Shut down and reflected');break}
+    case 'save-review':{const ms=missedLevers(cur);if(!reviewComplete(draft,ms)){toast(draft.rating==null?'Rate the day first':'Finish every section first');return}
+      const L=ensureLog(cur),d=Object.assign({},draft);delete d.step;d.miss={};ms.forEach(l=>{d.miss[l.id]=(draft.miss[l.id]||'').trim()});Object.assign(L,d);L.reviewed=true;touch(cur);modal=null;toast('Day reviewed');break}
     case 'unreview':{const L=ensureLog(cur);L.reviewed=false;touch(cur);modal=null;break}
     case 'mr':draft[b.dataset.id]=draft[b.dataset.id]===b.dataset.v?null:b.dataset.v;break;
     case 'save-mreview':S.meta.reviews[ymOf(todayKey())]=draft;save();modal=null;toast('Monthly review saved');break;
@@ -1773,6 +1997,24 @@ document.addEventListener('click',e=>{
     case 'sort':reviewSort=b.dataset.v;break;
     case 'cview':compView=b.dataset.v;break;
     case 'open-princ':modal='princ';break;
+    case 'open-brk':modal='brk';break;
+    case 'bk-range':brange=+b.dataset.v;break;
+    case 'bk-prev':{const d=parseKey((bm||ymOf(todayKey()))+'-01');d.setMonth(d.getMonth()-1);bm=keyOf(d).slice(0,7);break}
+    case 'bk-next':{const d=parseKey((bm||ymOf(todayKey()))+'-01');d.setMonth(d.getMonth()+1);const n=keyOf(d).slice(0,7);bm=n>=ymOf(todayKey())?null:n;break}
+    case 'bk-month':bm=b.dataset.m===ymOf(todayKey())?null:b.dataset.m;break;
+    case 'bk-cell':{const k=b.dataset.k,v=S.meta.brk[k];if(!v)S.meta.brk[k]='no';else if(v==='no')S.meta.brk[k]='yes';else delete S.meta.brk[k];
+      if(k===addDays(todayKey(),-1)){const L=ensureLog(todayKey());L.brkY=S.meta.brk[k]||null;touch(todayKey())}save();break}
+    case 'brk-set':{const L=ensureLog(cur),v=b.dataset.v,yk=addDays(cur,-1),Y=ensureLog(yk);L.brkY=v;Y.brk=v;S.meta.brk[yk]=v;touch(cur);touch(yk);modal=null;toast(v==='no'?'Logged. Keep it going':'Logged. Start again today');break}
+    case 'open-gate':draft={id:b.dataset.id,i:0};modal='gate';break;
+    case 'mn-next':draft.i=(draft.i||0)+1;break;
+    case 'mn-prev':draft.i=Math.max(0,(draft.i||0)-1);break;
+    case 'eq':draft.ans[+b.dataset.i]=b.dataset.v;break;
+    case 'eq-back':draft.stage=null;break;
+    case 'eq-save':{const g=C.reminders.find(g=>g.kind==='eat')||{checks:[]},qs=g.checks||[];if(!qs.every((_,i)=>draft.ans[i]))return;
+      const l=C.levers.find(x=>x.id===draft.id),L=ensureLog(cur),clean=qs.every((_,i)=>draft.ans[i]==='no');L.eatCheck=Object.assign({},draft.ans);if(l)L.lv[l.id]=clean;touch(cur);modal=null;
+      toast(clean?'Whole-food day. Well done':'Logged. Not a whole-food day today');break}
+    case 'gate-done':{const l=C.levers.find(x=>x.id===draft.id);if(l&&l.kind==='eat'){const L=getLog(cur)||{};draft.stage='check';draft.ans=Object.assign({},L.eatCheck||{});{const sh=document.querySelector('.d-sheet');sh&&(sh.scrollTop=0)}break}}
+    case 'gate-undo':{const l=C.levers.find(x=>x.id===draft.id),L=ensureLog(cur),v=a==='gate-done';if(l){if(l.kind==='ns')L.zs=v;else L.lv[l.id]=v;touch(cur)}modal=null;if(v)toast('Read and ticked off');break}
     case 'open-move':modal='move';break;
     case 'move-pick':{const L=ensureLog(cur),v=b.dataset.v||null;L.move=L.move===v?null:v;touch(cur);modal=null;if(v)toast(v==='gym'?'Gym session done':'Walk and push-ups done');break}
     case 'open-health':modal='health';break;
@@ -1810,7 +2052,7 @@ document.addEventListener('click',e=>{
   }
   render();
 });
-document.addEventListener('input',e=>{const el=e.target;if(el.dataset.wl!=null&&draft&&draft.list){draft.list[+el.dataset.wl].text=el.value;return}if(el.dataset.pd!=null&&draft){draft.tasks[+el.dataset.pd]=el.value;return}if(el.dataset.d&&draft)draft[el.dataset.d]=el.value});
+document.addEventListener('input',e=>{const el=e.target;if(el.dataset.miss&&draft&&draft.miss){draft.miss[el.dataset.miss]=el.value;const h=document.querySelector('.d-revhint');if(h)h.textContent=reviewComplete(draft,missedLevers(cur))?'':'Finish every section to tick it off';return}if(el.dataset.wl!=null&&draft&&draft.list){draft.list[+el.dataset.wl].text=el.value;return}if(el.dataset.pd!=null&&draft){draft.tasks[+el.dataset.pd]=el.value;return}if(el.dataset.d&&draft)draft[el.dataset.d]=el.value});
 document.addEventListener('change',e=>{
   const el=e.target,C=S.config;
   if(el.dataset.two!=null){const L=ensureLog(cur),j=+el.dataset.two;L.two=L.two||[];const v=el.value.trim();L.two[j]={text:v,done:v?!!(L.two[j]&&L.two[j].done):false};touch(cur);render();return}
@@ -1833,7 +2075,7 @@ return {
   markJournal(ts){syncJournal(keyOf(new Date(ts)));render()},
   journalDone(ts){const k=keyOf(new Date(ts)),t=S.config.tasks.find(t=>t.kind==='journal'),L=getLog(k);return !t||!!(L&&L.t[t.id])},
   exportData:()=>JSON.parse(JSON.stringify(S)),
-  importData(d){if(d&&d.config&&d.config.levers){S=Object.assign({config:null,days:{},meta:{}},d);S.meta=Object.assign({mealPrep:[],ptePassed:null,bodyFat:[],reviews:{}},S.meta||{});S.weeks=S.weeks||{};persist();render()}}
+  importData(d){if(d&&d.config&&d.config.levers){S=Object.assign({config:null,days:{},meta:{}},d);S.meta=Object.assign({mealPrep:[],ptePassed:null,bodyFat:[],reviews:{}},S.meta||{});S.weeks=S.weeks||{};S.meta.brk=S.meta.brk||{};S.meta.brkTotals=S.meta.brkTotals||{};persist();render()}}
 };
 })();
 
