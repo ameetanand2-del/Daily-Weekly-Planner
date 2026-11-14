@@ -1419,7 +1419,7 @@ function pills(L,l){
   if(l.kind==='move')return `<div class="d-pills"><button class="d-pill ${L.move==='gym'?'on':''}" data-act="move" data-v="gym">Full gym session</button><button class="d-pill ${L.move==='walk'?'on':''}" data-act="move" data-v="walk">${H().walk} min walk + 50 push-ups</button></div>`;
   return `<div class="d-pills"><button class="d-pill ${L.zb?'on':''}" data-act="zero" data-v="zb">${L.zb?'✓ ':''}No Break</button><button class="d-pill ${L.zs?'on':''}" data-act="zero" data-v="zs">${L.zs?'✓ ':''}No social media</button></div>`;
 }
-function leverRow(l,i,L){return leverRow0(l,i,L).replace('<span class="d-tx">',l.core?'<span class="d-tx"><span class="cg-tag">Core</span> ':'<span class="d-tx">')}
+function leverRow(l,i,L){return leverRow0(l,i,L)}
 function leverRow0(l,i,L){
   const on=leverHit(L,l);
   const head=`<span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span>${l.note?`<span class="d-nt">${esc(l.note)}</span>`:''}</span>`;
@@ -1783,21 +1783,21 @@ function topGoalHTML(){
   for(let yy=y;yy<=y+5;yy++)for(const md of ['06-30','12-31']){const k=`${yy}-${md}`;if(k>=tk&&k<='2030-12-31')ms.push(k)}
   return `<div class="tg"><p class="tg-t">Don’t change anything. Follow the rules 100% for 1,000 days without a miss.</p><p class="tg-s">The only change allowed is to reduce, never to increase.</p>
     <div class="tg-ms">${ms.map(k=>{const d=diffDays(tk,k);return `<div><em>${esc(parseKey(k).toLocaleDateString(undefined,{month:'short',year:'2-digit'}))}</em><b>${d}d</b><span>${Math.floor(d/7)}w · ${Math.floor(d/30.44)}mo</span></div>`}).join('')}</div></div>`}
-function coreLevers(){return S.config.levers.filter(l=>l.core)}
+function coreLevers(){return S.config.levers}
 function coreFull(k){const L=getLog(k),c=coreLevers();return !!L&&c.length>0&&c.every(l=>leverHit(L,l))}
 function coreStreak(){let n=0,k=todayKey();if(!coreFull(k))k=addDays(k,-1);while(coreFull(k)&&n<3650){n++;k=addDays(k,-1)}return n}
 function coreInfo(k){const tk=todayKey(),end='2027-06-30',left=Math.max(0,diffDays(tk,end)),L=getLog(k)||{},c=coreLevers(),hit=c.filter(l=>leverHit(L,l)).length;
   return {left,L,c,hit,full:c.length&&hit===c.length,sk:coreStreak(),next:S.config.levers.find(l=>!l.core)}}
 function goalTabHTML(){const tk=todayKey(),y=+tk.slice(0,4);let nx=null;for(let yy=y;yy<=y+1&&!nx;yy++)for(const md of ['06-30','12-31']){const k=`${yy}-${md}`;if(k>=tk&&!nx)nx=k}
   const d=diffDays(tk,nx);return `<button class="gt" data-act="open-goal" aria-haspopup="dialog"><span>🎯 1,000 days</span><b>${(()=>{const e=diffDays(tk,'2030-12-31');return `Dec 30: ${e}d · ${Math.floor(e/7)}w · ${Math.floor(e/30.44)}mo`})()}</b></button>`}
-function coreHTML(k){const x=coreInfo(k);
-  return `<button class="cg" data-act="open-core" aria-haspopup="dialog"><div class="cg-top"><span class="cg-l">Until 30 June 2027</span><span class="cg-n"><b>${x.left}</b> days · <b>${Math.floor(x.left/7)}</b> wks · <b>${Math.floor(x.left/30.44)}</b> mo</span></div>
-    <div class="cg-bar ${x.full?'full':''}"><i style="width:${x.c.length?x.hit/x.c.length*100:0}%"></i></div></button>`}
+function coreDays(){let n=0;for(const k in S.days)if(k<=todayKey()&&coreFull(k))n++;return n}
+function coreHTML(k){const n=Math.min(100,coreDays()),done=n>=100;
+  return `<button class="cg" data-act="open-core" aria-haspopup="dialog"><div class="cg-top"><span class="cg-l">100 days of your routine</span><span class="cg-n"><b>${n}</b> of 100 days at 100%</span></div>
+    <div class="cg-bar ${done?'full':''}"><i style="width:${n}%"></i></div></button>`}
 function corePopHTML(){const x=coreInfo(cur);
-  return `<h2 style="font-size:1.25rem;margin-bottom:4px">Your core habits</h2>
-    <p class="hint" style="margin:0 0 10px"><b>${x.left}</b> days · ${Math.floor(x.left/7)} weeks · ${Math.floor(x.left/30.44)} months until 30 June 2027</p>
-    <div class="d-rulebox">Hit <b>100% on these ${x.c.length} habits</b> to complete the day, no matter what. After 30 days straight, you’ll be asked to add one more or update an existing one, until every habit is covered.<br><br><b>Until then, keep everything exactly the same.</b> Don’t add, remove or update anything until the 30 days have passed.</div>
-    <div class="d-pcts" style="grid-template-columns:1fr 1fr"><div><b class="${x.full?'full':''}">${x.hit}/${x.c.length}</b><span>done today</span></div><div><b class="${x.sk>=30?'full':''}">${Math.min(x.sk,30)}/30</b><span>days straight at 100%</span></div></div>
+  return `<h2 style="font-size:1.25rem;margin-bottom:4px">Your 100 days</h2><div style="height:6px"></div>
+    <div class="d-rulebox">Hit <b>100% on all ${x.c.length} habits</b> to complete the day, no matter what.<br><br><b>Don’t change anything.</b> Don’t add, remove or update anything. Just follow it through for 100 days.</div>
+    <div class="d-pcts"><div><b class="${x.full?'full':''}">${x.hit}/${x.c.length}</b><span>done today</span></div><div><b>${Math.min(100,coreDays())}/100</b><span>days at 100%</span></div><div><b class="${x.sk?'full':''}">${x.sk}</b><span>days in a row</span></div></div>
     <div class="d-hh">${x.c.map(l=>{const on=leverHit(x.L,l);return `<span class="${on?'on':''}">${on?'✓ ':''}${esc(l.kind==='two'?planTitle(cur):l.text)}</span>`}).join('')}</div>
     <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`}
 function coreAskHTML(){const x=coreInfo(cur);
@@ -2043,7 +2043,6 @@ function render(){
   seedSample();syncJournal(cur);
   if(cur===todayKey()){const yk=addDays(cur,-1),v=S.meta.brk[yk],L0=getLog(cur);if(v&&(!L0||L0.brkY!==v)){ensureLog(cur).brkY=v;touch(cur)}}
   const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden};
-  if(!modal&&vis('page-prod')&&coreStreak()>=30&&S.config.levers.some(l=>!l.core)&&(!S.meta.coreAsked||diffDays(S.meta.coreAsked,todayKey())>=30))modal='coreask';
   if(!modal&&vis('page-prod')&&S.meta.hpShown!==todayKey()){const hs=healthState();if(hs.rule){S.meta.hpShown=todayKey();persist();modal='health'}}
   if(vis('page-prod'))document.getElementById('day-today').innerHTML=todayHTML();
   if(vis('page-goals'))document.getElementById('day-goals').innerHTML=goalsHTML();
