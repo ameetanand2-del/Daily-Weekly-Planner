@@ -457,6 +457,27 @@ nav button.d-navj[aria-current=page] span{background:var(--ink);color:var(--surf
 .tg-ms em{font-style:normal;font-size:.66rem;font-weight:800;opacity:.75}
 .tg-ms b{font-size:.98rem}
 .tg-ms span{font-size:.64rem;opacity:.7;font-weight:700}
+.gt{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;cursor:pointer;background:var(--ink);color:var(--surface);border-radius:12px;padding:8px 12px;margin-bottom:8px;font-size:.78rem;font-weight:700}
+.gt span{opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gt b{white-space:nowrap;font-weight:800}
+.gt:focus-visible{outline:3px solid var(--accent)}
+.cg{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;background:var(--surface);border-radius:16px;padding:12px 14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.cg:focus-visible{outline:3px solid var(--accent-soft)}
+.cg-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.cg-l{font-size:.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.cg-n{font-size:.85rem;color:var(--muted);font-weight:700}
+.cg-n b{color:var(--ink);font-size:1rem}
+.cg-bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:8px 0 0}
+.cg-bar.full i{background:var(--done)}
+.cg-bar i{display:block;transition:width .3s;height:100%;background:linear-gradient(90deg,var(--d1),var(--d3) 60%,var(--d5));border-radius:6px}
+.cg-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cg-core{background:var(--bg1);border-radius:12px;padding:8px 10px;text-align:center}
+.cg-core b{display:block;font-size:1.4rem;font-weight:800;color:var(--open);line-height:1.1}
+.cg-core span{font-size:.75rem;color:var(--muted);font-weight:700}
+.cg-core.full b{color:var(--done)}
+.cg-rule{margin:10px 0 0;font-size:.85rem;line-height:1.4}
+.cg-tag{display:inline-block;font-size:.62rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:var(--c3-soft);color:var(--open);border-radius:6px;padding:1px 6px;margin-right:4px;vertical-align:2px}
+.d-lever.on .cg-tag{background:var(--c2-soft);color:var(--done)}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -1308,6 +1329,9 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
 (function(){const C=S.config;if(C.start1000)return;C.start1000=keyOf(new Date());persist();})();
 (function(){const C=S.config;if(C.mig.includes('order33'))return;C.mig.push('order33');
   const c=C.levers.find(l=>l.kind==='coffee');if(c)c.text='Coffee max 2, with work only';persist();})();
+(function(){const C=S.config;if(C.mig.includes('core1'))return;C.mig.push('core1');
+  const F=[l=>l.kind==='brk',l=>l.kind==='weight',l=>l.kind==='mind',l=>l.kind==='creat'||/creatine/i.test(l.text),l=>l.kind==='move',l=>l.kind==='meals',l=>l.kind==='two',l=>l.kind==='coffee',l=>l.kind==='eat',l=>/shut down/i.test(l.text)];
+  C.levers.forEach(l=>{l.core=F.some(f=>f(l))});persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1395,7 +1419,8 @@ function pills(L,l){
   if(l.kind==='move')return `<div class="d-pills"><button class="d-pill ${L.move==='gym'?'on':''}" data-act="move" data-v="gym">Full gym session</button><button class="d-pill ${L.move==='walk'?'on':''}" data-act="move" data-v="walk">${H().walk} min walk + 50 push-ups</button></div>`;
   return `<div class="d-pills"><button class="d-pill ${L.zb?'on':''}" data-act="zero" data-v="zb">${L.zb?'✓ ':''}No Break</button><button class="d-pill ${L.zs?'on':''}" data-act="zero" data-v="zs">${L.zs?'✓ ':''}No social media</button></div>`;
 }
-function leverRow(l,i,L){
+function leverRow(l,i,L){return leverRow0(l,i,L).replace('<span class="d-tx">',l.core?'<span class="d-tx"><span class="cg-tag">Core</span> ':'<span class="d-tx">')}
+function leverRow0(l,i,L){
   const on=leverHit(L,l);
   const head=`<span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span>${l.note?`<span class="d-nt">${esc(l.note)}</span>`:''}</span>`;
   const num=`<span class="d-num">${on?CHECK:i+1}</span>`;
@@ -1435,7 +1460,7 @@ function todayHTML(){
   const k=cur,L=getLog(k)||{lv:{},t:{}},type=typeOf(k),isToday=k===todayKey();
   const nL=S.config.levers.length,hit=leversHit(L),sc=dayScore(k),full=sc.t>0&&sc.d===sc.t;
   const vt=visibleTasks(k),td=vt.filter(t=>taskDone(L,t,k)).length;
-  let h=`<div class="d-topbar"><button class="d-goalsbtn" data-act="open-princ">📜 Principles</button><button class="d-goalsbtn" data-act="goals">🎯 Goals</button></div><div class="d-top"><button class="d-nav" data-act="prev" aria-label="Previous day">‹</button>
+  let h=(isToday?goalTabHTML()+coreHTML(k):'')+`<div class="d-topbar"><button class="d-goalsbtn" data-act="open-princ">📜 Principles</button><button class="d-goalsbtn" data-act="goals">🎯 Goals</button></div><div class="d-top"><button class="d-nav" data-act="prev" aria-label="Previous day">‹</button>
     <div class="d-title"><h1>${isToday?'Today':esc(fmt(k,{weekday:'long'}))}</h1>
     <div class="d-sub">${isToday?esc(fmt(k,{weekday:'long',day:'numeric',month:'long'})):`${esc(fmt(k,{day:'numeric',month:'long'}))}, <button data-act="today">back to today</button>`}</div></div>
     <button class="d-nav" data-act="next" ${isToday?'disabled':''} aria-label="Next day">›</button></div>
@@ -1758,6 +1783,28 @@ function topGoalHTML(){
   for(let yy=y;yy<=y+5;yy++)for(const md of ['06-30','12-31']){const k=`${yy}-${md}`;if(k>=tk&&k<='2030-12-31')ms.push(k)}
   return `<div class="tg"><p class="tg-t">Don’t change anything. Follow the rules 100% for 1,000 days without a miss.</p><p class="tg-s">The only change allowed is to reduce, never to increase.</p>
     <div class="tg-ms">${ms.map(k=>{const d=diffDays(tk,k);return `<div><em>${esc(parseKey(k).toLocaleDateString(undefined,{month:'short',year:'2-digit'}))}</em><b>${d}d</b><span>${Math.floor(d/7)}w · ${Math.floor(d/30.44)}mo</span></div>`}).join('')}</div></div>`}
+function coreLevers(){return S.config.levers.filter(l=>l.core)}
+function coreFull(k){const L=getLog(k),c=coreLevers();return !!L&&c.length>0&&c.every(l=>leverHit(L,l))}
+function coreStreak(){let n=0,k=todayKey();if(!coreFull(k))k=addDays(k,-1);while(coreFull(k)&&n<3650){n++;k=addDays(k,-1)}return n}
+function coreInfo(k){const tk=todayKey(),end='2027-06-30',left=Math.max(0,diffDays(tk,end)),L=getLog(k)||{},c=coreLevers(),hit=c.filter(l=>leverHit(L,l)).length;
+  return {left,L,c,hit,full:c.length&&hit===c.length,sk:coreStreak(),next:S.config.levers.find(l=>!l.core)}}
+function goalTabHTML(){const tk=todayKey(),y=+tk.slice(0,4);let nx=null;for(let yy=y;yy<=y+1&&!nx;yy++)for(const md of ['06-30','12-31']){const k=`${yy}-${md}`;if(k>=tk&&!nx)nx=k}
+  const d=diffDays(tk,nx);return `<button class="gt" data-act="open-goal" aria-haspopup="dialog"><span>🎯 1,000 days</span><b>${(()=>{const e=diffDays(tk,'2030-12-31');return `Dec 30: ${e}d · ${Math.floor(e/7)}w · ${Math.floor(e/30.44)}mo`})()}</b></button>`}
+function coreHTML(k){const x=coreInfo(k);
+  return `<button class="cg" data-act="open-core" aria-haspopup="dialog"><div class="cg-top"><span class="cg-l">Until 30 June 2027</span><span class="cg-n"><b>${x.left}</b> days · <b>${Math.floor(x.left/7)}</b> wks · <b>${Math.floor(x.left/30.44)}</b> mo</span></div>
+    <div class="cg-bar ${x.full?'full':''}"><i style="width:${x.c.length?x.hit/x.c.length*100:0}%"></i></div></button>`}
+function corePopHTML(){const x=coreInfo(cur);
+  return `<h2 style="font-size:1.25rem;margin-bottom:4px">Your core habits</h2>
+    <p class="hint" style="margin:0 0 10px"><b>${x.left}</b> days · ${Math.floor(x.left/7)} weeks · ${Math.floor(x.left/30.44)} months until 30 June 2027</p>
+    <div class="d-rulebox">Hit <b>100% on these ${x.c.length} habits</b> to complete the day, no matter what. After 30 days straight, you’ll be asked to add one more or update an existing one, until every habit is covered.<br><br><b>Until then, keep everything exactly the same.</b> Don’t add, remove or update anything until the 30 days have passed.</div>
+    <div class="d-pcts" style="grid-template-columns:1fr 1fr"><div><b class="${x.full?'full':''}">${x.hit}/${x.c.length}</b><span>done today</span></div><div><b class="${x.sk>=30?'full':''}">${Math.min(x.sk,30)}/30</b><span>days straight at 100%</span></div></div>
+    <div class="d-hh">${x.c.map(l=>{const on=leverHit(x.L,l);return `<span class="${on?'on':''}">${on?'✓ ':''}${esc(l.kind==='two'?planTitle(cur):l.text)}</span>`}).join('')}</div>
+    <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`}
+function coreAskHTML(){const x=coreInfo(cur);
+  return `<h2 style="font-size:1.25rem;margin-bottom:6px">30 days straight at 100%</h2>
+    <p style="margin:0 0 10px">You’ve hit every core habit for 30 days in a row. Do you want to add another core habit?</p>
+    ${x.next?`<div class="d-rulebox">Next up: <b>${esc(x.next.text)}</b></div>`:''}
+    <div class="d-mf"><button class="btn ghost" data-act="core-later">Not yet</button><button class="btn" data-act="core-add">Yes, add it</button></div>`}
 /* ---------- Weekly ---------- */
 const WQ=[['wrong','Where did I go wrong in my daily tasks this week?'],['update','What do I need to update to stick to them?'],['forward','What will I do differently in the coming weeks?']];
 let wcur=null;
@@ -1823,6 +1870,8 @@ function modalHTML(){
     return `<div class="d-overlay full" data-act="noop"><div class="d-sheet d-focus" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
   }else if(modal==='goal'){
     return `<div class="d-overlay tg-ov" data-act="close"><div class="d-sheet tg-sheet" role="dialog" aria-modal="true" data-act="noop">${topGoalHTML()}<div class="d-mf" style="background:transparent"><button class="btn" data-act="close" style="width:100%">Let’s go</button></div></div></div>`;
+  }else if(modal==='core'){inner=corePopHTML();
+  }else if(modal==='coreask'){inner=coreAskHTML();
   }else if(modal==='steps'){
     const st=stepsFor(draft.sk),n=st.length,i=Math.min(draft.i||0,n-1),c=st[i]||{h:'',t:'Nothing here yet.',c:'--line'};
     const title=draft.sk==='ns'?'No social media':'Your note: quit Break';
@@ -1994,7 +2043,7 @@ function render(){
   seedSample();syncJournal(cur);
   if(cur===todayKey()){const yk=addDays(cur,-1),v=S.meta.brk[yk],L0=getLog(cur);if(v&&(!L0||L0.brkY!==v)){ensureLog(cur).brkY=v;touch(cur)}}
   const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden};
-  if(!modal&&!goalShown){goalShown=true;modal='goal'}
+  if(!modal&&vis('page-prod')&&coreStreak()>=30&&S.config.levers.some(l=>!l.core)&&(!S.meta.coreAsked||diffDays(S.meta.coreAsked,todayKey())>=30))modal='coreask';
   if(!modal&&vis('page-prod')&&S.meta.hpShown!==todayKey()){const hs=healthState();if(hs.rule){S.meta.hpShown=todayKey();persist();modal='health'}}
   if(vis('page-prod'))document.getElementById('day-today').innerHTML=todayHTML();
   if(vis('page-goals'))document.getElementById('day-goals').innerHTML=goalsHTML();
@@ -2070,6 +2119,10 @@ document.addEventListener('click',e=>{
     case 'sort':reviewSort=b.dataset.v;break;
     case 'cview':compView=b.dataset.v;break;
     case 'open-princ':modal='princ';break;
+    case 'open-core':modal='core';break;
+    case 'open-goal':modal='goal';break;
+    case 'core-later':S.meta.coreAsked=todayKey();save();modal=null;break;
+    case 'core-add':{const n=C.levers.find(l=>!l.core);S.meta.coreAsked=todayKey();if(n){n.core=true;logChange(`Added “${n.text}” to core`);toast('Levelled up. New core habit added')}save();modal=null;break}
     case 'open-ns':draft={sk:'ns',i:0};modal='steps';break;
     case 'open-brk':modal='brk';break;
     case 'bk-range':brange=+b.dataset.v;break;
