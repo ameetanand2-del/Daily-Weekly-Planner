@@ -440,6 +440,10 @@ nav button.d-navj[aria-current=page] span{background:var(--ink);color:var(--surf
 .bk-c.nl{background:var(--line);color:var(--muted)}
 .bk-c.fut{background:transparent;color:var(--line);cursor:default}
 .bk-c.now{outline:2px solid var(--accent);outline-offset:1px}
+.d-onelist{margin:0;padding-left:22px;font-size:1.05rem;font-weight:700;line-height:1.5}
+.d-onelist li{margin:4px 0}
+.d-onenote p+p{margin-top:10px}
+.d-onenote .d-onefoot{margin-top:10px;font-size:1rem}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -1270,6 +1274,24 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
   persist();})();
 (function(){const C=S.config;if(C.mig.includes('order30'))return;C.mig.push('order30');
   delete S.meta.brkTotals['2026-06'];persist();})();
+(function(){const C=S.config;if(C.mig.includes('order31'))return;C.mig.push('order31');
+  const take=f=>{const i=C.levers.findIndex(f);return i<0?null:C.levers.splice(i,1)[0]};
+  const bk=take(l=>l.kind==='brk'),nt=take(l=>l.kind==='note'),ns=take(l=>l.kind==='ns');
+  [ns,nt,bk].forEach(x=>{if(x){x.phase='wake';C.levers.unshift(x)}});
+  const cr=C.levers.find(l=>/creatine/i.test(l.text));if(cr){cr.kind='creat';cr.note='5 g creatine, plus fill a water bottle to keep near you'}
+  if(!C.reminders.some(g=>g.kind==='creat'))C.reminders.push({id:uid(),kind:'creat',title:'Creatine drink',items:[R('5 g creatine in your hydration drink.'),R('Fill a water bottle and keep it on your desk or near you.'),R('This is a setup, not a test. You’re aiming to be consistent, not perfect.')]});
+  const cg=C.reminders.find(g=>g.kind==='coffee');if(cg&&!cg.items.some(x=>/only with work/i.test(x.text)))cg.items.push(R('Only with work.'));
+  if(!C.reminders.some(g=>g.kind==='mindtask'))C.reminders.push({id:uid(),kind:'mindtask',title:'Your task',items:[R('Listen to a motivational video.'),R('Open Spotify and listen to an audiobook. Even if it feels boring, do it.'),R('Relax for a while, then go to the gym and follow your routine from there.')]});
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('order32'))return;C.mig.push('order32');
+  const nt=C.levers.find(l=>l.kind==='note');
+  if(nt){C.levers=C.levers.filter(l=>l!==nt);nt.phase='night';const i=C.levers.findIndex(l=>l.phase==='night');C.levers.splice(i<0?C.levers.length:i,0,nt)}
+  if(!C.reminders.some(g=>g.kind==='brkrules'))C.reminders.push({id:uid(),kind:'brkrules',title:'No Break rules',items:[
+    R('Always remember: don’t look, don’t think, don’t touch.'),
+    R('Reframe any thought you have about it.'),
+    R('Block it. Ignore it the moment you see it.'),
+    R('Eat a high-carb meal before you sleep, relax, don’t do anything else, and go to sleep.')]});
+  persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1284,7 +1306,7 @@ const ymOf=k=>k.slice(0,7);
 const monthName=ym=>parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long',year:'numeric'});
 function logChange(text){S.config.changes.unshift({d:todayKey(),text});S.config.changes=S.config.changes.slice(0,100)}
 
-function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='brk')return !!L.brkY;if(l.kind==='ns')return !!L.zs;if(l.kind==='note')return !!L.nr;if(l.kind==='review'||l.kind==='shutdown')return !!L.reviewed;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
+function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='brk')return L.brkY==='no';if(l.kind==='ns')return !!L.zs;if(l.kind==='note')return !!L.nr;if(l.kind==='review'||l.kind==='shutdown')return !!L.reviewed;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
 const leversHit=L=>S.config.levers.filter(l=>leverHit(L,l)).length;
 const fullDay=L=>!!L&&S.config.levers.length>0&&leversHit(L)===S.config.levers.length;
 function lastMealPrep(before){return S.meta.mealPrep.filter(d=>d<=before).sort().pop()||null}
@@ -1330,7 +1352,7 @@ function seedSample(){
   for(let i=42;i>=1;i--){
     const k=addDays(t,-i);if(i%13===6)continue;
     const L=ensureLog(k),dow=(parseKey(k).getDay()+6)%7,form=0.6+0.35*rnd()+(i<14?0.08:0);
-    C.levers.forEach(l=>{if(['simple','meals','coffee','mind','eat'].includes(l.kind)&&rnd()<form)L.lv[l.id]=true});
+    C.levers.forEach(l=>{if(['simple','meals','coffee','mind','eat','creat'].includes(l.kind)&&rnd()<form)L.lv[l.id]=true});L.brkY=rnd()<0.55?'no':'yes';L.zs=rnd()<form;
     L.move=[0,2,4].includes(dow)?(rnd()<0.82?'gym':(rnd()<0.6?'walk':null)):(rnd()<0.8?'walk':null);
     L.zb=i!==19;L.nr=rnd()<0.8;L.zs=!(i===27||i===33);
     L.min=Math.round((L.type==='weekday'?40+rnd()*70:120+rnd()*120)/5)*5;
@@ -1375,7 +1397,8 @@ function leverRow(l,i,L){
   if(l.kind==='two')return `<button class="d-lever ${on?'on':''}" data-act="open-plan" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${planTitle(cur)}</span><span class="d-nt">${on?'Read today':'Tap to read your planning principles'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='simple')return `<button class="d-lever ${on?'on':''}" data-act="lever" data-id="${l.id}" role="checkbox" aria-checked="${on}">${head}</button>`;
   if(l.kind==='note')return `<button class="d-lever ${on?'on':''}" data-act="open-note" aria-haspopup="dialog"><span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read tonight':'Tap to read it'}</span></span><span class="d-chev">›</span></button>`;
-  if(['ns','eat','coffee','mind'].includes(l.kind))return `<button class="d-lever ${on?'on':''}" data-act="open-gate" data-id="${l.id}" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read and done today':esc(l.note)+(l.note?'. ':'')+(l.kind==='eat'?'Read your rules, then tick it':'Read your note, then tick it')}</span></span><span class="d-chev">›</span></button>`;
+  if(l.kind==='ns')return `<button class="d-lever ${on?'on':''}" data-act="open-ns" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Checked today':'Read your rules one by one, then check your setup'}</span></span><span class="d-chev">›</span></button>`;
+  if(['ns','eat','coffee','mind','creat'].includes(l.kind))return `<button class="d-lever ${on?'on':''}" data-act="open-gate" data-id="${l.id}" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read and done today':esc(l.note)+(l.note?'. ':'')+(l.kind==='eat'?'Read your rules, then tick it':'Read your note, then tick it')}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='nb'||l.kind==='ns')return `<button class="d-lever ${on?'on':''}" data-act="zero" data-v="${l.kind==='nb'?'zb':'zs'}" role="checkbox" aria-checked="${on}">${head}</button>`;
   return `<div class="d-lever ${on?'on':''}"><div class="d-lh">${head}</div>${pills(L,l)}</div>`;
 }
@@ -1549,8 +1572,8 @@ document.addEventListener('toggle',e=>{if(e.target&&e.target.id==='d-revs')revie
 function dashHTML(){
   const tk=todayKey(),m0=mondayOf(tk),ym=ymOf(tk),nL=S.config.levers.length;
   const week=[],month=[];
-  for(let d=0;d<7;d++){const k=addDays(m0,d);if(k<=tk)week.push(k)}
-  for(let k=ym+'-01';k<=tk&&k.startsWith(ym);k=addDays(k,1))month.push(k);
+  for(let d=0;d<7;d++)week.push(addDays(m0,d));
+  for(let k=ym+'-01';k.startsWith(ym);k=addDays(k,1))month.push(k);
   const ts=dayScore(tk),tot=ts.t;
   let h=`<div class="card"><div class="head"><h2>Completion</h2><span class="hint" style="margin:0">${nL} habits + journal</span></div>
     <div class="d-pcts">${[[Math.round(ts.d/ts.t*100),'Today'],[pctOver(week),'This week']].map(([v,l])=>`<div><b class="${v>=100?'full':''}">${v}%</b><span>${l}</span></div>`).join('')}<div><b class="${pctOver(month)>=100?'full':''}">${pctOver(month)}%</b><span>${esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}))}</span></div></div>
@@ -1561,7 +1584,7 @@ function dashHTML(){
       return `<div class="d-wk month" style="grid-template-columns:repeat(${n},1fr)">${Array.from({length:n},(_,d)=>{const k=addDays(first,d),fut=k>tk,s=dayScore(k),p=fut?0:Math.round(s.d/s.t*100),dn=d+1;
         return `<button class="d-wkd ${k===tk?'now':''}" ${fut?'disabled':`data-act="open" data-k="${k}"`} aria-label="${fmt(k,{day:'numeric',month:'long'})}: ${fut?'upcoming':p+'%'}"><span class="d-wkb"><i class="${p>=100?'full':''}" style="height:${p}%"></i></span><span class="d-dl">${dn===1||dn%5===0?dn:''}</span></button>`}).join('')}</div>`})()}</div></div>`;
 
-  const bWeek=boardView==='week',pd=bWeek?week:month,plabel=bWeek?'This week':esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}));
+  const bWeek=boardView==='week',pd=bWeek?week:month,nd=bWeek?7:new Date(+ym.slice(0,4),+ym.slice(5,7),0).getDate(),plabel=bWeek?'This week':esc(parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long'}));
   const plogs=pd.map(getLog).filter(Boolean);
   const isHealth=isHealthL;
   const avgW=(a,b)=>{const v=[];for(let k=a;k<=b&&k<=tk;k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?Math.round(v.reduce((x,y)=>x+y,0)/v.length*10)/10:null};
@@ -1569,20 +1592,20 @@ function dashHTML(){
   const prevA=bWeek?avgW(addDays(m0,-28),addDays(m0,-1)):(()=>{const pm=addDays(ym+'-01',-1);return avgW(pm.slice(0,7)+'-01',pm)})();
   const dl=aw!=null&&prevA!=null?Math.round((aw-prevA)*10)/10:null,cmp=bWeek?'vs last 4 weeks':'vs last month';
   let gym=0,walk=0;plogs.forEach(L=>{if(L.move==='gym')gym++;else if(L.move==='walk')walk++});
-  const wks=Math.max(1,Math.ceil(pd.length/7)),gT=H().gym*wks,wT=(7-H().gym)*wks,nW=pd.filter(k=>(getLog(k)||{}).wt!=null).length;
+  const wks=bWeek?1:nd/7,gT=Math.round(H().gym*wks),wT=nd-gT,nW=pd.filter(k=>(getLog(k)||{}).wt!=null).length;
   const hits=l=>plogs.filter(L=>leverHit(L,l)).length;
-  const rateRow=l=>{const n=hits(l),r=pd.length?n/pd.length:0;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your 3 main tasks':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${pd.length}</span></div>`};
+  const rateRow=l=>{const n=hits(l),r=n/nd;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your 3 main tasks':l.kind==='brk'?'No Break (clean days)':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${nd}</span></div>`};
   const hl=S.config.levers.filter(isHealth),pl=S.config.levers.filter(l=>!isHealth(l));
-  let ph=0;plogs.forEach(L=>pl.forEach(l=>{if(leverHit(L,l))ph++}));const pt=pd.length*pl.length;
+  let ph=0;plogs.forEach(L=>pl.forEach(l=>{if(leverHit(L,l))ph++}));const pt=nd*pl.length;
   const er=S.config.levers.find(l=>l.kind==='eat'||/eat right/i.test(l.text));
   const rot=`<button class="d-swipe" data-act="bview-toggle">⇄ Swipe for ${bWeek?'the month':'the week'}</button>`;
   h+=`<div class="d-boards">
   <div class="card"><div class="head"><h2>Health check-in</h2>${rot}</div><span class="d-cvl" style="display:block;margin:-4px 0 8px">${plabel}</span>
     <div class="d-pcts"><div><b>${aw!=null?aw+'<small style="font-size:.8rem"> kg</small>':'–'}</b><span>Average weight</span></div>
       <div><b class="${dl==null?'':dl<=0?'full':'up'}">${dl==null?'–':(dl>0?'+':dl<0?'−':'')+Math.abs(dl).toFixed(1)+'<small style="font-size:.8rem"> kg</small>'}</b><span>${cmp}${prevA!=null?` (${prevA})`:''}</span></div>
-      <div><b class="${nW===pd.length&&pd.length?'full':''}">${nW}/${pd.length}</b><span>Weigh-ins</span></div></div>
+      <div><b class="${nW>=nd?'full':''}">${nW}/${nd}</b><span>Weigh-ins</span></div></div>
     <div class="d-pcts"><div><b class="${gym>=gT?'full':''}">${gym}/${gT}</b><span>Gym sessions</span></div><div><b class="${walk>=wT?'full':''}">${walk}/${wT}</b><span>Walks</span></div>
-      <div><b>${er?hits(er):0}/${pd.length}</b><span>Ate right</span></div></div>
+      <div><b class="${er&&hits(er)>=nd?'full':''}">${er?hits(er):0}/${nd}</b><span>Ate right</span></div></div>
     ${plogs.length?`<div class="bars d-hbars">${hl.map(rateRow).join('')}</div>`:''}</div>
   <div class="card"><div class="head"><h2>Productivity stack</h2>${rot}</div><div class="head" style="margin:-4px 0 8px"><span class="d-cvl">${plabel}</span><span class="badge ${pt&&ph===pt?'done':'open'}">${pt?Math.round(ph/pt*100):0}%</span></div>
     ${plogs.length?`<div class="bars d-hbars">${pl.map(rateRow).join('')}</div>`:'<div class="empty">Nothing tracked yet.</div>'}</div></div>`;
@@ -1654,8 +1677,21 @@ function weekMove(k){const m=mondayOf(k);let gym=0,walk=0;for(let d=0;d<7;d++){c
 function missedLevers(k){const L=getLog(k)||{},ls=S.config.levers,ri=ls.findIndex(l=>l.kind==='review');return ls.filter((l,i)=>(ri<0||i<ri)&&!leverHit(L,l))}
 function reviewComplete(d,ms){return d.rating!=null&&RQ.every(([f])=>(d[f]||'').trim())&&ms.every(l=>((d.miss||{})[l.id]||'').trim())}
 const missLines=L=>L.miss?Object.entries(L.miss).filter(([,t])=>t).map(([id,t])=>{const l=S.config.levers.find(x=>x.id===id);return [l?(l.kind==='two'?'Plan your 3 main tasks':l.text):'A habit',t]}):[];
+function stepsFor(sk){
+  if(sk==='ns'){const g=S.config.reminders.find(g=>g.kind==='social')||{items:[]},sn=NOTES.find(n=>/social/i.test(n.t)),out=[];
+    if(g.allow)out.push({h:'Allowed',list:g.allow,c:'--c2-soft'});
+    if(g.deny)out.push({h:'Not allowed',list:g.deny,c:'--c3-soft'});
+    g.items.forEach(x=>out.push({h:'Your rules',t:x.text,c:'--c1-soft'}));
+    if(sn)sn.g.forEach(([h,it],i)=>out.push({h,list:it,c:i?'--c2-soft':'--c3-soft'}));return out}
+  const out=[];(S.config.selfNote||'').split(/\n\s*\n/).forEach(block=>{const c={h:'A note from you',paras:[],list:[],foot:[],c:'--accent-soft'};
+    block.split('\n').forEach(line=>{const l=line.trim();if(!l)return;
+      if(/^[-•]\s+/.test(l)){c.list.push(l.replace(/^[-•]\s+/,''));c.c='--c3-soft'}
+      else if(/:$/.test(l))c.h=l.replace(/:$/,'');
+      else (c.list.length?c.foot:c.paras).push(l)});
+    if(c.paras.length||c.list.length||c.foot.length)out.push(c)});
+  const br=S.config.reminders.find(g=>g.kind==='brkrules');if(br&&br.items.length)out.push({h:'Your rules',list:br.items.map(x=>x.text),c:'--c1-soft',ol:true});return out}
 function mindNotes(){const g=k=>S.config.reminders.find(x=>x.kind===k)||{items:[],title:''},out=[];
-  [['positive','--accent-soft'],['charisma','--c1-soft'],['stress','--c2-soft']].forEach(([k,c])=>{const G=g(k);G.items.forEach(x=>out.push({h:G.title,t:x.text,c}))});return out}
+  [['positive','--accent-soft'],['charisma','--c1-soft'],['stress','--c2-soft'],['mindtask','--c3-soft']].forEach(([k,c])=>{const G=g(k);G.items.forEach(x=>out.push({h:G.title,t:x.text,c}))});return out}
 function brkStreak(){const B=S.meta.brk;let n=0,k=todayKey();if(!B[k])k=addDays(k,-1);if(!B[k])k=addDays(k,-1);while(B[k]==='no'&&n<3650){n++;k=addDays(k,-1)}return n}
 /* ---------- Break tracker ---------- */
 let bm=null,brange=6;
@@ -1763,6 +1799,18 @@ function modalHTML(){
     <textarea class="d-fta" id="d-fta" data-d="${f}" aria-label="${q}" placeholder="Write freely…">${esc(draft[f]||'')}</textarea>
     <div class="d-mf"><button class="btn ghost" data-act="rstep-prev">${i?'‹ Previous':'‹ Back'}</button><button class="btn" data-act="rstep-next">${i<RQ.length-1?'Next ›':'Finish'}</button></div>`;
     return `<div class="d-overlay full" data-act="noop"><div class="d-sheet d-focus" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
+  }else if(modal==='steps'){
+    const st=stepsFor(draft.sk),n=st.length,i=Math.min(draft.i||0,n-1),c=st[i]||{h:'',t:'Nothing here yet.',c:'--line'};
+    const title=draft.sk==='ns'?'No social media':'Your note: quit Break';
+    inner=`<div class="d-fhead"><span>${title}</span><span>${i+1} of ${n}</span></div>
+    <div class="d-dotsbar">${st.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
+    <div class="d-onenote" style="background:var(${c.c})"><span class="lab" style="margin:0 0 8px">${esc(c.h)}</span>${(c.paras||[]).map(x=>`<p>${esc(x)}</p>`).join('')}${c.list&&c.list.length?`<${c.ol?'ol':'ul'} class="d-onelist">${c.list.map(x=>`<li>${esc(x)}</li>`).join('')}</${c.ol?'ol':'ul'}>`:''}${c.t?`<p>${esc(c.t)}</p>`:''}${(c.foot||[]).map(x=>`<p class="d-onefoot">${esc(x)}</p>`).join('')}</div>
+    <div class="d-mf">${i?'<button class="btn ghost" data-act="mn-prev">‹ Previous</button>':'<button class="btn ghost" data-act="close">Later</button>'}${i<n-1?'<button class="btn" data-act="mn-next">Next ›</button>':`<button class="btn" data-act="steps-done">${draft.sk==='ns'?'Next: check yourself ›':'Done, I’ve read it all'}</button>`}</div>`;
+  }else if(modal==='nscheck'){
+    const qs=['Is my phone in black-and-white mode?','Are the apps I’m not supposed to use blocked or deleted?'],done=qs.every((_,i)=>draft.ans[i]);
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Check yourself</h2><p class="hint" style="margin:0 0 6px">You don’t have to be perfect. You need to be consistent.</p>
+    ${qs.map((q,i)=>`<div class="d-mr"><span class="d-tx">${esc(q)}</span><div class="d-pills"><button class="d-pill ${draft.ans[i]==='yes'?'on':''}" data-act="nsq" data-i="${i}" data-v="yes">Yes</button><button class="d-pill miss ${draft.ans[i]==='no'?'on':''}" data-act="nsq" data-i="${i}" data-v="no">Not yet</button></div></div>`).join('')}
+    <div class="d-mf"><button class="btn ghost" data-act="nsq-back">‹ Notes</button><button class="btn" data-act="nsq-save" ${done?'':'disabled'}>Save &amp; tick off</button></div>`;
   }else if(modal==='note'){
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">A note from you</h2><div class="d-note-body">${noteHTML(S.config.selfNote)}</div>
     <div class="d-mf">${L.nr?`<button class="d-link" data-act="note-undo">Mark as not read</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="note-done">Done, I’ve read it</button>`}</div>`;
@@ -1831,10 +1879,10 @@ function modalHTML(){
     <div class="d-dotsbar">${notes.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
     <div class="d-onenote" style="background:var(${cur_.c})"><span class="lab" style="margin:0 0 8px">${esc(cur_.h)}</span><p>${esc(cur_.t)}</p></div>
     <div class="d-mf">${i?'<button class="btn ghost" data-act="mn-prev">‹ Previous</button>':'<button class="btn ghost" data-act="close">Later</button>'}${i<n-1?'<button class="btn" data-act="mn-next">Next ›</button>':on?'<button class="d-link" data-act="gate-undo">Undo</button><button class="btn" data-act="close">Close</button>':'<button class="btn" data-act="gate-done">Done, I’ve read them all</button>'}</div>`;
-  }else if(modal==='gate'&&(S.config.levers.find(x=>x.id===draft.id)||{}).kind==='coffee'){
+  }else if(modal==='gate'&&['coffee','creat'].includes((S.config.levers.find(x=>x.id===draft.id)||{}).kind)){
     const l=S.config.levers.find(x=>x.id===draft.id),on=leverHit(L,l),grp=k=>S.config.reminders.find(g=>g.kind===k)||{items:[],title:''};
     const box=(g,c)=>g.items.length?`<div class="d-rg" style="background:var(${c})"><span class="lab" style="margin:0">${esc(g.title)}</span><ul>${g.items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`:'';
-    const body=l.kind==='coffee'?`<div class="d-rulebox"><span class="lab" style="margin:0">The rules</span><ul>${grp('coffee').items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`
+    const body=l.kind==='coffee'||l.kind==='creat'?`<div class="d-rulebox"><span class="lab" style="margin:0">${l.kind==='creat'?'Your setup':'The rules'}</span><ul>${grp(l.kind==='creat'?'creat':'coffee').items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`
       :`<div class="d-rulebox"><span class="lab" style="margin:0">Positive mindset</span><ul><li>Start with songs or a motivational video. Have fun with it.</li><li>Practise happiness, a calm manner and gratitude.</li></ul></div>${box(grp('charisma'),'--c1-soft')}${box(grp('stress'),'--c2-soft')}`;
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${esc(l.text)}</h2>${body}
     <div class="d-mf">${on?`<button class="d-link" data-act="gate-undo">Undo</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="gate-done">Done, I’ve read it</button>`}</div>`;
@@ -1997,6 +2045,7 @@ document.addEventListener('click',e=>{
     case 'sort':reviewSort=b.dataset.v;break;
     case 'cview':compView=b.dataset.v;break;
     case 'open-princ':modal='princ';break;
+    case 'open-ns':draft={sk:'ns',i:0};modal='steps';break;
     case 'open-brk':modal='brk';break;
     case 'bk-range':brange=+b.dataset.v;break;
     case 'bk-prev':{const d=parseKey((bm||ymOf(todayKey()))+'-01');d.setMonth(d.getMonth()-1);bm=keyOf(d).slice(0,7);break}
@@ -2004,7 +2053,7 @@ document.addEventListener('click',e=>{
     case 'bk-month':bm=b.dataset.m===ymOf(todayKey())?null:b.dataset.m;break;
     case 'bk-cell':{const k=b.dataset.k,v=S.meta.brk[k];if(!v)S.meta.brk[k]='no';else if(v==='no')S.meta.brk[k]='yes';else delete S.meta.brk[k];
       if(k===addDays(todayKey(),-1)){const L=ensureLog(todayKey());L.brkY=S.meta.brk[k]||null;touch(todayKey())}save();break}
-    case 'brk-set':{const L=ensureLog(cur),v=b.dataset.v,yk=addDays(cur,-1),Y=ensureLog(yk);L.brkY=v;Y.brk=v;S.meta.brk[yk]=v;touch(cur);touch(yk);modal=null;toast(v==='no'?'Logged. Keep it going':'Logged. Start again today');break}
+    case 'brk-set':{const L=ensureLog(cur),v=b.dataset.v,yk=addDays(cur,-1),Y=ensureLog(yk);L.brkY=v;Y.brk=v;S.meta.brk[yk]=v;touch(cur);touch(yk);draft={sk:'note',i:0,from:'brk'};modal='steps';toast(v==='no'?'Logged. Keep it going':'Logged. Start again today');break}
     case 'open-gate':draft={id:b.dataset.id,i:0};modal='gate';break;
     case 'mn-next':draft.i=(draft.i||0)+1;break;
     case 'mn-prev':draft.i=Math.max(0,(draft.i||0)-1);break;
@@ -2040,7 +2089,11 @@ document.addEventListener('click',e=>{
     case 'wl-del':draft.list.splice(+b.dataset.j,1);break;
     case 'wl-save':{const W=ensureWeek(draft.w),old=W.tasks||[];W.tasks=draft.list.filter(t=>t.text.trim()).map(t=>{const o=old.find(o=>o.text===t.text.trim());return {id:o?o.id:uid(),text:t.text.trim(),goal:t.goal}});save();modal=null;toast('Next week’s tasks saved');break}
     case 'mg-done':{const g=findIn(b,'mg',ensureMonth(ymOf(todayKey())));if(g&&g.outcome){g.done=!g.done;if(g.done)toast('Goal done. Well done');save()}break}
-    case 'open-note':modal='note';break;
+    case 'open-note':draft={sk:'note',i:0};modal='steps';break;
+    case 'steps-done':if(draft.sk==='ns'){const L=getLog(cur)||{};draft={ans:Object.assign({},L.nsCheck||{})};modal='nscheck'}else{if(draft.from!=='brk'){const L=ensureLog(cur);L.nr=true;touch(cur)}modal=null;toast(draft.from==='brk'?'Note read. Read it again tonight at 9 pm':'Note read')}break;
+    case 'nsq':draft.ans[+b.dataset.i]=b.dataset.v;break;
+    case 'nsq-back':draft={sk:'ns',i:stepsFor('ns').length-1};modal='steps';break;
+    case 'nsq-save':{const L=ensureLog(cur);L.nsCheck=Object.assign({},draft.ans);L.zs=true;touch(cur);modal=null;toast(Object.values(draft.ans).every(v=>v==='yes')?'All set. No social media today':'Logged. Fix what’s not set up yet');break}
     case 'note-done':{const L=ensureLog(cur);L.nr=true;touch(cur);modal=null;toast('Note read');break}
     case 'note-undo':{const L=ensureLog(cur);L.nr=false;touch(cur);modal=null;break}
     case 'rstep':draft.step=b.dataset.q;modal='rstep';render();setTimeout(()=>{const t=document.getElementById('d-fta');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length)}},40);return;
