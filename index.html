@@ -444,6 +444,19 @@ nav button.d-navj[aria-current=page] span{background:var(--ink);color:var(--surf
 .d-onelist li{margin:4px 0}
 .d-onenote p+p{margin-top:10px}
 .d-onenote .d-onefoot{margin-top:10px;font-size:1rem}
+.d-lever.brkyes .d-num{background:var(--danger);color:#fff}
+.tg{background:var(--ink);color:var(--surface);border-radius:16px;padding:12px;margin-bottom:12px}
+.tg-s{margin:-4px 0 10px;font-size:.85rem;font-weight:700;opacity:.8}
+.tg-t{margin:0 0 10px;font-weight:800;font-size:.98rem;line-height:1.35}
+.tg-ms{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -2px;padding:0 2px}
+.tg-ms::-webkit-scrollbar{display:none}
+.tg-ov{align-items:center;padding:20px}
+.tg-sheet{background:var(--ink);border-radius:22px;max-width:440px}
+.tg-sheet .tg{margin:0;padding:4px 0}
+.tg-ms div{flex:0 0 auto;min-width:66px;background:rgba(255,255,255,.1);border-radius:10px;padding:6px 6px;text-align:center;display:flex;flex-direction:column;line-height:1.15}
+.tg-ms em{font-style:normal;font-size:.66rem;font-weight:800;opacity:.75}
+.tg-ms b{font-size:.98rem}
+.tg-ms span{font-size:.64rem;opacity:.7;font-weight:700}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -1292,6 +1305,7 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
     R('Block it. Ignore it the moment you see it.'),
     R('Eat a high-carb meal before you sleep, relax, don’t do anything else, and go to sleep.')]});
   persist();})();
+(function(){const C=S.config;if(C.start1000)return;C.start1000=keyOf(new Date());persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1306,7 +1320,7 @@ const ymOf=k=>k.slice(0,7);
 const monthName=ym=>parseKey(ym+'-01').toLocaleDateString(undefined,{month:'long',year:'numeric'});
 function logChange(text){S.config.changes.unshift({d:todayKey(),text});S.config.changes=S.config.changes.slice(0,100)}
 
-function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='brk')return L.brkY==='no';if(l.kind==='ns')return !!L.zs;if(l.kind==='note')return !!L.nr;if(l.kind==='review'||l.kind==='shutdown')return !!L.reviewed;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
+function leverHit(L,l){if(!L)return false;if(l.kind==='move')return !!L.move;if(l.kind==='weight')return L.wt!=null;if(l.kind==='reminders')return !!(L.readAM&&L.readPM);if(l.kind==='two')return !!L.planRead;if(l.kind==='zero')return !!(L.zb&&L.zs);if(l.kind==='nb')return !!L.zb;if(l.kind==='brk')return !!L.brkY;if(l.kind==='ns')return !!L.zs;if(l.kind==='note')return !!L.nr;if(l.kind==='review'||l.kind==='shutdown')return !!L.reviewed;if(l.kind==='ns')return !!L.zs;return !!(L.lv&&L.lv[l.id])}
 const leversHit=L=>S.config.levers.filter(l=>leverHit(L,l)).length;
 const fullDay=L=>!!L&&S.config.levers.length>0&&leversHit(L)===S.config.levers.length;
 function lastMealPrep(before){return S.meta.mealPrep.filter(d=>d<=before).sort().pop()||null}
@@ -1388,7 +1402,7 @@ function leverRow(l,i,L){
       <span class="d-wrow"><input type="number" inputmode="decimal" step="0.1" min="30" max="250" id="d-wt" value="${has?L.wt:''}" placeholder="${lw?lw.v:'kg'}" aria-label="Weight in kg"><span class="d-nt">kg${lw&&!has?`, last ${lw.v}`:''}</span></span></span></div></div>`}
   if(l.kind==='reminders'){const n=remCount(L),nt=n===2?'Read twice today':n===1?(L.readAM?'Morning read done. Read again after 12 pm':'Afternoon read done'):'Read before 12 pm, and again after';
     return `<button class="d-lever ${on?'on':''} ${n===1?'half':''}" data-act="open-rem" aria-haspopup="dialog"><span class="d-num">${on?CHECK:n===1?'½':i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)} <span class="d-mnum">${n}/2</span></span><span class="d-nt">${nt}</span></span><span class="d-chev">›</span></button>`}
-  if(l.kind==='brk'){const yk=addDays(cur,-1);return `<button class="d-lever ${on?'on':''}" data-act="open-brk" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${L.brkY==='yes'?`Logged: Break on ${esc(fmt(yk,{weekday:'long'}))}`:L.brkY==='no'?`Logged: no Break on ${esc(fmt(yk,{weekday:'long'}))}`:'Answer for yesterday'}</span></span><span class="d-chev">›</span></button>`}
+  if(l.kind==='brk'){const yk=addDays(cur,-1);return `<button class="d-lever ${on?'on':''} ${L.brkY==='yes'?'brkyes':''}" data-act="open-brk" aria-haspopup="dialog">${L.brkY==='yes'?'<span class="d-num">✕</span>':num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${L.brkY==='yes'?`Logged: Break on ${esc(fmt(yk,{weekday:'long'}))}`:L.brkY==='no'?`Logged: no Break on ${esc(fmt(yk,{weekday:'long'}))}`:'Answer for yesterday'}</span></span><span class="d-chev">›</span></button>`}
   if(l.kind==='review')return `<button class="d-lever ${on?'on':''}" data-act="open-review" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?`Reflected${L.rating!=null?`, rated ${L.rating}/5`:''}. Tap to view or edit`:esc(l.note)}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='move'){const wc=weekMove(cur),h=H(),gl=Math.max(0,h.gym-wc.gym),wl=Math.max(0,7-h.gym-wc.walk);
     return `<button class="d-lever ${on?'on':''}" data-act="open-move" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${L.move==='gym'?'Full gym session':L.move==='walk'?`${h.walk} min walk + 50 push-ups`:esc(l.note)}</span></span>
@@ -1423,7 +1437,7 @@ function todayHTML(){
     <div class="d-title"><h1>${isToday?'Today':esc(fmt(k,{weekday:'long'}))}</h1>
     <div class="d-sub">${isToday?esc(fmt(k,{weekday:'long',day:'numeric',month:'long'})):`${esc(fmt(k,{day:'numeric',month:'long'}))}, <button data-act="today">back to today</button>`}</div></div>
     <button class="d-nav" data-act="next" ${isToday?'disabled':''} aria-label="Next day">›</button></div>
-  ${isToday?leftHTML(ymOf(k)):''}<div class="card d-prog ${full?'full':''}"><div class="d-pct">${sc.d}<small>/${sc.t}</small></div>
+  <div class="card d-prog ${full?'full':''}"><div class="d-pct">${sc.d}<small>/${sc.t}</small></div>
     <div class="d-pr"><div class="d-prrow"><span class="d-prt">${full?'Full day!':'done today'}</span>
       <select id="d-type" class="d-type" aria-label="Day type">${[['weekday','Weekday'],['weekend','Weekend'],['holiday','Holiday']].map(([v,l])=>`<option value="${v}" ${type===v?'selected':''}>${l}</option>`).join('')}</select></div>
     <div class="d-track"><div class="d-fill" style="width:${sc.t?sc.d/sc.t*100:0}%"></div></div>
@@ -1559,6 +1573,7 @@ function stackChart(rows,{w=340,hgt=150}){
 }
 const RQ=[['went','What went well?'],['next','What can I do tomorrow so I don’t make the same mistakes?']];
 const RQ_ALL=RQ.concat([['diff','What can you do differently?'],['learn','What did you learn?'],['revise','Anything to review or revise?']],[['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']]);
+let goalShown=false;
 let compView='week',boardView='week';
 const WCOL=['--c3','--c2','--c1','--accent','--d6'];
 (function(){let sx=null,sy=null;
@@ -1593,10 +1608,10 @@ function dashHTML(){
   const dl=aw!=null&&prevA!=null?Math.round((aw-prevA)*10)/10:null,cmp=bWeek?'vs last 4 weeks':'vs last month';
   let gym=0,walk=0;plogs.forEach(L=>{if(L.move==='gym')gym++;else if(L.move==='walk')walk++});
   const wks=bWeek?1:nd/7,gT=Math.round(H().gym*wks),wT=nd-gT,nW=pd.filter(k=>(getLog(k)||{}).wt!=null).length;
-  const hits=l=>plogs.filter(L=>leverHit(L,l)).length;
+  const hits=l=>l.kind==='brk'?pd.filter(k=>S.meta.brk[k]==='no').length:plogs.filter(L=>leverHit(L,l)).length;
   const rateRow=l=>{const n=hits(l),r=n/nd;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your 3 main tasks':l.kind==='brk'?'No Break (clean days)':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${nd}</span></div>`};
   const hl=S.config.levers.filter(isHealth),pl=S.config.levers.filter(l=>!isHealth(l));
-  let ph=0;plogs.forEach(L=>pl.forEach(l=>{if(leverHit(L,l))ph++}));const pt=nd*pl.length;
+  const ph=pl.reduce((a,l)=>a+hits(l),0),pt=nd*pl.length;
   const er=S.config.levers.find(l=>l.kind==='eat'||/eat right/i.test(l.text));
   const rot=`<button class="d-swipe" data-act="bview-toggle">⇄ Swipe for ${bWeek?'the month':'the week'}</button>`;
   h+=`<div class="d-boards">
@@ -1736,6 +1751,11 @@ function brkHTML(){
   return h;
 }
 
+function topGoalHTML(){
+  const tk=todayKey(),y=+tk.slice(0,4),ms=[];
+  for(let yy=y;yy<=y+5;yy++)for(const md of ['06-30','12-31']){const k=`${yy}-${md}`;if(k>=tk&&k<='2030-12-31')ms.push(k)}
+  return `<div class="tg"><p class="tg-t">Don’t change anything. Follow the rules 100% for 1,000 days without a miss.</p><p class="tg-s">The only change allowed is to reduce, never to increase.</p>
+    <div class="tg-ms">${ms.map(k=>{const d=diffDays(tk,k);return `<div><em>${esc(parseKey(k).toLocaleDateString(undefined,{month:'short',year:'2-digit'}))}</em><b>${d}d</b><span>${Math.floor(d/7)}w · ${Math.floor(d/30.44)}mo</span></div>`}).join('')}</div></div>`}
 /* ---------- Weekly ---------- */
 const WQ=[['wrong','Where did I go wrong in my daily tasks this week?'],['update','What do I need to update to stick to them?'],['forward','What will I do differently in the coming weeks?']];
 let wcur=null;
@@ -1799,6 +1819,8 @@ function modalHTML(){
     <textarea class="d-fta" id="d-fta" data-d="${f}" aria-label="${q}" placeholder="Write freely…">${esc(draft[f]||'')}</textarea>
     <div class="d-mf"><button class="btn ghost" data-act="rstep-prev">${i?'‹ Previous':'‹ Back'}</button><button class="btn" data-act="rstep-next">${i<RQ.length-1?'Next ›':'Finish'}</button></div>`;
     return `<div class="d-overlay full" data-act="noop"><div class="d-sheet d-focus" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
+  }else if(modal==='goal'){
+    return `<div class="d-overlay tg-ov" data-act="close"><div class="d-sheet tg-sheet" role="dialog" aria-modal="true" data-act="noop">${topGoalHTML()}<div class="d-mf" style="background:transparent"><button class="btn" data-act="close" style="width:100%">Let’s go</button></div></div></div>`;
   }else if(modal==='steps'){
     const st=stepsFor(draft.sk),n=st.length,i=Math.min(draft.i||0,n-1),c=st[i]||{h:'',t:'Nothing here yet.',c:'--line'};
     const title=draft.sk==='ns'?'No social media':'Your note: quit Break';
@@ -1970,6 +1992,7 @@ function render(){
   seedSample();syncJournal(cur);
   if(cur===todayKey()){const yk=addDays(cur,-1),v=S.meta.brk[yk],L0=getLog(cur);if(v&&(!L0||L0.brkY!==v)){ensureLog(cur).brkY=v;touch(cur)}}
   const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden};
+  if(!modal&&!goalShown){goalShown=true;modal='goal'}
   if(!modal&&vis('page-prod')&&S.meta.hpShown!==todayKey()){const hs=healthState();if(hs.rule){S.meta.hpShown=todayKey();persist();modal='health'}}
   if(vis('page-prod'))document.getElementById('day-today').innerHTML=todayHTML();
   if(vis('page-goals'))document.getElementById('day-goals').innerHTML=goalsHTML();
