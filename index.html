@@ -1306,6 +1306,8 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
     R('Eat a high-carb meal before you sleep, relax, don’t do anything else, and go to sleep.')]});
   persist();})();
 (function(){const C=S.config;if(C.start1000)return;C.start1000=keyOf(new Date());persist();})();
+(function(){const C=S.config;if(C.mig.includes('order33'))return;C.mig.push('order33');
+  const c=C.levers.find(l=>l.kind==='coffee');if(c)c.text='Coffee max 2, with work only';persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
