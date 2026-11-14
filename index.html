@@ -1332,6 +1332,10 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
 (function(){const C=S.config;if(C.mig.includes('core1'))return;C.mig.push('core1');
   const F=[l=>l.kind==='brk',l=>l.kind==='weight',l=>l.kind==='mind',l=>l.kind==='creat'||/creatine/i.test(l.text),l=>l.kind==='move',l=>l.kind==='meals',l=>l.kind==='two',l=>l.kind==='coffee',l=>l.kind==='eat',l=>/shut down/i.test(l.text)];
   C.levers.forEach(l=>{l.core=F.some(f=>f(l))});persist();})();
+(function(){const C=S.config;if(C.mig.includes('core100'))return;C.mig.push('core100');
+  C.levers.forEach(l=>{delete l.core;l.core100=['brk','mind','move','eat'].includes(l.kind)||/shut down/i.test(l.text)});persist();})();
+(function(){const C=S.config;if(C.mig.includes('core100b'))return;C.mig.push('core100b');
+  const c=C.levers.find(l=>l.kind==='coffee');if(c)c.core100=true;persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
@@ -1419,7 +1423,7 @@ function pills(L,l){
   if(l.kind==='move')return `<div class="d-pills"><button class="d-pill ${L.move==='gym'?'on':''}" data-act="move" data-v="gym">Full gym session</button><button class="d-pill ${L.move==='walk'?'on':''}" data-act="move" data-v="walk">${H().walk} min walk + 50 push-ups</button></div>`;
   return `<div class="d-pills"><button class="d-pill ${L.zb?'on':''}" data-act="zero" data-v="zb">${L.zb?'✓ ':''}No Break</button><button class="d-pill ${L.zs?'on':''}" data-act="zero" data-v="zs">${L.zs?'✓ ':''}No social media</button></div>`;
 }
-function leverRow(l,i,L){return leverRow0(l,i,L)}
+function leverRow(l,i,L){return leverRow0(l,i,L).replace('<span class="d-tx">',l.core100?'<span class="d-tx"><span class="cg-tag">100</span> ':'<span class="d-tx">')}
 function leverRow0(l,i,L){
   const on=leverHit(L,l);
   const head=`<span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span>${l.note?`<span class="d-nt">${esc(l.note)}</span>`:''}</span>`;
@@ -1743,38 +1747,35 @@ function brkMonthStats(ym){let y=0,no=0;for(const k in BRK())if(k.startsWith(ym)
 function longestClean(){const ks=Object.keys(BRK()).sort();let best=0,run=0,prev=null;for(const k of ks){if(BRK()[k]==='no'){run=(prev&&run&&diffDays(prev,k)===1)?run+1:1;best=Math.max(best,run)}else run=0;prev=k}return best}
 const monthsBack=(n,cym)=>{const out=[];for(let i=n-1;i>=0;i--){const d=parseKey(cym+'-01');d.setMonth(d.getMonth()-i);out.push(keyOf(d).slice(0,7))}return out};
 const mShort=ym=>parseKey(ym+'-01').toLocaleDateString(undefined,{month:'short'});
+let bcal='brk';
+const eatLv=()=>S.config.levers.find(l=>l.kind==='eat');
+function eatState(k){const el=eatLv(),L=getLog(k),tk=todayKey();if(!el||!L)return null;if(leverHit(L,el))return 'yes';if(L.eatCheck||k<tk)return 'no';return null}
+function eatCount(ym){let n=0,any=false;for(const k in S.days)if(k.startsWith(ym)){const v=eatState(k);if(v)any=true;if(v==='yes')n++}return any?n:null}
 function brkHTML(){
-  const tk=todayKey(),cym=ymOf(tk),six=monthsBack(6,cym),vals=six.map(brkCount),known=vals.filter(v=>v!=null);
-  const total=known.reduce((a,b)=>a+b,0),avg=known.length?Math.round(total/known.length):0;
-  const curV=vals[5],prevV=vals[4],diff=curV!=null&&prevV!=null?prevV-curV:null;
-  let clean=0,notLogged=0;six.forEach(ym=>{const s=brkMonthStats(ym);clean+=s.no});
-  let h=`<h1 style="margin-bottom:4px">Break</h1><p class="hint" style="margin:0 0 12px">Days you took a Break. Fewer is better. A skipped day is the win. Half counts as full.</p>
-  <div class="card"><span class="lab">Last 6 months</span><div class="bk-months">${six.map((ym,i)=>`<button class="bk-m ${ym===cym?'cur':''}" data-act="bk-month" data-m="${ym}"><span>${esc(mShort(ym).toUpperCase())}</span><b>${vals[i]??'–'}</b></button>`).join('')}</div>
-    <p class="hint" style="margin:10px 0 0"><b>${total}</b> Break days across ${known.length} month${known.length===1?'':'s'} · averaging <b>${avg}</b>/month${diff!=null?` · <b style="color:var(${diff>0?'--done':diff<0?'--danger':'--muted'})">${Math.abs(diff)} ${diff>=0?'fewer':'more'}</b> than last month`:''}</p></div>
-  <div class="card"><div class="d-pcts" style="margin:0"><div><b style="color:var(--danger)">${total}</b><span>Break days</span></div><div><b class="full">${clean}</b><span>Clean days</span></div><div><b class="full">${brkStreak()}</b><span>Clean streak now</span></div></div>
-    <p class="hint" style="margin:8px 0 0">Longest clean streak: <b>${longestClean()}</b> days</p></div>`;
-  const tm=monthsBack(brange,cym),tv=tm.map(brkCount),W=340,Ht=170,L=26,R=14,T=22,B=24,mx=Math.max(4,...tv.filter(v=>v!=null));
+  const tk=todayKey(),cym=ymOf(tk);
+  let h=`<h1 style="margin-bottom:4px">Break</h1><p class="hint" style="margin:0 0 12px">Fewer Break days is better. Half counts as full. More whole-food days is better.</p>`;
+  const tm=monthsBack(brange,cym),tv=tm.map(brkCount),ev=tm.map(eatCount),W=340,Ht=180,L=26,R=14,T=22,B=24,mx=Math.max(4,...tv.filter(v=>v!=null),...ev.filter(v=>v!=null));
   const X=i=>L+(W-L-R)*(tm.length===1?0.5:i/(tm.length-1)),Y=v=>T+(Ht-T-B)*(1-v/mx);
   let g='';[0,Math.round(mx/2),mx].forEach(v=>{g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${Y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${v}</text>`});
-  const pts=tv.map((v,i)=>v==null?null:[X(i),Y(v),v]).filter(Boolean);
-  if(pts.length>1)g+=`<polyline points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="var(--danger)" stroke-width="2.5" stroke-linejoin="round"/>`;
-  pts.forEach(p=>{g+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="var(--danger)"/><text x="${p[0]}" y="${p[1]-8}" font-size="10.5" font-weight="800" text-anchor="middle" fill="var(--ink)">${p[2]}</text>`});
+  const line=(vals,col,above)=>{const pts=vals.map((v,i)=>v==null?null:[X(i),Y(v),v]).filter(Boolean);
+    if(pts.length>1)g+=`<polyline points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="var(${col})" stroke-width="2.5" stroke-linejoin="round"/>`;
+    pts.forEach(p=>{g+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="var(${col})"/><text x="${p[0]}" y="${above?p[1]-8:p[1]+15}" font-size="10.5" font-weight="800" text-anchor="middle" fill="var(${col})">${p[2]}</text>`})};
+  line(tv,'--danger',false);line(ev,'--done',true);
   tm.forEach((ym,i)=>{if(brange===6||i%2===0)g+=`<text x="${X(i)}" y="${Ht-6}" font-size="10" text-anchor="middle" fill="var(--muted)">${esc(mShort(ym))}</text>`});
-  const best=known.length?six[vals.indexOf(Math.min(...known))]:null,worst=known.length?six[vals.indexOf(Math.max(...known))]:null;
-  const rate=yms=>{let y=0,t=0;yms.forEach(ym=>{const s=brkMonthStats(ym);y+=s.y;t+=s.y+s.no});return t?y/t:null},rNow=rate([cym]),rPrev=rate(six.slice(2,5));
-  const trend=rNow!=null&&rPrev!=null?rNow-rPrev:null;
   h+=`<div class="card"><div class="head"><h2>Trend</h2><div class="seg" role="group" aria-label="Range"><button type="button" data-act="bk-range" data-v="6" aria-pressed="${brange===6}">6 months</button><button type="button" data-act="bk-range" data-v="12" aria-pressed="${brange===12}">12 months</button></div></div>
-    <svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Break days per month">${g}</svg>
-    <p class="hint">${best?`Best <b style="color:var(--done)">${esc(mShort(best))} (${brkCount(best)})</b> · worst <b>${esc(mShort(worst))} (${brkCount(worst)})</b>`:''}${trend!=null?`<br>This month’s pace: <b style="color:var(${trend<=0?'--done':'--danger'})">${Math.round(rNow*100)}% of days</b>, vs ${Math.round(rPrev*100)}% over the previous 3 months · <b style="color:var(${trend<=0?'--done':'--danger'})">${trend<=0?'improving':'getting worse'}</b>`:''}</p></div>`;
-  const m=bm||cym,first=m+'-01',n=new Date(+m.slice(0,4),+m.slice(5,7),0).getDate(),lead=(parseKey(first).getDay()+6)%7,st=brkMonthStats(m);
-  let cells='';for(let i=0;i<lead;i++)cells+='<span></span>';
-  let nl=0;for(let d=1;d<=n;d++){const k=`${m}-${pad(d)}`,v=BRK()[k],fut=k>tk;if(!v&&!fut&&k<tk)nl++;
-    cells+=`<button class="bk-c ${fut?'fut':v==='yes'?'yes':v==='no'?'no':'nl'} ${k===tk?'now':''}" ${fut?'disabled':`data-act="bk-cell" data-k="${k}"`} aria-label="${fmt(k,{day:'numeric',month:'long'})}: ${v==='yes'?'Break':v==='no'?'clean':'not logged'}">${d}</button>`}
-  const tot=S.meta.brkTotals[m];
-  h+=`<div class="card"><div class="d-top" style="margin:0 0 10px"><button class="d-nav" data-act="bk-prev" aria-label="Previous month">‹</button><div class="d-title"><h2 style="margin:0">${esc(monthName(m))}</h2></div><button class="d-nav" data-act="bk-next" ${m>=cym?'disabled':''} aria-label="Next month">›</button></div>
+    <svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Break days and whole-food days per month">${g}</svg>
+    <div class="legend"><span><i style="background:var(--danger)"></i>Break days</span><span><i style="background:var(--done)"></i>Whole-food days</span></div></div>`;
+  const m=bm||cym,first=m+'-01',n=new Date(+m.slice(0,4),+m.slice(5,7),0).getDate(),lead=(parseKey(first).getDay()+6)%7,isB=bcal==='brk';
+  let cells='',y=0,no=0,nl=0;for(let i=0;i<lead;i++)cells+='<span></span>';
+  for(let d=1;d<=n;d++){const k=`${m}-${pad(d)}`,fut=k>tk,v=isB?BRK()[k]:eatState(k);
+    const cls=fut?'fut':isB?(v==='yes'?'yes':v==='no'?'no':'nl'):(v==='yes'?'no':v==='no'?'yes':'nl');
+    if(!fut){if(cls==='yes')y++;else if(cls==='no')no++;else if(k<tk)nl++}
+    cells+=`<button class="bk-c ${cls} ${k===tk?'now':''}" ${fut?'disabled':`data-act="${isB?'bk-cell':'eat-cell'}" data-k="${k}"`} aria-label="${fmt(k,{day:'numeric',month:'long'})}">${d}</button>`}
+  h+=`<div class="card"><div class="seg wide" role="group" aria-label="Calendar" style="margin-bottom:10px"><button type="button" data-act="bk-cal" data-v="brk" aria-pressed="${isB}">Break</button><button type="button" data-act="bk-cal" data-v="eat" aria-pressed="${!isB}">Whole-food diet</button></div>
+    <div class="d-top" style="margin:0 0 10px"><button class="d-nav" data-act="bk-prev" aria-label="Previous month">‹</button><div class="d-title"><h2 style="margin:0">${esc(monthName(m))}</h2></div><button class="d-nav" data-act="bk-next" ${m>=cym?'disabled':''} aria-label="Next month">›</button></div>
     <div class="bk-grid">${'MTWTFSS'.split('').map(x=>`<span class="bk-h">${x}</span>`).join('')}${cells}</div>
-    <div class="legend" style="margin-top:10px"><span><i style="background:var(--danger)"></i>Break (half or full)</span><span><i style="background:var(--c2-soft);border:1px solid var(--done)"></i>Clean</span><span><i style="background:var(--line)"></i>Not logged</span></div>
-    <p class="hint"><b style="color:var(--danger)">${st.y}</b> Break · <b style="color:var(--done)">${st.no}</b> clean${nl?` · ${nl} not logged`:''}${!st.y&&!st.no&&tot!=null?` · ${tot} Break days recorded for this month, no daily detail`:''}. Tap a day to change it.</p></div>`;
+    <div class="legend" style="margin-top:10px">${isB?'<span><i style="background:var(--danger)"></i>Break (half or full)</span><span><i style="background:var(--c2-soft);border:1px solid var(--done)"></i>Clean</span>':'<span><i style="background:var(--c2-soft);border:1px solid var(--done)"></i>Followed</span><span><i style="background:var(--danger)"></i>Not followed</span>'}<span><i style="background:var(--line)"></i>Not logged</span></div>
+    <p class="hint">${isB?`<b style="color:var(--danger)">${y}</b> Break · <b style="color:var(--done)">${no}</b> clean`:`<b style="color:var(--done)">${no}</b> followed · <b style="color:var(--danger)">${y}</b> not followed`}${nl?` · ${nl} not logged`:''}. Tap a day to change it.</p></div>`;
   return h;
 }
 
@@ -1783,22 +1784,23 @@ function topGoalHTML(){
   for(let yy=y;yy<=y+5;yy++)for(const md of ['06-30','12-31']){const k=`${yy}-${md}`;if(k>=tk&&k<='2030-12-31')ms.push(k)}
   return `<div class="tg"><p class="tg-t">Don’t change anything. Follow the rules 100% for 1,000 days without a miss.</p><p class="tg-s">The only change allowed is to reduce, never to increase.</p>
     <div class="tg-ms">${ms.map(k=>{const d=diffDays(tk,k);return `<div><em>${esc(parseKey(k).toLocaleDateString(undefined,{month:'short',year:'2-digit'}))}</em><b>${d}d</b><span>${Math.floor(d/7)}w · ${Math.floor(d/30.44)}mo</span></div>`}).join('')}</div></div>`}
-function coreLevers(){return S.config.levers}
-function coreFull(k){const L=getLog(k),c=coreLevers();return !!L&&c.length>0&&c.every(l=>leverHit(L,l))}
+function coreLevers(){return S.config.levers.filter(l=>l.core100)}
+const coreHit=(L,l)=>l.kind==='brk'?(L&&L.brkY==='no'):leverHit(L,l);
+function coreFull(k){const L=getLog(k),c=coreLevers();return !!L&&c.length>0&&c.every(l=>coreHit(L,l))}
 function coreStreak(){let n=0,k=todayKey();if(!coreFull(k))k=addDays(k,-1);while(coreFull(k)&&n<3650){n++;k=addDays(k,-1)}return n}
-function coreInfo(k){const tk=todayKey(),end='2027-06-30',left=Math.max(0,diffDays(tk,end)),L=getLog(k)||{},c=coreLevers(),hit=c.filter(l=>leverHit(L,l)).length;
+function coreInfo(k){const tk=todayKey(),end='2027-06-30',left=Math.max(0,diffDays(tk,end)),L=getLog(k)||{},c=coreLevers(),hit=c.filter(l=>coreHit(L,l)).length;
   return {left,L,c,hit,full:c.length&&hit===c.length,sk:coreStreak(),next:S.config.levers.find(l=>!l.core)}}
 function goalTabHTML(){const tk=todayKey(),y=+tk.slice(0,4);let nx=null;for(let yy=y;yy<=y+1&&!nx;yy++)for(const md of ['06-30','12-31']){const k=`${yy}-${md}`;if(k>=tk&&!nx)nx=k}
   const d=diffDays(tk,nx);return `<button class="gt" data-act="open-goal" aria-haspopup="dialog"><span>🎯 1,000 days</span><b>${(()=>{const e=diffDays(tk,'2030-12-31');return `Dec 30: ${e}d · ${Math.floor(e/7)}w · ${Math.floor(e/30.44)}mo`})()}</b></button>`}
 function coreDays(){let n=0;for(const k in S.days)if(k<=todayKey()&&coreFull(k))n++;return n}
-function coreHTML(k){const n=Math.min(100,coreDays()),done=n>=100;
-  return `<button class="cg" data-act="open-core" aria-haspopup="dialog"><div class="cg-top"><span class="cg-l">100 days of your routine</span><span class="cg-n"><b>${n}</b> of 100 days at 100%</span></div>
+function coreHTML(k){const n=Math.min(100,coreStreak()),done=n>=100;
+  return `<button class="cg" data-act="open-core" aria-haspopup="dialog"><div class="cg-top"><span class="cg-l">100 days of your routine</span><span class="cg-n"><b>${n}</b> of 100 days in a row</span></div>
     <div class="cg-bar ${done?'full':''}"><i style="width:${n}%"></i></div></button>`}
 function corePopHTML(){const x=coreInfo(cur);
   return `<h2 style="font-size:1.25rem;margin-bottom:4px">Your 100 days</h2><div style="height:6px"></div>
-    <div class="d-rulebox">Hit <b>100% on all ${x.c.length} habits</b> to complete the day, no matter what.<br><br><b>Don’t change anything.</b> Don’t add, remove or update anything. Just follow it through for 100 days.</div>
-    <div class="d-pcts"><div><b class="${x.full?'full':''}">${x.hit}/${x.c.length}</b><span>done today</span></div><div><b>${Math.min(100,coreDays())}/100</b><span>days at 100%</span></div><div><b class="${x.sk?'full':''}">${x.sk}</b><span>days in a row</span></div></div>
-    <div class="d-hh">${x.c.map(l=>{const on=leverHit(x.L,l);return `<span class="${on?'on':''}">${on?'✓ ':''}${esc(l.kind==='two'?planTitle(cur):l.text)}</span>`}).join('')}</div>
+    <div class="d-rulebox">A day counts when <b>all ${x.c.length} of these are done</b>. You need <b>100 days in a row</b>. Miss one and the count starts again from zero. Did I Break yesterday has to be <b>No</b>.<br><br><b>Don’t change anything.</b> Don’t add, remove or update anything. Just follow it through for 100 days.<br><br>Everything else on your list is <b>supporting</b>. It’s there to help, but these are the main things you’re changing.</div>
+    <div class="d-pcts" style="grid-template-columns:1fr 1fr"><div><b class="${x.full?'full':''}">${x.hit}/${x.c.length}</b><span>done today</span></div><div><b class="${x.sk>=100?'full':''}">${Math.min(100,x.sk)}/100</b><span>days in a row</span></div></div>
+    <div class="d-hh">${x.c.map(l=>{const on=coreHit(x.L,l);return `<span class="${on?'on':''}">${on?'✓ ':''}${esc(l.kind==='brk'?'No Break yesterday':l.text)}</span>`}).join('')}</div>
     <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`}
 function coreAskHTML(){const x=coreInfo(cur);
   return `<h2 style="font-size:1.25rem;margin-bottom:6px">30 days straight at 100%</h2>
@@ -2125,6 +2127,9 @@ document.addEventListener('click',e=>{
     case 'open-ns':draft={sk:'ns',i:0};modal='steps';break;
     case 'open-brk':modal='brk';break;
     case 'bk-range':brange=+b.dataset.v;break;
+    case 'bk-cal':bcal=b.dataset.v;break;
+    case 'eat-cell':{const k=b.dataset.k,el=C.levers.find(l=>l.kind==='eat');if(!el)return;const v=eatState(k),L=ensureLog(k);
+      if(v==='yes'){L.lv[el.id]=false;L.eatCheck=L.eatCheck||{manual:'no'}}else{L.lv[el.id]=true}touch(k);break}
     case 'bk-prev':{const d=parseKey((bm||ymOf(todayKey()))+'-01');d.setMonth(d.getMonth()-1);bm=keyOf(d).slice(0,7);break}
     case 'bk-next':{const d=parseKey((bm||ymOf(todayKey()))+'-01');d.setMonth(d.getMonth()+1);const n=keyOf(d).slice(0,7);bm=n>=ymOf(todayKey())?null:n;break}
     case 'bk-month':bm=b.dataset.m===ymOf(todayKey())?null:b.dataset.m;break;
