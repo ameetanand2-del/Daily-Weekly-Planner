@@ -478,6 +478,23 @@ nav button.d-navj[aria-current=page] span{background:var(--ink);color:var(--surf
 .cg-rule{margin:10px 0 0;font-size:.85rem;line-height:1.4}
 .cg-tag{display:inline-block;font-size:.62rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:var(--c3-soft);color:var(--open);border-radius:6px;padding:1px 6px;margin-right:4px;vertical-align:2px}
 .d-lever.on .cg-tag{background:var(--c2-soft);color:var(--done)}
+.d-ph{padding:0;overflow:hidden}
+.d-phh{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;cursor:pointer}
+.d-phh .d-sc{margin-left:auto}
+.d-phh .d-chev{margin-left:4px;font-size:1rem}
+.d-phn{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;color:var(--surface)}
+.d-phn svg{width:13px;height:13px}
+.d-ph.done .d-phn{background:var(--done);border-color:var(--done)}
+.d-ph.done .d-st{color:var(--muted)}
+.d-ph .d-st::before{display:none}
+.d-phb{padding:0 14px 10px;border-top:1px solid var(--line)}
+.d-tk{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.d-tkt{flex:1;font-weight:700}
+.d-tk.on .d-tkt{color:var(--muted);text-decoration:line-through}
+.cg-tag.nt{background:var(--accent-soft);color:var(--accent)}
+.d-sublab{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:12px 0 2px}
+.d-sublab+.d-lever{border-top:none}
+.d-sos .d-num{background:var(--c3-soft);color:var(--open)}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -1336,7 +1353,18 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
   C.levers.forEach(l=>{delete l.core;l.core100=['brk','mind','move','eat'].includes(l.kind)||/shut down/i.test(l.text)});persist();})();
 (function(){const C=S.config;if(C.mig.includes('core100b'))return;C.mig.push('core100b');
   const c=C.levers.find(l=>l.kind==='coffee');if(c)c.core100=true;persist();})();
-const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
+(function(){const C=S.config;if(C.mig.includes('order34'))return;C.mig.push('order34');
+  const W=C.levers.filter(l=>l.phase==='wake'),rest=C.levers.filter(l=>l.phase!=='wake');
+  const pick=f=>W.filter(f),notes=['ns','mind','meals','two'];
+  const ordered=[...pick(l=>l.kind==='brk'),...pick(l=>l.kind==='weight'),...notes.flatMap(k=>pick(l=>l.kind===k)),...pick(l=>l.kind==='creat'),...pick(l=>l.kind==='move')];
+  W.forEach(l=>{if(!ordered.includes(l))ordered.push(l)});C.levers=[...ordered,...rest];persist();})();
+(function(){const C=S.config;if(C.reminders.some(g=>g.kind==='sos'))return;C.reminders.push({id:uid(),kind:'sos',title:'When you’re struggling',items:[]});persist();})();
+(function(){const C=S.config;if(C.mig.includes('order35'))return;C.mig.push('order35');
+  const er=C.levers.find(l=>l.kind==='eat');if(er)er.note='2 meals, each under 750 kcal, and a snack under 400 kcal, to keep your energy high';
+  if(!C.levers.some(l=>l.kind==='dinner')){const i=C.levers.findIndex(l=>l.phase==='night');C.levers.splice(i<0?C.levers.length:i,0,{id:uid(),kind:'simple',dinner:true,text:'High-carb dinner with supplements',note:'Under 1,100 kcal. That’s it.',phase:'night'})}
+  const g=C.reminders.find(g=>g.kind==='eat');if(g&&g.allow){g.allow=g.allow.map(x=>/^3 meals, on time$/.test(x)?'2 meals, on time, each under 750 kcal':/^1 snack:/.test(x)?'1 snack under 400 kcal: coffee, fruit or a small dessert':x);if(!g.allow.some(x=>/dinner/i.test(x)))g.allow.splice(3,0,'High-carb dinner with supplements, under 1,100 kcal')}
+  persist();})();
+const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'8:30 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
 const naturalType=k=>{const d=parseKey(k).getDay();return d===0||d===6?'weekend':'weekday'};
@@ -1423,7 +1451,11 @@ function pills(L,l){
   if(l.kind==='move')return `<div class="d-pills"><button class="d-pill ${L.move==='gym'?'on':''}" data-act="move" data-v="gym">Full gym session</button><button class="d-pill ${L.move==='walk'?'on':''}" data-act="move" data-v="walk">${H().walk} min walk + 50 push-ups</button></div>`;
   return `<div class="d-pills"><button class="d-pill ${L.zb?'on':''}" data-act="zero" data-v="zb">${L.zb?'✓ ':''}No Break</button><button class="d-pill ${L.zs?'on':''}" data-act="zero" data-v="zs">${L.zs?'✓ ':''}No social media</button></div>`;
 }
-function leverRow(l,i,L){return leverRow0(l,i,L).replace('<span class="d-tx">',l.core100?'<span class="d-tx"><span class="cg-tag">100</span> ':'<span class="d-tx">')}
+const NOTEK=['ns','mind','meals','two'];
+const SOS_TITLE='Feeling stressed, tired, unfocused, anxious, distracted or unproductive? Read these notes';
+function sosRow(){const g=S.config.reminders.find(x=>x.kind==='sos')||{items:[]};
+  return `<button class="d-lever d-sos" data-act="open-sos" aria-haspopup="dialog"><span class="d-num">!</span><span class="d-tt"><span class="d-tx"><span class="cg-tag nt">Note</span> ${esc(SOS_TITLE)}</span><span class="d-nt">${g.items.length?`${g.items.length} note${g.items.length===1?'':'s'}. Read them when you need them`:'Notes coming soon'}</span></span><span class="d-chev">›</span></button>`}
+function leverRow(l,i,L){return leverRow0(l,i,L).replace('<span class="d-tx">','<span class="d-tx">'+(NOTEK.includes(l.kind)?'<span class="cg-tag nt">Note</span> ':'')+(l.core100?'<span class="cg-tag">100</span> ':''))}
 function leverRow0(l,i,L){
   const on=leverHit(L,l);
   const head=`<span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span>${l.note?`<span class="d-nt">${esc(l.note)}</span>`:''}</span>`;
@@ -1478,8 +1510,19 @@ function todayHTML(){
 
   if(edit)return h+editHTML();
 
-  h+=`<section class="card d-levers"><div class="d-sh"><span class="d-st">Your day</span><span class="d-sc">${hit}/${nL}</span></div>
-    ${S.config.levers.map((l,i,a)=>(i===0||a[i-1].phase!==l.phase)&&PHASE[l.phase]?`<div class="d-phase">${PHASE[l.phase]}</div>${leverRow(l,i,L)}`:leverRow(l,i,L)).join('')}</section>`;
+  {const lv=S.config.levers,ph=x=>x==='pre'?'day':x,order=['wake','day','tasks','night'];let n=0;
+   const T=L.tasks||[],tDone=T.length>0&&T.every(t=>t.done),open=S.meta.phOpen||(S.meta.phOpen={});
+   const firstOpen=order.find(p=>p==='tasks'?!tDone:lv.some(l=>ph(l.phase)===p&&!leverHit(L,l)));
+   h+=order.map(p=>{
+     if(p==='tasks'){const done=tDone,exp=open[k+p]??(firstOpen===p);
+       return `<section class="card d-ph ${done?'done':''}"><button class="d-phh" data-act="ph-toggle" data-p="tasks"><span class="d-phn">${done?CHECK:''}</span><span class="d-st">Tasks</span><span class="d-sc">${T.filter(t=>t.done).length}/${T.length}</span><span class="d-chev">${exp?'▾':'›'}</span></button>
+       ${exp?`<div class="d-phb">${T.map((t,j)=>`<div class="d-tk ${t.done?'on':''}"><button class="d-tbox ${t.done?'on':''}" data-act="tk-done" data-j="${j}" aria-label="Done">${t.done?CHECK:''}</button><span class="d-tkt">${esc(t.text)}</span><button class="d-wdel" data-act="tk-del" data-j="${j}" aria-label="Remove">✕</button></div>`).join('')}
+         <div class="d-erow"><input type="text" id="tk-new" placeholder="Add a task, then Enter"><button class="btn small" data-act="tk-add">Add</button></div></div>`:''}</section>`}
+     const items=lv.map((l,i)=>[l,i]).filter(([l])=>ph(l.phase)===p);if(!items.length)return '';
+     const d=items.filter(([l])=>leverHit(L,l)).length,done=d===items.length,exp=open[k+p]??(firstOpen===p);
+     const title=PHASE[p]||p;
+     return `<section class="card d-ph ${done?'done':''}"><button class="d-phh" data-act="ph-toggle" data-p="${p}"><span class="d-phn">${done?CHECK:''}</span><span class="d-st">${title}</span><span class="d-sc">${d}/${items.length}</span><span class="d-chev">${exp?'▾':'›'}</span></button>
+       ${exp?`<div class="d-phb d-levers">${p==='day'?sosRow():''}${items.map(([l,i],j,a)=>{const nb=NOTEK.includes(l.kind),pb=j>0&&NOTEK.includes(a[j-1][0].kind);const lab=p==='wake'&&nb&&!pb?'<div class="d-sublab">Read your notes · under 30 min</div>':p==='wake'&&!nb&&pb?'<div class="d-sublab">Then do</div>':'';return lab+leverRow(l,i,L)}).join('')}</div>`:''}</section>`}).join('');}
   const groups=[...new Set(vt.map(t=>t.goal))];
   h+=groups.map(gid=>{const g=goalOf(gid),ts=vt.filter(t=>t.goal===gid),d=ts.filter(t=>taskDone(L,t,k)).length;
     return `<section class="card d-sec ${d===ts.length?'full':''}" style="--c:var(${g.color})"><div class="d-sh"><span class="d-st">${esc(GROUP_TITLE[gid]||gid)}</span><span class="d-sc">${d}/${ts.length}</span></div>
@@ -1691,7 +1734,7 @@ const H=()=>S.config.health;
 const isHealthL=l=>['weight','move','meals','eat'].includes(l.kind)||/eat right|creatine/i.test(l.text);
 function applyHealthNotes(){const C=S.config,h=H();
   const mv=C.levers.find(l=>l.kind==='move');if(mv)mv.note='Mornings only. No excuses. Just do it.';
-  const er=C.levers.find(l=>l.kind==='eat');if(er)er.note=`3 meals and a snack, ${h.kcal.toLocaleString('en-US')} kcal`}
+  const er=C.levers.find(l=>l.kind==='eat');if(er)er.note='2 meals, each under 750 kcal, and a snack under 400 kcal, to keep your energy high'}
 function wkAvg(m){const v=[];for(let d=0;d<7;d++){const k=addDays(m,d);if(k>todayKey())break;const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((a,b)=>a+b,0)/v.length:null}
 function rangeAvg(a,b){const v=[];for(let k=a;k<=b&&k<=todayKey();k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((x,y)=>x+y,0)/v.length:null}
 function healthState(){
@@ -1874,6 +1917,12 @@ function modalHTML(){
     return `<div class="d-overlay tg-ov" data-act="close"><div class="d-sheet tg-sheet" role="dialog" aria-modal="true" data-act="noop">${topGoalHTML()}<div class="d-mf" style="background:transparent"><button class="btn" data-act="close" style="width:100%">Let’s go</button></div></div></div>`;
   }else if(modal==='core'){inner=corePopHTML();
   }else if(modal==='coreask'){inner=coreAskHTML();
+  }else if(modal==='sos'){
+    const g=S.config.reminders.find(x=>x.kind==='sos')||{items:[]},n=g.items.length,i=Math.min(draft.i||0,Math.max(0,n-1));
+    inner=`<div class="d-fhead"><span>Read these notes</span><span>${n?i+1:0} of ${n}</span></div>
+    <div class="d-dotsbar">${g.items.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
+    <div class="d-onenote" style="background:var(--c3-soft)"><span class="lab" style="margin:0 0 8px">${esc(SOS_TITLE)}</span><p>${esc(n?g.items[i].text:'No notes added yet.')}</p></div>
+    <div class="d-mf">${i?'<button class="btn ghost" data-act="mn-prev">‹ Previous</button>':''}${i<n-1?'<button class="btn" data-act="mn-next">Next ›</button>':'<button class="btn" data-act="close">Done</button>'}</div>`;
   }else if(modal==='steps'){
     const st=stepsFor(draft.sk),n=st.length,i=Math.min(draft.i||0,n-1),c=st[i]||{h:'',t:'Nothing here yet.',c:'--line'};
     const title=draft.sk==='ns'?'No social media':'Your note: quit Break';
@@ -1970,7 +2019,7 @@ function modalHTML(){
     const l=S.config.levers.find(x=>x.id===draft.id)||{},isNS=l.kind==='ns',g=S.config.reminders.find(g=>g.kind===(isNS?'social':'eat'))||{items:[]},on=leverHit(L,l);
     const sn=NOTES.find(n=>/social/i.test(n.t));
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${esc(l.text||'')}</h2>
-    ${!isNS?`<div class="d-rulebox"><span class="lab" style="margin:0">The rules</span><ul><li><b>90–95% of your food is whole food.</b> No other options.</li><li><b>Under ${H().kcal.toLocaleString('en-US')} kcal.</b></li><li><b>3 meals on time, 1 snack, 1 hydration drink, 2 coffees.</b> That’s it.</li></ul></div>`:''}
+    ${!isNS?`<div class="d-rulebox"><span class="lab" style="margin:0">The rules</span><ul><li><b>90–95% of your food is whole food.</b> No other options.</li><li><b>Under ${H().kcal.toLocaleString('en-US')} kcal.</b></li><li><b>2 meals, each under 750 kcal, and 1 snack under 400 kcal</b>, to keep your energy high.</li><li><b>Dinner:</b> high-carb, with supplements, under 1,100 kcal.</li><li><b>1 hydration drink, 2 coffees.</b> That’s it.</li></ul></div>`:''}
     ${g.allow?`<div class="d-two-col"><div class="d-rg" style="background:var(--c2-soft)"><span class="lab" style="margin:0">Allowed</span><ul>${(g.allow||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
       <div class="d-rg" style="background:var(--c3-soft)"><span class="lab" style="margin:0">Not allowed</span><ul>${(g.deny||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>`:''}
     ${isNS&&g.items.length?`<div class="d-rg" style="background:var(--c1-soft)"><span class="lab" style="margin:0">Your rules</span><ul>${g.items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`:''}
@@ -2120,6 +2169,11 @@ document.addEventListener('click',e=>{
     case 'sort':reviewSort=b.dataset.v;break;
     case 'cview':compView=b.dataset.v;break;
     case 'open-princ':modal='princ';break;
+    case 'open-sos':draft={i:0};modal='sos';break;
+    case 'ph-toggle':{const o=S.meta.phOpen||(S.meta.phOpen={}),key=cur+b.dataset.p,sec=b.closest('.d-ph'),exp=!!sec.querySelector('.d-phb');o[key]=!exp;break}
+    case 'tk-add':{const i=document.getElementById('tk-new'),v=i&&i.value.trim();if(!v)return;const L=ensureLog(cur);L.tasks=L.tasks||[];L.tasks.push({text:v,done:false});touch(cur);render();const n=document.getElementById('tk-new');n&&n.focus();return}
+    case 'tk-done':{const L=ensureLog(cur),t=(L.tasks||[])[+b.dataset.j];if(t){t.done=!t.done;touch(cur)}break}
+    case 'tk-del':{const L=ensureLog(cur);(L.tasks||[]).splice(+b.dataset.j,1);touch(cur);break}
     case 'open-core':modal='core';break;
     case 'open-goal':modal='goal';break;
     case 'core-later':S.meta.coreAsked=todayKey();save();modal=null;break;
@@ -2201,7 +2255,7 @@ document.addEventListener('change',e=>{
   if(el.dataset.gf){const g=findIn(el,'g',C.reminders);if(!g)return;const i=el.closest('[data-i]');if(i){const it=g.items.find(x=>x.id===i.dataset.i);if(it)it.text=el.value.trim()}else g.title=el.value.trim();save();return}
   if(el.dataset.mf){const g=findIn(el,'mg',ensureMonth(ymOf(todayKey())));if(g){g[el.dataset.mf]=el.value.trim();save()}return}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal){modal=null;render()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal){modal=null;render()}if(e.key==='Enter'&&e.target&&e.target.id==='tk-new'){e.preventDefault();const b=document.querySelector('[data-act=tk-add]');b&&b.click()}});
 let lastToday=todayKey();
 setInterval(()=>{const t=todayKey();if(t!==lastToday){if(cur===lastToday)cur=t;lastToday=t;render()}},60000);
 
