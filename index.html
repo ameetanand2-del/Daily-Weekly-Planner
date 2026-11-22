@@ -442,6 +442,7 @@ nav button.d-navj[aria-current=page] span{background:var(--ink);color:var(--surf
 .bk-c.now{outline:2px solid var(--accent);outline-offset:1px}
 .d-onelist{margin:0;padding-left:22px;font-size:1.05rem;font-weight:700;line-height:1.5}
 .d-onelist li{margin:4px 0}
+.d-cardlist{margin:0;padding-left:20px;font-size:1.02rem;line-height:1.5;font-weight:700}.d-cardlist li+li{margin-top:8px}
 .d-onenote p+p{margin-top:10px}
 .d-onenote .d-onefoot{margin-top:10px;font-size:1rem}
 .d-lever.brkyes .d-num{background:var(--danger);color:#fff}
@@ -491,10 +492,23 @@ nav button.d-navj[aria-current=page] span{background:var(--ink);color:var(--surf
 .d-tk{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
 .d-tkt{flex:1;font-weight:700}
 .d-tk.on .d-tkt{color:var(--muted);text-decoration:line-through}
+.cg-tag.op,.d-lever.on .cg-tag.op{background:var(--c1-soft);color:var(--c1)}
 .cg-tag.nt{background:var(--accent-soft);color:var(--accent)}
 .d-sublab{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:12px 0 2px}
 .d-sublab+.d-lever{border-top:none}
 .d-sos .d-num{background:var(--c3-soft);color:var(--open)}
+.d-l7{display:flex;flex-direction:column;gap:6px}
+.d-l7r{all:unset;box-sizing:border-box;display:flex;flex-direction:column;cursor:pointer;background:var(--c3-soft);border-radius:10px;padding:8px 10px;font-size:.85rem}
+.d-l7r.ok{background:var(--c2-soft)}
+.d-l7r span{color:var(--muted)}
+.d-l7r.ok span{color:var(--done);font-weight:800}
+.d-lvlbox{background:var(--ink);color:var(--surface);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.d-lvlbox ul{margin:6px 0 4px;padding-left:20px;font-size:1.05rem}
+.d-lvlsub{font-size:.8rem;opacity:.75;font-weight:700}
+.d-muted{color:var(--muted)}
+.d-rulechip{display:table;background:var(--ink);color:var(--surface);font-weight:800;font-size:.75rem;border-radius:8px;padding:2px 8px;margin:3px 0 3px;line-height:1.35}
+.d-hideask{display:flex;align-items:center;gap:8px;margin:-4px 0 8px 40px;font-size:.78rem;font-weight:700;color:var(--muted)}.d-hideask span{flex:1}.d-hideask button{all:unset;cursor:pointer;padding:5px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink);font-weight:800}.d-hideask button:first-of-type{background:var(--accent);border-color:var(--accent);color:#fff}
+.d-hidbar{all:unset;box-sizing:border-box;display:block;width:100%;text-align:center;cursor:pointer;font-size:.78rem;font-weight:800;color:var(--muted);padding:8px 0 2px}
 .d-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .d-day{font:inherit;border:none;background:var(--bg1);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink)}
 .d-day.now{outline:2px solid var(--accent)}
@@ -1163,7 +1177,7 @@ function persist(){if(PREVIEW)return;try{localStorage.setItem(LS,JSON.stringify(
 const remCount=L=>L?(L.readAM?1:0)+(L.readPM?1:0):0;
 function remSlot(L){L=L||{};if(cur===todayKey()){return new Date().getHours()<12?(L.readAM?null:'am'):(L.readPM?null:'pm')}return !L.readAM?'am':!L.readPM?'pm':null}
 const planCount=k=>3;
-const planTitle=k=>'Plan your 3 main tasks';
+const planTitle=k=>'Plan your main tasks (read the notes on how to plan them)';
 (function(){const C=S.config;if(C.mig.includes('plan1'))return;C.mig.push('plan1');
   if(!C.reminders.some(g=>g.kind==='plan'))C.reminders.push({id:uid(),kind:'plan',title:'Planning your tasks',items:[
     R('Define each task specifically: exactly what you’re trying to achieve by the end of it.'),
@@ -1364,7 +1378,65 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
   if(!C.levers.some(l=>l.kind==='dinner')){const i=C.levers.findIndex(l=>l.phase==='night');C.levers.splice(i<0?C.levers.length:i,0,{id:uid(),kind:'simple',dinner:true,text:'High-carb dinner with supplements',note:'Under 1,100 kcal. That’s it.',phase:'night'})}
   const g=C.reminders.find(g=>g.kind==='eat');if(g&&g.allow){g.allow=g.allow.map(x=>/^3 meals, on time$/.test(x)?'2 meals, on time, each under 750 kcal':/^1 snack:/.test(x)?'1 snack under 400 kcal: coffee, fruit or a small dessert':x);if(!g.allow.some(x=>/dinner/i.test(x)))g.allow.splice(3,0,'High-carb dinner with supplements, under 1,100 kcal')}
   persist();})();
-const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'8:30 pm routine'};
+(function(){const C=S.config;if(C.mig.includes('eatlvl'))return;C.mig.push('eatlvl');
+  const dn=C.levers.find(l=>l.dinner);if(dn)dn.core100=true;
+  const g=C.reminders.find(g=>g.kind==='eat');
+  if(g){g.levels=['No fried food','No refined-flour (maida) food: pizza, dumplings, bread, naan, pastries, biscuits, noodles','No chips or packaged snacks','No fast food','No sugary drinks or juices','No snacking beyond your 1 snack','No eating out or ordering in by yourself'];
+    g.checks=['Did I eat fried food?','Did I eat refined-flour (maida) food, like pizza, dumplings, bread, naan, pastries, biscuits or noodles?','Did I eat chips or packaged snacks?','Did I eat fast food?','Did I have sugary drinks or juices?','Did I snack beyond my 1 snack?','Did I eat out or order in by myself?']}
+  C.eatLevel=1;C.eatLevelSince=keyOf(new Date());persist();})();
+(function(){const C=S.config;if(C.mig.includes('hide1'))return;C.mig.push('hide1');
+  C.levers.forEach(l=>{if(l.kind==='brk'||l.kind==='weight')l.hideDone=true});
+  const m=C.levers.find(l=>l.kind==='mind'),n=C.levers.find(l=>l.kind==='ns');
+  if(m&&n){C.levers=C.levers.filter(x=>x!==m);C.levers.splice(C.levers.indexOf(n),0,m)}
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('p10'))return;C.mig.push('p10');
+  const fk=k=>C.levers.find(l=>l.kind===k),sd=C.levers.find(l=>/shut down/i.test(l.text));
+  const co=fk('coffee');if(co){co.text='Coffee: 1 cup, with work only';co.note='Always have water next to it'}
+  const cg=C.reminders.find(g=>g.kind==='coffee');if(cg)cg.items=[R('1 cup only. That’s it.'),R('Always have a water bottle next to it.'),R('Only while you’re studying or working.')];
+  const cr=fk('creat');if(cr){cr.text='Creatine drink and 1 water bottle';cr.note='Hydrate every day'}
+  const mi=fk('mind');if(mi)mi.note='5 things you’re grateful for, 5 you’re proud of, 5 really fun moments, on paper';
+  const pg=C.reminders.find(g=>g.kind==='positive');if(pg&&!pg.items.some(x=>/grateful for, 5/i.test(x.text)))pg.items.unshift(R('On a sheet of paper, write 5 things you’re grateful for, 5 things you’re proud of and 5 really fun moments.'));
+  const mg=C.reminders.find(g=>g.kind==='meals');if(mg)mg.items=mg.items.filter(x=>!/^snack/i.test(x.text)).map(x=>/3 meals and 1 snack/i.test(x.text)?R('Plan everything ahead: 3 meals, 100% whole foods.'):/^meals 1 and 2/i.test(x.text)?R('Breakfast and lunch: high protein, with protein the same as or higher than carbs.'):/^dinner/i.test(x.text)?R('Dinner: the high-carb meal, carrying most of the day’s carbs. Eaten before you sleep, it helps you sleep.'):x);
+  const eg=C.reminders.find(g=>g.kind==='eat');if(eg){if(eg.allow){eg.allow=eg.allow.filter(x=>!/snack/i.test(x)).map(x=>/meals, on time/i.test(x)?'3 meals, on time':/dinner/i.test(x)?'Dinner is the high-carb meal, with supplements':/coffee/i.test(x)?'1 coffee, with water next to it':/eat(ing)? out/i.test(x)?'Outside food max once a week, with a friend':x)}
+    if(eg.levels&&eg.levels[5])eg.levels[5]='No snacking. 3 meals only';if(eg.checks&&eg.checks[5])eg.checks[5]='Did I snack between meals?'}
+  const er=fk('eat');if(er)er.note='3 meals, 100% whole foods. No sugar, nothing processed';
+  if(C.principles)C.principles.do=['Write 5 things you’re grateful for, 5 you’re proud of, 5 really fun moments, on paper','Hydrate every day: 1 bottle','Exercise every day','Coffee as a productivity tool: 1 cup, with water, only while studying or working','3 meals, 100% whole foods. No sugar, fried or processed food. Outside food max once a week, with a friend','No Break at all, neither full nor half','Dinner is the high-carb meal','In bed by 9 pm, every night','Phone outside your room','Journal 1 page, reframe 1 thought'];
+  let at=sd?C.levers.indexOf(sd):C.levers.length;
+  if(!C.levers.some(l=>l.phone)){C.levers.splice(at,0,{id:uid(),kind:'simple',phone:true,phase:'night',text:'Phone outside your room',note:'Before you get into bed'});at++}
+  if(!C.levers.some(l=>l.jr)){const dn=C.levers.find(l=>l.dinner),nt=fk('note');const pos=nt?C.levers.indexOf(nt):at;C.levers.splice(pos,0,{id:uid(),kind:'simple',jr:true,phase:'night',text:'Journal 1 page, reframe 1 thought',note:'Write it in your journal. It ticks itself'})}
+  {const dn=C.levers.find(l=>l.dinner);if(dn)dn.note='The high-carb meal of the day'}
+  if(sd){sd.text='Sleep on time, by 9 pm';sd.note='In bed. Everything off'}
+  C.levers.forEach(l=>{l.core100=['brk','mind','creat','move','coffee','eat'].includes(l.kind)||!!l.dinner||!!l.phone||!!l.jr||l===sd;
+    if(['mind','ns','meals','two','creat','coffee','eat','note'].includes(l.kind))l.hideDone=true});
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('p11'))return;C.mig.push('p11');
+  const night=C.levers.filter(l=>l.phase==='night'),rest=C.levers.filter(l=>l.phase!=='night');
+  const sd=night.find(l=>/sleep on time|shut down|in bed by/i.test(l.text));if(sd){sd.text='In bed by 9 pm';sd.note='Everything off. Review and journal in bed'}
+  const F=[l=>l.dinner,l=>l.kind==='note',l=>l===sd,l=>l.phone,l=>l.kind==='review'||l.kind==='shutdown',l=>l.jr];
+  const ord=[];F.forEach(f=>night.filter(f).forEach(l=>{if(!ord.includes(l))ord.push(l)}));night.forEach(l=>{if(!ord.includes(l))ord.push(l)});
+  C.levers=[...rest,...ord];persist();})();
+(function(){const C=S.config;if(C.mig.includes('p12'))return;C.mig.push('p12');
+  const g=C.reminders.find(g=>g.kind==='eat');if(g&&g.deny)g.deny=g.deny.map(x=>/snack/i.test(x)&&/1 snack/i.test(x)?'Snacking between meals':x);persist();})();
+(function(){const C=S.config;if(C.mig.includes('p13'))return;C.mig.push('p13');
+  const put=(kind,title,items)=>{let g=C.reminders.find(x=>x.kind===kind);if(!g){g={id:uid(),kind,title,items:[]};C.reminders.push(g)}g.title=title;g.items=items.map(t=>R(t))};
+  put('charisma','Always: calm and composed',['Be relaxed, calm and composed.','Don’t try to make people your friend. Imagine they already are.','Don’t act. Just be.','If they’re not talking, you’re not talking. No insecurity, no fear of anyone.','Talk to one person at a time. Have a good time with them, then move on.','Don’t move hastily. Go slow. Imagine everybody’s fine.']);
+  put('stress','When you’re upset with someone',['Apply this, no matter what.','Take a sheet of paper.','Write down what you’re feeling.','Rationalise it, then reframe it into a thought that supports you and helps you.']);
+  put('fear','When you feel fear or insecurity, or you’re genuinely upset about something',['Apply this, no matter what.','Go for a walk.','Reframe those thoughts into ones that support you.']);
+  put('positive','Your task',['On a sheet of paper, write in detail: 5 things you’re grateful for, 5 things you’re proud of and 5 really funny moments.','Then listen to songs or a motivational video, whichever suits you right now.','Then go and work out.']);
+  C.reminders=C.reminders.filter(g=>g.kind!=='mindtask');
+  const mi=C.levers.find(l=>l.kind==='mind');if(mi)mi.note='How to stay calm, then your 5-5-5 on paper, music and your workout';
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('p14'))return;C.mig.push('p14');
+  const g=C.reminders.find(x=>x.kind==='plan');if(g){
+    const it=g.items.filter(x=>!x.list),pk=re=>{const i=it.findIndex(x=>re.test(x.text));return i<0?[]:it.splice(i,1)};
+    const det=[...pk(/^define each task/i),...pk(/one task at a time/i),...pk(/^finish what you start/i),...pk(/don.t change the task/i),...it];
+    det.forEach(x=>x.h='In detail');
+    g.title='Planning your tasks';
+    g.items=[{id:uid(),text:'',h:'The principles',list:['Define each task.','List down all your tasks.','Complete one at a time, no more.','Don’t add any task until you finish.']},...det]}
+  persist();})();
+(function(){const C=S.config;if(C.mig.includes('p15'))return;C.mig.push('p15');
+  C.levers.forEach(l=>{if(['move','coffee','eat'].includes(l.kind)||l.dinner)l.opt=true});persist();})();
+const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
 const naturalType=k=>{const d=parseKey(k).getDay();return d===0||d===6?'weekend':'weekday'};
@@ -1399,7 +1471,8 @@ function ensureMonth(ym){if(!S.config.monthGoals[ym])S.config.monthGoals[ym]=mon
 
 /* journal link */
 function journaledOn(k){return state.entries.some(e=>entryMode(e)==='emo'&&keyOf(new Date(e.createdAt))===k)}
-function syncJournal(k){const t=S.config.tasks.find(t=>t.kind==='journal');
+function syncJournal(k){const t=S.config.tasks.find(t=>t.kind==='journal'),jl=S.config.levers.find(l=>l.jr);
+  if(jl&&journaledOn(k)){const L0=getLog(k);if(!(L0&&L0.lv&&L0.lv[jl.id])){const E=ensureLog(k);(E.lv||(E.lv={}))[jl.id]=true;touch(k);if(!t)return true}}
   if(!t||!journaledOn(k))return false;const L=getLog(k);if(L&&L.t[t.id])return false;ensureLog(k).t[t.id]=true;touch(k);return true}
 
 /* stats helpers */
@@ -1451,11 +1524,11 @@ function pills(L,l){
   if(l.kind==='move')return `<div class="d-pills"><button class="d-pill ${L.move==='gym'?'on':''}" data-act="move" data-v="gym">Full gym session</button><button class="d-pill ${L.move==='walk'?'on':''}" data-act="move" data-v="walk">${H().walk} min walk + 50 push-ups</button></div>`;
   return `<div class="d-pills"><button class="d-pill ${L.zb?'on':''}" data-act="zero" data-v="zb">${L.zb?'✓ ':''}No Break</button><button class="d-pill ${L.zs?'on':''}" data-act="zero" data-v="zs">${L.zs?'✓ ':''}No social media</button></div>`;
 }
-const NOTEK=['ns','mind','meals','two'];
+const NOTEK=['ns','meals','two'];
 const SOS_TITLE='Feeling stressed, tired, unfocused, anxious, distracted or unproductive? Read these notes';
 function sosRow(){const g=S.config.reminders.find(x=>x.kind==='sos')||{items:[]};
-  return `<button class="d-lever d-sos" data-act="open-sos" aria-haspopup="dialog"><span class="d-num">!</span><span class="d-tt"><span class="d-tx"><span class="cg-tag nt">Note</span> ${esc(SOS_TITLE)}</span><span class="d-nt">${g.items.length?`${g.items.length} note${g.items.length===1?'':'s'}. Read them when you need them`:'Notes coming soon'}</span></span><span class="d-chev">›</span></button>`}
-function leverRow(l,i,L){return leverRow0(l,i,L).replace('<span class="d-tx">','<span class="d-tx">'+(NOTEK.includes(l.kind)?'<span class="cg-tag nt">Note</span> ':'')+(l.core100?'<span class="cg-tag">100</span> ':''))}
+  return `<button class="d-lever d-sos" data-act="open-sos" aria-haspopup="dialog"><span class="d-num">!</span><span class="d-tt"><span class="d-tx"><span class="cg-tag nt">Note</span> ${esc(SOS_TITLE)}</span><span class="d-nt">Stay calm, then apply these, no matter what</span></span><span class="d-chev">›</span></button>`}
+function leverRow(l,i,L){return leverRow0(l,i,L).replace('<span class="d-tx">','<span class="d-tx">'+(NOTEK.includes(l.kind)?'<span class="cg-tag nt">Note</span> ':'')+(l.core100?'<span class="cg-tag">100</span> ':'')+(l.opt?'<span class="cg-tag op">Optimise</span> ':''))}
 function leverRow0(l,i,L){
   const on=leverHit(L,l);
   const head=`<span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span>${l.note?`<span class="d-nt">${esc(l.note)}</span>`:''}</span>`;
@@ -1472,10 +1545,11 @@ function leverRow0(l,i,L){
       <span class="d-side" aria-label="This week: ${gl} gym and ${wl} walks left"><span class="${gl?'':'z'}">🏋️ ${gl} left</span><span class="${wl?'':'z'}">🚶 ${wl} left</span></span><span class="d-chev">›</span></button>`}
   if(l.kind==='meals')return `<button class="d-lever ${on?'on':''}" data-act="open-meals" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Planned today':'With calories. Tap to read your meal rules'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='two')return `<button class="d-lever ${on?'on':''}" data-act="open-plan" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${planTitle(cur)}</span><span class="d-nt">${on?'Read today':'Tap to read your planning principles'}</span></span><span class="d-chev">›</span></button>`;
+  if(l.jr)return `<button class="d-lever ${on?'on':''}" data-act="go-journal">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Journaled today':'Tap to write. It ticks itself'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='simple')return `<button class="d-lever ${on?'on':''}" data-act="lever" data-id="${l.id}" role="checkbox" aria-checked="${on}">${head}</button>`;
   if(l.kind==='note')return `<button class="d-lever ${on?'on':''}" data-act="open-note" aria-haspopup="dialog"><span class="d-num">${on?CHECK:i+1}</span><span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read tonight':'Tap to read it'}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='ns')return `<button class="d-lever ${on?'on':''}" data-act="open-ns" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Checked today':'Read your rules one by one, then check your setup'}</span></span><span class="d-chev">›</span></button>`;
-  if(['ns','eat','coffee','mind','creat'].includes(l.kind))return `<button class="d-lever ${on?'on':''}" data-act="open-gate" data-id="${l.id}" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${on?'Read and done today':esc(l.note)+(l.note?'. ':'')+(l.kind==='eat'?'Read your rules, then tick it':'Read your note, then tick it')}</span></span><span class="d-chev">›</span></button>`;
+  if(['ns','eat','coffee','mind','creat'].includes(l.kind))return `<button class="d-lever ${on?'on':''}" data-act="open-gate" data-id="${l.id}" aria-haspopup="dialog">${num}<span class="d-tt"><span class="d-tx">${esc(l.text)}</span><span class="d-nt">${l.kind==='eat'?`<span class="d-rulechip">Level ${eatLvl()}: ${esc(eatActiveRules().join(' · '))}</span>`:''}${on?'Read and done today':esc(l.note)+(l.note?'. ':'')+(l.kind==='eat'?'Read your rules, then tick it':l.kind==='mind'?'Do it, then tick it':'Read your note, then tick it')}</span></span><span class="d-chev">›</span></button>`;
   if(l.kind==='nb'||l.kind==='ns')return `<button class="d-lever ${on?'on':''}" data-act="zero" data-v="${l.kind==='nb'?'zb':'zs'}" role="checkbox" aria-checked="${on}">${head}</button>`;
   return `<div class="d-lever ${on?'on':''}"><div class="d-lh">${head}</div>${pills(L,l)}</div>`;
 }
@@ -1522,7 +1596,7 @@ function todayHTML(){
      const d=items.filter(([l])=>leverHit(L,l)).length,done=d===items.length,exp=open[k+p]??(firstOpen===p);
      const title=PHASE[p]||p;
      return `<section class="card d-ph ${done?'done':''}"><button class="d-phh" data-act="ph-toggle" data-p="${p}"><span class="d-phn">${done?CHECK:''}</span><span class="d-st">${title}</span><span class="d-sc">${d}/${items.length}</span><span class="d-chev">${exp?'▾':'›'}</span></button>
-       ${exp?`<div class="d-phb d-levers">${p==='day'?sosRow():''}${items.map(([l,i],j,a)=>{const nb=NOTEK.includes(l.kind),pb=j>0&&NOTEK.includes(a[j-1][0].kind);const lab=p==='wake'&&nb&&!pb?'<div class="d-sublab">Read your notes · under 30 min</div>':p==='wake'&&!nb&&pb?'<div class="d-sublab">Then do</div>':'';return lab+leverRow(l,i,L)}).join('')}</div>`:''}</section>`}).join('');}
+       ${exp?`<div class="d-phb d-levers">${p==='day'?sosRow():''}${(()=>{const sh=(S.meta.showHid||{})[k],hid=items.filter(([l])=>l.hideDone&&leverHit(L,l)&&L.hid&&L.hid[l.id]);return hid.length?`<button class="d-hidbar" data-act="hid-toggle">${sh?'Hide':'Show'} ${hid.length} done</button>`:''})()}${items.filter(([l])=>!(l.hideDone&&leverHit(L,l)&&L.hid&&L.hid[l.id]&&!(S.meta.showHid||{})[k])).map(([l,i],j,a)=>{const nb=NOTEK.includes(l.kind),pb=j>0&&NOTEK.includes(a[j-1][0].kind);const lab=p==='wake'&&nb&&!pb?'<div class="d-sublab">Read your notes · under 30 min</div>':p==='wake'&&!nb&&pb?'<div class="d-sublab">Then do</div>':'';return lab+leverRow(l,i,L)}).join('')}</div>`:''}</section>`}).join('');}
   const groups=[...new Set(vt.map(t=>t.goal))];
   h+=groups.map(gid=>{const g=goalOf(gid),ts=vt.filter(t=>t.goal===gid),d=ts.filter(t=>taskDone(L,t,k)).length;
     return `<section class="card d-sec ${d===ts.length?'full':''}" style="--c:var(${g.color})"><div class="d-sh"><span class="d-st">${esc(GROUP_TITLE[gid]||gid)}</span><span class="d-sc">${d}/${ts.length}</span></div>
@@ -1645,8 +1719,10 @@ function stackChart(rows,{w=340,hgt=150}){
     g+=`<text x="${(+x+bw*0.35).toFixed(1)}" y="${hgt-5}" font-size="9.5" text-anchor="middle" fill="var(--muted)">${r.label}</text>`});
   return `<svg viewBox="0 0 ${w} ${hgt}" role="img" aria-label="Gym sessions and walks per week">${g}</svg>`;
 }
-const RQ=[['went','What went well?'],['next','What can I do tomorrow so I don’t make the same mistakes?']];
-const RQ_ALL=RQ.concat([['diff','What can you do differently?'],['learn','What did you learn?'],['revise','Anything to review or revise?']],[['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']]);
+const RQ=[['next','What can I do tomorrow so I don’t make the same mistakes?']];
+const OPTL=()=>S.config.levers.filter(l=>l.opt);
+const optLines=L=>L&&L.opt?Object.entries(L.opt).filter(([,v])=>v).map(([id,v])=>{const l=S.config.levers.find(x=>x.id===id);return [l?l.text:'Optimise',v]}):[];
+const RQ_ALL=[['went','What went well?']].concat(RQ,[['diff','What can you do differently?'],['learn','What did you learn?'],['revise','Anything to review or revise?']],[['right','What I did right'],['wrong','What I did wrong'],['why','Why I couldn’t follow it']]);
 let goalShown=false;
 let compView='week',boardView='week';
 const WCOL=['--c3','--c2','--c1','--accent','--d6'];
@@ -1683,7 +1759,7 @@ function dashHTML(){
   let gym=0,walk=0;plogs.forEach(L=>{if(L.move==='gym')gym++;else if(L.move==='walk')walk++});
   const wks=bWeek?1:nd/7,gT=Math.round(H().gym*wks),wT=nd-gT,nW=pd.filter(k=>(getLog(k)||{}).wt!=null).length;
   const hits=l=>l.kind==='brk'?pd.filter(k=>S.meta.brk[k]==='no').length:plogs.filter(L=>leverHit(L,l)).length;
-  const rateRow=l=>{const n=hits(l),r=n/nd;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your 3 main tasks':l.kind==='brk'?'No Break (clean days)':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${nd}</span></div>`};
+  const rateRow=l=>{const n=hits(l),r=n/nd;return `<div class="bar"><span class="name">${esc(l.kind==='two'?'Plan your main tasks':l.kind==='brk'?'No Break (clean days)':l.text)}</span><div class="track"><div class="fill" style="width:${(r*100).toFixed(0)}%;background:var(${r>=1?'--done':r<0.6?'--c3':r<0.85?'--c1':'--c2'})"></div></div><span class="n">${n}/${nd}</span></div>`};
   const hl=S.config.levers.filter(isHealth),pl=S.config.levers.filter(l=>!isHealth(l));
   const ph=pl.reduce((a,l)=>a+hits(l),0),pt=nd*pl.length;
   const er=S.config.levers.find(l=>l.kind==='eat'||/eat right/i.test(l.text));
@@ -1720,7 +1796,7 @@ function dashHTML(){
       <span class="meta"><span>${esc(fmt(k,{weekday:'short',day:'numeric',month:'short'}))} · ${Math.round(dayScore(k).d/dayScore(k).t*100)}% done</span>
       <span class="d-rdots" aria-label="Rated ${r??'none'} of 5">${[1,2,3,4,5].map(n=>`<i class="${(r??0)>=n?'f':''}"></i>`).join('')}</span></span>
       ${missLines(L).length?`<span class="lbl">Why I didn’t follow through</span>${missLines(L).map(([n,t])=>`<span class="d-p"><b>${esc(n)}:</b> ${esc(t)}</span>`).join('')}`:''}
-      ${RQ_ALL.map(([f,q])=>L[f]?`<span class="lbl">${q}</span><span class="d-p">${esc(L[f])}</span>`:'').join('')}</button>`}).join('')
+      ${optLines(L).map(([t,v])=>`<span class="lbl">${esc(t)}</span><span class="d-p">${esc(v)}</span>`).join('')}${RQ_ALL.map(([f,q])=>L[f]?`<span class="lbl">${q}</span><span class="d-p">${esc(L[f])}</span>`:'').join('')}</button>`}).join('')
     :`<div class="empty">Review a day on Today to see it here.</div>`;
   return h+`</details></div>`;
 }
@@ -1731,10 +1807,10 @@ function leftHTML(ym){const L=monthLeft(ym),mn=parseKey(ym+'-01').toLocaleDateSt
   return `<div class="d-pcts d-left"><div><b>${L.w}</b><span>week${L.w===1?'':'s'}${L.r?` + ${L.r} day${L.r===1?'':'s'}`:''} left</span></div><div><b>${L.d}</b><span>day${L.d===1?'':'s'} left in ${esc(mn)}</span></div></div>`}
 /* ---------- Health levels, rules, principles ---------- */
 const H=()=>S.config.health;
-const isHealthL=l=>['weight','move','meals','eat'].includes(l.kind)||/eat right|creatine/i.test(l.text);
+const isHealthL=l=>['weight','move','meals','eat'].includes(l.kind)||!!l.dinner||/eat right|creatine/i.test(l.text);
 function applyHealthNotes(){const C=S.config,h=H();
   const mv=C.levers.find(l=>l.kind==='move');if(mv)mv.note='Mornings only. No excuses. Just do it.';
-  const er=C.levers.find(l=>l.kind==='eat');if(er)er.note='2 meals, each under 750 kcal, and a snack under 400 kcal, to keep your energy high'}
+  const er=C.levers.find(l=>l.kind==='eat');if(er)er.note='3 meals, 100% whole foods. No sugar, nothing processed'}
 function wkAvg(m){const v=[];for(let d=0;d<7;d++){const k=addDays(m,d);if(k>todayKey())break;const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((a,b)=>a+b,0)/v.length:null}
 function rangeAvg(a,b){const v=[];for(let k=a;k<=b&&k<=todayKey();k=addDays(k,1)){const L=getLog(k);if(L&&L.wt!=null)v.push(L.wt)}return v.length?v.reduce((x,y)=>x+y,0)/v.length:null}
 function healthState(){
@@ -1763,9 +1839,9 @@ const NOTES=[
     ['What works',['Same food gets easy after about a week','A small snack between meals so you don’t get hungry','Dinner around 7–8 pm','Sleep within 1–2 hours of dinner']]]}];
 
 function weekMove(k){const m=mondayOf(k);let gym=0,walk=0;for(let d=0;d<7;d++){const L=getLog(addDays(m,d));if(L&&L.move==='gym')gym++;else if(L&&L.move==='walk')walk++}return{gym,walk,m}}
-function missedLevers(k){const L=getLog(k)||{},ls=S.config.levers,ri=ls.findIndex(l=>l.kind==='review');return ls.filter((l,i)=>(ri<0||i<ri)&&!leverHit(L,l))}
-function reviewComplete(d,ms){return d.rating!=null&&RQ.every(([f])=>(d[f]||'').trim())&&ms.every(l=>((d.miss||{})[l.id]||'').trim())}
-const missLines=L=>L.miss?Object.entries(L.miss).filter(([,t])=>t).map(([id,t])=>{const l=S.config.levers.find(x=>x.id===id);return [l?(l.kind==='two'?'Plan your 3 main tasks':l.text):'A habit',t]}):[];
+function missedLevers(k){const L=getLog(k)||{},ls=S.config.levers,ri=ls.findIndex(l=>l.kind==='review');return ls.filter((l,i)=>(ri<0||i<ri)&&!l.opt&&!leverHit(L,l))}
+function reviewComplete(d,ms){return d.rating!=null&&OPTL().every(l=>((d.opt||{})[l.id]||'').trim())&&RQ.every(([f])=>(d[f]||'').trim())&&ms.every(l=>((d.miss||{})[l.id]||'').trim())}
+const missLines=L=>L.miss?Object.entries(L.miss).filter(([,t])=>t).map(([id,t])=>{const l=S.config.levers.find(x=>x.id===id);return [l?(l.kind==='two'?'Plan your main tasks':l.text):'A habit',t]}):[];
 function stepsFor(sk){
   if(sk==='ns'){const g=S.config.reminders.find(g=>g.kind==='social')||{items:[]},sn=NOTES.find(n=>/social/i.test(n.t)),out=[];
     if(g.allow)out.push({h:'Allowed',list:g.allow,c:'--c2-soft'});
@@ -1780,7 +1856,7 @@ function stepsFor(sk){
     if(c.paras.length||c.list.length||c.foot.length)out.push(c)});
   const br=S.config.reminders.find(g=>g.kind==='brkrules');if(br&&br.items.length)out.push({h:'Your rules',list:br.items.map(x=>x.text),c:'--c1-soft',ol:true});return out}
 function mindNotes(){const g=k=>S.config.reminders.find(x=>x.kind===k)||{items:[],title:''},out=[];
-  [['positive','--accent-soft'],['charisma','--c1-soft'],['stress','--c2-soft'],['mindtask','--c3-soft']].forEach(([k,c])=>{const G=g(k);G.items.forEach(x=>out.push({h:G.title,t:x.text,c}))});return out}
+  [['charisma','--c1-soft'],['stress','--c2-soft'],['fear','--c3-soft'],['positive','--accent-soft']].forEach(([k,c])=>{const G=g(k);if(G.items.length)out.push({h:G.title,t:'',list:G.items.map(x=>x.text),c})});return out}
 function brkStreak(){const B=S.meta.brk;let n=0,k=todayKey();if(!B[k])k=addDays(k,-1);if(!B[k])k=addDays(k,-1);while(B[k]==='no'&&n<3650){n++;k=addDays(k,-1)}return n}
 /* ---------- Break tracker ---------- */
 let bm=null,brange=6;
@@ -1844,12 +1920,27 @@ function corePopHTML(){const x=coreInfo(cur);
     <div class="d-rulebox">A day counts when <b>all ${x.c.length} of these are done</b>. You need <b>100 days in a row</b>. Miss one and the count starts again from zero. Did I Break yesterday has to be <b>No</b>.<br><br><b>Don’t change anything.</b> Don’t add, remove or update anything. Just follow it through for 100 days.<br><br>Everything else on your list is <b>supporting</b>. It’s there to help, but these are the main things you’re changing.</div>
     <div class="d-pcts" style="grid-template-columns:1fr 1fr"><div><b class="${x.full?'full':''}">${x.hit}/${x.c.length}</b><span>done today</span></div><div><b class="${x.sk>=100?'full':''}">${Math.min(100,x.sk)}/100</b><span>days in a row</span></div></div>
     <div class="d-hh">${x.c.map(l=>{const on=coreHit(x.L,l);return `<span class="${on?'on':''}">${on?'✓ ':''}${esc(l.kind==='brk'?'No Break yesterday':l.text)}</span>`}).join('')}</div>
+    <span class="lab mt" style="display:block">Last 7 days</span>
+    <div class="d-l7">${Array.from({length:7},(_,j)=>{const k=addDays(todayKey(),-j),L=getLog(k),miss=x.c.filter(l=>!coreHit(L,l)),ok=!miss.length;
+      return `<button class="d-l7r ${ok?'ok':''}" data-act="open" data-k="${k}"><b>${esc(j===0?'Today':fmt(k,{weekday:'short',day:'numeric'}))}</b><span>${ok?'✓ Counted':'Missing: '+miss.map(l=>esc(l.kind==='brk'?'No Break yesterday':l.text)).join(', ')}</span></button>`}).join('')}</div>
+    <p class="hint">Tap a day to open it and tick anything you did but forgot to mark.</p>
     <div class="d-mf"><button class="btn" data-act="close">Close</button></div>`}
 function coreAskHTML(){const x=coreInfo(cur);
   return `<h2 style="font-size:1.25rem;margin-bottom:6px">30 days straight at 100%</h2>
     <p style="margin:0 0 10px">You’ve hit every core habit for 30 days in a row. Do you want to add another core habit?</p>
     ${x.next?`<div class="d-rulebox">Next up: <b>${esc(x.next.text)}</b></div>`:''}
     <div class="d-mf"><button class="btn ghost" data-act="core-later">Not yet</button><button class="btn" data-act="core-add">Yes, add it</button></div>`}
+const EATG=()=>S.config.reminders.find(g=>g.kind==='eat')||{checks:[],levels:[]};
+const eatLvl=()=>Math.max(1,Math.min(S.config.eatLevel||1,(EATG().levels||[]).length||1));
+const eatActiveQs=()=>(EATG().checks||[]).slice(0,eatLvl());
+const eatActiveRules=()=>(EATG().levels||[]).slice(0,eatLvl());
+function eatStreak(){const el=S.config.levers.find(l=>l.kind==='eat'),dn=S.config.levers.find(l=>l.dinner),since=S.config.eatLevelSince;
+  const ok=k=>{const L=getLog(k);return !!L&&(!since||k>=since)&&(!el||leverHit(L,el))&&(!dn||leverHit(L,dn))};
+  let n=0,k=todayKey();if(!ok(k))k=addDays(k,-1);while(ok(k)&&n<3650){n++;k=addDays(k,-1)}return n}
+function eatUpHTML(){const lv=EATG().levels||[],n=eatLvl();
+  return `<h2 style="font-size:1.25rem;margin-bottom:6px">10 days straight</h2><p style="margin:0 0 10px">You’ve followed your whole-food rules and had your high-carb dinner with supplements for 10 days in a row. Ready to make it harder?</p>
+    <div class="d-rulebox">Next rule: <b>${esc(lv[n]||'')}</b></div>
+    <div class="d-mf"><button class="btn ghost" data-act="eat-later">Not yet</button><button class="btn" data-act="eat-up">Yes, add it</button></div>`}
 /* ---------- Weekly ---------- */
 const WQ=[['wrong','Where did I go wrong in my daily tasks this week?'],['update','What do I need to update to stick to them?'],['forward','What will I do differently in the coming weeks?']];
 let wcur=null;
@@ -1917,11 +2008,13 @@ function modalHTML(){
     return `<div class="d-overlay tg-ov" data-act="close"><div class="d-sheet tg-sheet" role="dialog" aria-modal="true" data-act="noop">${topGoalHTML()}<div class="d-mf" style="background:transparent"><button class="btn" data-act="close" style="width:100%">Let’s go</button></div></div></div>`;
   }else if(modal==='core'){inner=corePopHTML();
   }else if(modal==='coreask'){inner=coreAskHTML();
+  }else if(modal==='hideask'){const l=S.config.levers.find(x=>x.id===hideAskId)||{};inner=`<h2 style="font-size:1.25rem;margin-bottom:6px">Done ✓</h2><p style="margin:0 0 10px"><b>${esc(l.text==='Plan your 3 main tasks'||l.kind==='two'?'Plan your main tasks':l.text||'')}</b> is done for today. Hide it until tomorrow, or keep it on screen?</p><div class="d-mf"><button class="btn ghost" data-act="hide-one" data-v="0">Keep</button><button class="btn" data-act="hide-one" data-v="1">Hide</button></div>`;
+  }else if(modal==='eatup'){inner=eatUpHTML();
   }else if(modal==='sos'){
-    const g=S.config.reminders.find(x=>x.kind==='sos')||{items:[]},n=g.items.length,i=Math.min(draft.i||0,Math.max(0,n-1));
+    const g=S.config.reminders.find(x=>x.kind==='sos')||{items:[]},cards=mindNotes().filter(c=>c.h!==((S.config.reminders.find(x=>x.kind==='positive')||{}).title)).concat(g.items.map(x=>({h:'Your note',t:x.text,c:'--c3-soft'}))),n=cards.length,i=Math.min(draft.i||0,Math.max(0,n-1)),c=cards[i]||{h:'',t:'No notes added yet.',c:'--c3-soft'};
     inner=`<div class="d-fhead"><span>Read these notes</span><span>${n?i+1:0} of ${n}</span></div>
-    <div class="d-dotsbar">${g.items.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
-    <div class="d-onenote" style="background:var(--c3-soft)"><span class="lab" style="margin:0 0 8px">${esc(SOS_TITLE)}</span><p>${esc(n?g.items[i].text:'No notes added yet.')}</p></div>
+    <div class="d-dotsbar">${cards.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
+    <div class="d-onenote" style="background:var(${c.c})"><span class="lab" style="margin:0 0 8px">${esc(c.h)}</span>${c.list?`<ul class="d-cardlist">${c.list.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:`<p>${esc(c.t)}</p>`}</div>
     <div class="d-mf">${i?'<button class="btn ghost" data-act="mn-prev">‹ Previous</button>':''}${i<n-1?'<button class="btn" data-act="mn-next">Next ›</button>':'<button class="btn" data-act="close">Done</button>'}</div>`;
   }else if(modal==='steps'){
     const st=stepsFor(draft.sk),n=st.length,i=Math.min(draft.i||0,n-1),c=st[i]||{h:'',t:'Nothing here yet.',c:'--line'};
@@ -1945,7 +2038,7 @@ function modalHTML(){
       <p class="hint" style="margin:0 0 12px">${k>todayKey()?'Still to come':`${Math.round(sc.d/sc.t*100)}% of your day done`}</p>
       ${L&&L.reviewed?`<div class="d-dayrev"><span class="lab">Rating</span><span class="d-rdots big">${[1,2,3,4,5].map(n=>`<i class="${(r??0)>=n?'f':''}"></i>`).join('')}</span> <b>${r??'–'}/5</b>
         ${missLines(L).length?`<span class="lab mt" style="display:block">Why I didn’t follow through</span>${missLines(L).map(([n,t])=>`<p style="margin:0 0 4px"><b>${esc(n)}:</b> ${esc(t)}</p>`).join('')}`:''}
-        ${RQ_ALL.map(([f,q])=>L[f]?`<span class="lab mt" style="display:block">${q}</span><p style="margin:0;white-space:pre-wrap">${esc(L[f])}</p>`:'').join('')}</div>`
+        ${optLines(L).map(([t,v])=>`<span class="lab mt" style="display:block">${esc(t)}</span><p style="margin:0;white-space:pre-wrap">${esc(v)}</p>`).join('')}${RQ_ALL.map(([f,q])=>L[f]?`<span class="lab mt" style="display:block">${q}</span><p style="margin:0;white-space:pre-wrap">${esc(L[f])}</p>`:'').join('')}</div>`
         :`<div class="empty">No review written for this day.</div>`}<div style="flex:1"></div>`}
     else{const[f,q]=WQ[s-7];body=`<h2 style="font-size:1.3rem;margin:6px 0 10px">${q}</h2><textarea class="d-fta" id="d-fta" data-d="${f}" aria-label="${q}" placeholder="Write freely…">${esc(draft[f]||'')}</textarea>`}
     inner=`<div class="d-fhead"><span>${s<7?`Your days · ${s+1} of 7`:`Your answers · ${s-6} of ${WQ.length}`}</span><button class="btn small ghost" data-act="close">Cancel</button></div>${body}
@@ -1992,16 +2085,16 @@ function modalHTML(){
   }else if(modal==='notes'){
     const nk=draft.nk,lv=S.config.levers.find(l=>nk==='meals'?l.kind==='meals':l.kind==='two')||{},on=leverHit(L,lv);
     const g=S.config.reminders.find(x=>x.kind===nk)||{items:[],title:''},notes=g.items,n=notes.length,i=Math.min(draft.i||0,Math.max(0,n-1));
-    const title=nk==='plan'?planTitle(cur):esc(lv.text||'');
+    const title=nk==='plan'?'Plan your main tasks':esc(lv.text||'');
     inner=`<div class="d-fhead"><span>${title}</span><span>${n?i+1:0} of ${n}</span></div>
     <div class="d-dotsbar">${notes.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
-    <div class="d-onenote" style="background:var(${nk==='meals'?'--c2-soft':'--c3-soft'})"><span class="lab" style="margin:0 0 8px">${esc(g.title)}</span><p>${esc(n?notes[i].text:'No notes yet.')}</p></div>
+    <div class="d-onenote" style="background:var(${nk==='meals'?'--c2-soft':'--c3-soft'})"><span class="lab" style="margin:0 0 8px">${esc((n&&notes[i].h)||g.title)}</span>${n&&notes[i].list?`<ul class="d-cardlist">${notes[i].list.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:`<p>${esc(n?notes[i].text:'No notes yet.')}</p>`}</div>
     <div class="d-mf">${i?'<button class="btn ghost" data-act="mn-prev">‹ Previous</button>':'<button class="btn ghost" data-act="close">Later</button>'}${i<n-1?'<button class="btn" data-act="mn-next">Next ›</button>':on?'<button class="d-link" data-act="notes-undo">Undo</button><button class="btn" data-act="close">Close</button>':`<button class="btn" data-act="notes-done">${nk==='meals'?'Done, meals planned':'Done, I’ve read them all'}</button>`}</div>`;
   }else if(modal==='gate'&&(S.config.levers.find(x=>x.id===draft.id)||{}).kind==='mind'){
     const l=S.config.levers.find(x=>x.id===draft.id),on=leverHit(L,l),notes=mindNotes(),n=notes.length,i=Math.min(draft.i||0,n-1),cur_=notes[i]||{h:'',t:'No notes yet.',c:'--line'};
     inner=`<div class="d-fhead"><span>${esc(l.text)}</span><span>${i+1} of ${n}</span></div>
     <div class="d-dotsbar">${notes.map((_,j)=>`<i class="${j<=i?'f':''}"></i>`).join('')}</div>
-    <div class="d-onenote" style="background:var(${cur_.c})"><span class="lab" style="margin:0 0 8px">${esc(cur_.h)}</span><p>${esc(cur_.t)}</p></div>
+    <div class="d-onenote" style="background:var(${cur_.c})"><span class="lab" style="margin:0 0 8px">${esc(cur_.h)}</span>${cur_.list?`<ul class="d-cardlist">${cur_.list.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:`<p>${esc(cur_.t)}</p>`}</div>
     <div class="d-mf">${i?'<button class="btn ghost" data-act="mn-prev">‹ Previous</button>':'<button class="btn ghost" data-act="close">Later</button>'}${i<n-1?'<button class="btn" data-act="mn-next">Next ›</button>':on?'<button class="d-link" data-act="gate-undo">Undo</button><button class="btn" data-act="close">Close</button>':'<button class="btn" data-act="gate-done">Done, I’ve read them all</button>'}</div>`;
   }else if(modal==='gate'&&['coffee','creat'].includes((S.config.levers.find(x=>x.id===draft.id)||{}).kind)){
     const l=S.config.levers.find(x=>x.id===draft.id),on=leverHit(L,l),grp=k=>S.config.reminders.find(g=>g.kind===k)||{items:[],title:''};
@@ -2011,17 +2104,18 @@ function modalHTML(){
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${esc(l.text)}</h2>${body}
     <div class="d-mf">${on?`<button class="d-link" data-act="gate-undo">Undo</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="gate-done">Done, I’ve read it</button>`}</div>`;
   }else if(modal==='gate'&&draft.stage==='check'){
-    const g=S.config.reminders.find(g=>g.kind==='eat')||{checks:[]},qs=g.checks||[],done=qs.every((_,i)=>draft.ans[i]);
-    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Check yourself</h2><p class="hint" style="margin:0 0 6px">Be honest. These are the things you weren’t supposed to do today.</p>
+    const qs=eatActiveQs(),done=qs.every((_,i)=>draft.ans[i]);
+    inner=`<h2 style="font-size:1.25rem;margin-bottom:4px">Check yourself</h2><p class="hint" style="margin:0 0 6px">Be honest. Level ${eatLvl()}: the rules you’re on right now.</p>
     ${qs.map((q,i)=>`<div class="d-mr"><span class="d-tx">${esc(q)}</span><div class="d-pills"><button class="d-pill ${draft.ans[i]==='no'?'on':''}" data-act="eq" data-i="${i}" data-v="no">No</button><button class="d-pill miss ${draft.ans[i]==='yes'?'on':''}" data-act="eq" data-i="${i}" data-v="yes">Yes</button></div></div>`).join('')}
     <div class="d-mf"><button class="btn ghost" data-act="eq-back">‹ Rules</button><button class="btn" data-act="eq-save" ${done?'':'disabled'}>Save</button></div>`;
   }else if(modal==='gate'){
     const l=S.config.levers.find(x=>x.id===draft.id)||{},isNS=l.kind==='ns',g=S.config.reminders.find(g=>g.kind===(isNS?'social':'eat'))||{items:[]},on=leverHit(L,l);
     const sn=NOTES.find(n=>/social/i.test(n.t));
     inner=`<h2 style="font-size:1.25rem;margin-bottom:8px">${esc(l.text||'')}</h2>
-    ${!isNS?`<div class="d-rulebox"><span class="lab" style="margin:0">The rules</span><ul><li><b>90–95% of your food is whole food.</b> No other options.</li><li><b>Under ${H().kcal.toLocaleString('en-US')} kcal.</b></li><li><b>2 meals, each under 750 kcal, and 1 snack under 400 kcal</b>, to keep your energy high.</li><li><b>Dinner:</b> high-carb, with supplements, under 1,100 kcal.</li><li><b>1 hydration drink, 2 coffees.</b> That’s it.</li></ul></div>`:''}
-    ${g.allow?`<div class="d-two-col"><div class="d-rg" style="background:var(--c2-soft)"><span class="lab" style="margin:0">Allowed</span><ul>${(g.allow||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
-      <div class="d-rg" style="background:var(--c3-soft)"><span class="lab" style="margin:0">Not allowed</span><ul>${(g.deny||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>`:''}
+    ${!isNS?`<div class="d-lvlbox"><span class="lab" style="margin:0;color:inherit">Level ${eatLvl()} · your rules right now</span><ul>${eatActiveRules().map(x=>`<li><b>${esc(x)}</b></li>`).join('')}</ul><span class="d-lvlsub">${eatStreak()} of 10 days straight. Then the next rule is added.</span></div>${(g.levels||[]).length>eatLvl()?`<div class="d-rg" style="background:var(--bg1)"><span class="lab" style="margin:0">Coming next</span><ul class="d-muted">${g.levels.slice(eatLvl()).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}`:''}
+    ${!isNS?`<div class="d-rulebox"><span class="lab" style="margin:0">The rules</span><ul><li><b>100% whole foods.</b> No sugar, no fried food, nothing processed.</li><li><b>3 meals only.</b> No snacking. Under ${H().kcal.toLocaleString('en-US')} kcal.</li><li><b>Dinner is the high-carb meal</b>, with supplements.</li><li><b>Outside food max once a week</b>, with a friend.</li><li><b>1 water bottle, 1 coffee.</b> That’s it.</li></ul></div>`:''}
+    ${g.allow?`<div class="${isNS?'d-two-col':''}"><div class="d-rg" style="background:var(--c2-soft)"><span class="lab" style="margin:0">Allowed</span><ul>${(g.allow||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+      ${isNS?`<div class="d-rg" style="background:var(--c3-soft)"><span class="lab" style="margin:0">Not allowed</span><ul>${(g.deny||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}</div>`:''}
     ${isNS&&g.items.length?`<div class="d-rg" style="background:var(--c1-soft)"><span class="lab" style="margin:0">Your rules</span><ul>${g.items.map(x=>`<li>${esc(x.text)}</li>`).join('')}</ul></div>`:''}
     ${isNS&&sn?sn.g.map(([h,it],i)=>`<div class="d-rg" style="background:var(${i?'--c2-soft':'--c3-soft'})"><span class="lab" style="margin:0">${esc(h)}</span><ul>${it.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`).join(''):''}
     <div class="d-mf">${on?`<button class="d-link" data-act="gate-undo">Undo</button><button class="btn" data-act="close">Close</button>`:`<button class="btn ghost" data-act="close">Later</button><button class="btn" data-act="gate-done">Done, I’ve read it</button>`}</div>`;
@@ -2063,11 +2157,12 @@ function modalHTML(){
     inner=`<h2 style="font-size:1.25rem;margin-bottom:6px">Review the day</h2><span class="lab">How well did you follow your day?</span>
     <div class="scale d-scale" role="group" aria-label="Rate the day">${[0,1,2,3,4,5].map(n=>`<button type="button" data-act="drate" data-n="${n}" aria-pressed="${draft.rating===n}">${n}</button>`).join('')}</div>
     <div class="scale-ends"><span>Not at all</span><span>Fully</span></div>
-    ${pad(RQ[0])}
+    <div class="d-miss"><span class="lab" style="margin:0 0 4px">Optimise: what went well, and what’s next?</span>
+      ${OPTL().map(l=>`<label class="d-mrow"><span>${leverHit(L,l)?'✓ ':''}${esc(l.text)}</span><textarea rows="2" data-opt="${l.id}" placeholder="One or two lines: what went well, what to do next">${esc((draft.opt||{})[l.id]||'')}</textarea></label>`).join('')}</div>
     <div class="d-miss"><span class="lab" style="margin:0 0 4px">Why didn’t I follow through?</span>
       ${ms.length?ms.map(l=>`<label class="d-mrow"><span>${esc(l.kind==='two'?planTitle(cur):l.text)}</span><textarea rows="2" data-miss="${l.id}" placeholder="One or two lines on why">${esc(draft.miss[l.id]||'')}</textarea></label>`).join('')
         :'<div class="d-nt">Nothing missed so far today. Well done.</div>'}</div>
-    ${pad(RQ[1])}
+    ${pad(RQ[0])}
     <div class="d-mf"><span class="d-nt d-revhint" style="margin-right:auto">${ok?'':'Finish every section to tick it off'}</span>${L.reviewed?'<button class="d-link" data-act="unreview">Undo</button>':''}<button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="save-review">Save &amp; tick off</button></div>`;
   }else if(modal==='mreview'){
     const ym=ymOf(todayKey()),mg=monthGoals(ym);
@@ -2089,11 +2184,14 @@ function modalHTML(){
   return `<div class="d-overlay" data-act="close"><div class="d-sheet ${['health','princ'].includes(modal)?'h65':''}" role="dialog" aria-modal="true" data-act="noop">${inner}</div></div>`;
 }
 
+let hideAskId=null;
 function render(){
   if(!shown)return;
   seedSample();syncJournal(cur);
   if(cur===todayKey()){const yk=addDays(cur,-1),v=S.meta.brk[yk],L0=getLog(cur);if(v&&(!L0||L0.brkY!==v)){ensureLog(cur).brkY=v;touch(cur)}}
   const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden};
+  if(!modal&&vis('page-prod')){const L0=getLog(cur),hl=L0&&S.config.levers.find(l=>l.hideDone&&leverHit(L0,l)&&!(L0.hid&&l.id in L0.hid));if(hl){hideAskId=hl.id;modal='hideask'}}
+  if(!modal&&vis('page-prod')&&eatStreak()>=10&&eatLvl()<(EATG().levels||[]).length&&S.meta.eatAsked!==todayKey())modal='eatup';
   if(!modal&&vis('page-prod')&&S.meta.hpShown!==todayKey()){const hs=healthState();if(hs.rule){S.meta.hpShown=todayKey();persist();modal='health'}}
   if(vis('page-prod'))document.getElementById('day-today').innerHTML=todayHTML();
   if(vis('page-goals'))document.getElementById('day-goals').innerHTML=goalsHTML();
@@ -2126,7 +2224,7 @@ document.addEventListener('click',e=>{
     case 'next':if(cur<todayKey())cur=addDays(cur,1);break;
     case 'today':cur=todayKey();break;
     case 'open-rem':modal='rem';break;
-    case 'open-review':{const L=getLog(cur)||{};draft={rating:L.rating??null,miss:Object.assign({},L.miss||{})};RQ.forEach(([f])=>draft[f]=L[f]||'');modal='review';break}
+    case 'open-review':{const L=getLog(cur)||{};draft={rating:L.rating??null,miss:Object.assign({},L.miss||{}),opt:Object.assign({},L.opt||{})};RQ.forEach(([f])=>draft[f]=L[f]||'');modal='review';break}
     case 'open-mreview':draft=Object.assign({},S.meta.reviews[ymOf(todayKey())]||{});modal='mreview';break;
     case 'edit-month':ensureMonth(ymOf(todayKey()));save();modal='month';break;
     case 'close':modal=null;break;
@@ -2169,6 +2267,10 @@ document.addEventListener('click',e=>{
     case 'sort':reviewSort=b.dataset.v;break;
     case 'cview':compView=b.dataset.v;break;
     case 'open-princ':modal='princ';break;
+    case 'hide-one':{const L=ensureLog(cur);(L.hid||(L.hid={}))[hideAskId]=b.dataset.v==='1';touch(cur);hideAskId=null;modal=null;break}
+    case 'hid-toggle':{const o=S.meta.showHid||(S.meta.showHid={});o[cur]=!o[cur];break}
+    case 'eat-up':C.eatLevel=eatLvl()+1;C.eatLevelSince=todayKey();logChange(`Whole-food diet: level ${C.eatLevel}, added “${(EATG().levels||[])[C.eatLevel-1]}”`);save();modal=null;toast('New rule added. Level '+C.eatLevel);break;
+    case 'eat-later':S.meta.eatAsked=todayKey();save();modal=null;break;
     case 'open-sos':draft={i:0};modal='sos';break;
     case 'ph-toggle':{const o=S.meta.phOpen||(S.meta.phOpen={}),key=cur+b.dataset.p,sec=b.closest('.d-ph'),exp=!!sec.querySelector('.d-phb');o[key]=!exp;break}
     case 'tk-add':{const i=document.getElementById('tk-new'),v=i&&i.value.trim();if(!v)return;const L=ensureLog(cur);L.tasks=L.tasks||[];L.tasks.push({text:v,done:false});touch(cur);render();const n=document.getElementById('tk-new');n&&n.focus();return}
@@ -2195,7 +2297,7 @@ document.addEventListener('click',e=>{
     case 'mn-prev':draft.i=Math.max(0,(draft.i||0)-1);break;
     case 'eq':draft.ans[+b.dataset.i]=b.dataset.v;break;
     case 'eq-back':draft.stage=null;break;
-    case 'eq-save':{const g=C.reminders.find(g=>g.kind==='eat')||{checks:[]},qs=g.checks||[];if(!qs.every((_,i)=>draft.ans[i]))return;
+    case 'eq-save':{const qs=eatActiveQs();if(!qs.every((_,i)=>draft.ans[i]))return;
       const l=C.levers.find(x=>x.id===draft.id),L=ensureLog(cur),clean=qs.every((_,i)=>draft.ans[i]==='no');L.eatCheck=Object.assign({},draft.ans);if(l)L.lv[l.id]=clean;touch(cur);modal=null;
       toast(clean?'Whole-food day. Well done':'Logged. Not a whole-food day today');break}
     case 'gate-done':{const l=C.levers.find(x=>x.id===draft.id);if(l&&l.kind==='eat'){const L=getLog(cur)||{};draft.stage='check';draft.ans=Object.assign({},L.eatCheck||{});{const sh=document.querySelector('.d-sheet');sh&&(sh.scrollTop=0)}break}}
@@ -2241,7 +2343,7 @@ document.addEventListener('click',e=>{
   }
   render();
 });
-document.addEventListener('input',e=>{const el=e.target;if(el.dataset.miss&&draft&&draft.miss){draft.miss[el.dataset.miss]=el.value;const h=document.querySelector('.d-revhint');if(h)h.textContent=reviewComplete(draft,missedLevers(cur))?'':'Finish every section to tick it off';return}if(el.dataset.wl!=null&&draft&&draft.list){draft.list[+el.dataset.wl].text=el.value;return}if(el.dataset.pd!=null&&draft){draft.tasks[+el.dataset.pd]=el.value;return}if(el.dataset.d&&draft)draft[el.dataset.d]=el.value});
+document.addEventListener('input',e=>{const el=e.target;if(el.dataset.opt&&draft){(draft.opt||(draft.opt={}))[el.dataset.opt]=el.value;const h=document.querySelector('.d-revhint');if(h)h.textContent=reviewComplete(draft,missedLevers(cur))?'':'Finish every section to tick it off';return}if(el.dataset.miss&&draft&&draft.miss){draft.miss[el.dataset.miss]=el.value;const h=document.querySelector('.d-revhint');if(h)h.textContent=reviewComplete(draft,missedLevers(cur))?'':'Finish every section to tick it off';return}if(el.dataset.wl!=null&&draft&&draft.list){draft.list[+el.dataset.wl].text=el.value;return}if(el.dataset.pd!=null&&draft){draft.tasks[+el.dataset.pd]=el.value;return}if(el.dataset.d&&draft)draft[el.dataset.d]=el.value});
 document.addEventListener('change',e=>{
   const el=e.target,C=S.config;
   if(el.dataset.two!=null){const L=ensureLog(cur),j=+el.dataset.two;L.two=L.two||[];const v=el.value.trim();L.two[j]={text:v,done:v?!!(L.two[j]&&L.two[j].done):false};touch(cur);render();return}
