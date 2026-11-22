@@ -1436,6 +1436,12 @@ function noteHTML(t){return (t||'').split(/\n\s*\n/).map(block=>{let h='',ul=[];
   persist();})();
 (function(){const C=S.config;if(C.mig.includes('p15'))return;C.mig.push('p15');
   C.levers.forEach(l=>{if(['move','coffee','eat'].includes(l.kind)||l.dinner)l.opt=true});persist();})();
+(function(){const C=S.config;if(C.mig.includes('p16'))return;C.mig.push('p16');
+  const night=C.levers.filter(l=>l.phase==='night'),rest=C.levers.filter(l=>l.phase!=='night'),sd=night.find(l=>/in bed by/i.test(l.text));
+  if(sd)sd.note='Everything off. Journal in bed';
+  const F=[l=>l.dinner,l=>l.kind==='review'||l.kind==='shutdown',l=>l.kind==='note',l=>l===sd,l=>l.phone,l=>l.jr];
+  const ord=[];F.forEach(f=>night.filter(f).forEach(l=>{if(!ord.includes(l))ord.push(l)}));night.forEach(l=>{if(!ord.includes(l))ord.push(l)});
+  C.levers=[...rest,...ord];persist();})();
 const PHASE={wake:'After waking up',pre:'Rest of the day',day:'Rest of the day',night:'9 pm routine'};
 
 let cur=todayKey(),edit=false,reviewSort='recent',modal=null,draft=null,seeded=false,ptConfirm=false;
